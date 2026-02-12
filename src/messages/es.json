@@ -1,0 +1,9 @@
+{
+  "app": { "title": "K-Tour Guide", "subtitle": "Tu Guía de Viaje a Corea", "search": "Buscar atracciones, restaurantes...", "nearMe": "Cerca de mí", "selectLanguage": "Idioma" },
+  "categories": { "attractions": "Atracciones", "restaurants": "Restaurantes", "transport": "Transporte", "culture": "Cultura", "shopping": "Compras", "emergency": "Emergencia" },
+  "home": { "popular": "Destinos Populares", "nearby": "Lugares Cercanos", "recommended": "Recomendados", "seeAll": "Ver Todo", "km": "km" },
+  "transport": { "bus": "Autobús", "subway": "Metro", "train": "Tren/KTX", "taxi": "Taxi", "busNumber": "Nº de Bus", "fare": "Tarifa", "schedule": "Horario", "duration": "Duración", "departure": "Salida", "arrival": "Llegada" },
+  "common": { "back": "Volver", "close": "Cerrar", "loading": "Cargando...", "error": "Ocurrió un error", "retry": "Reintentar", "noResults": "Sin resultados", "viewOnMap": "Ver en Mapa", "directions": "Direcciones", "reviews": "Reseñas", "photos": "Fotos", "info": "Info", "hours": "Horario", "phone": "Teléfono", "website": "Sitio Web", "free": "Gratis", "open": "Abierto", "closed": "Cerrado" },
+  "nav": { "home": "Inicio", "map": "Mapa", "translate": "Traducir", "planner": "Planificador", "mypage": "Mi Página" },
+  "radius": { "title": "Radio de Búsqueda", "adjust": "Ajustar distancia" }
+}

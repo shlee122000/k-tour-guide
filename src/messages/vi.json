@@ -1,0 +1,9 @@
+{
+  "app": { "title": "K-Tour Guide", "subtitle": "Hướng Dẫn Du Lịch Hàn Quốc", "search": "Tìm kiếm điểm tham quan, nhà hàng...", "nearMe": "Gần tôi", "selectLanguage": "Ngôn ngữ" },
+  "categories": { "attractions": "Điểm tham quan", "restaurants": "Nhà hàng", "transport": "Giao thông", "culture": "Văn hóa", "shopping": "Mua sắm", "emergency": "Khẩn cấp" },
+  "home": { "popular": "Điểm đến phổ biến", "nearby": "Địa điểm gần đây", "recommended": "Đề xuất", "seeAll": "Xem tất cả", "km": "km" },
+  "transport": { "bus": "Xe buýt", "subway": "Tàu điện ngầm", "train": "Tàu hỏa/KTX", "taxi": "Taxi", "busNumber": "Số xe buýt", "fare": "Giá vé", "schedule": "Lịch trình", "duration": "Thời gian", "departure": "Xuất phát", "arrival": "Đến nơi" },
+  "common": { "back": "Quay lại", "close": "Đóng", "loading": "Đang tải...", "error": "Đã xảy ra lỗi", "retry": "Thử lại", "noResults": "Không có kết quả", "viewOnMap": "Xem trên bản đồ", "directions": "Chỉ đường", "reviews": "Đánh giá", "photos": "Ảnh", "info": "Thông tin", "hours": "Giờ mở cửa", "phone": "Điện thoại", "website": "Website", "free": "Miễn phí", "open": "Đang mở", "closed": "Đã đóng" },
+  "nav": { "home": "Trang chủ", "map": "Bản đồ", "translate": "Dịch", "planner": "Lịch trình", "mypage": "Của tôi" },
+  "radius": { "title": "Bán kính tìm kiếm", "adjust": "Điều chỉnh khoảng cách" }
+}

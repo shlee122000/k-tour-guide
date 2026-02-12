@@ -1,0 +1,9 @@
+{
+  "app": { "title": "K-Tour Guide", "subtitle": "Ihr Korea-Reiseführer", "search": "Sehenswürdigkeiten, Restaurants suchen...", "nearMe": "In der Nähe", "selectLanguage": "Sprache" },
+  "categories": { "attractions": "Sehenswürdigkeiten", "restaurants": "Restaurants", "transport": "Verkehr", "culture": "Kultur", "shopping": "Einkaufen", "emergency": "Notfall" },
+  "home": { "popular": "Beliebte Ziele", "nearby": "In der Nähe", "recommended": "Empfohlen", "seeAll": "Alle anzeigen", "km": "km" },
+  "transport": { "bus": "Bus", "subway": "U-Bahn", "train": "Zug/KTX", "taxi": "Taxi", "busNumber": "Bus Nr.", "fare": "Fahrpreis", "schedule": "Fahrplan", "duration": "Dauer", "departure": "Abfahrt", "arrival": "Ankunft" },
+  "common": { "back": "Zurück", "close": "Schließen", "loading": "Laden...", "error": "Ein Fehler ist aufgetreten", "retry": "Erneut versuchen", "noResults": "Keine Ergebnisse", "viewOnMap": "Auf Karte anzeigen", "directions": "Wegbeschreibung", "reviews": "Bewertungen", "photos": "Fotos", "info": "Info", "hours": "Öffnungszeiten", "phone": "Telefon", "website": "Webseite", "free": "Kostenlos", "open": "Geöffnet", "closed": "Geschlossen" },
+  "nav": { "home": "Startseite", "map": "Karte", "translate": "Übersetzen", "planner": "Planer", "mypage": "Mein Profil" },
+  "radius": { "title": "Suchradius", "adjust": "Entfernung anpassen" }
+}

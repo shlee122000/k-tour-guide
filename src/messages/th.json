@@ -1,0 +1,9 @@
+{
+  "app": { "title": "K-Tour Guide", "subtitle": "คู่มือท่องเที่ยวเกาหลี", "search": "ค้นหาสถานที่ท่องเที่ยว ร้านอาหาร...", "nearMe": "ใกล้ฉัน", "selectLanguage": "ภาษา" },
+  "categories": { "attractions": "สถานที่ท่องเที่ยว", "restaurants": "ร้านอาหาร", "transport": "การเดินทาง", "culture": "วัฒนธรรม", "shopping": "ช้อปปิ้ง", "emergency": "ฉุกเฉิน" },
+  "home": { "popular": "จุดหมายยอดนิยม", "nearby": "สถานที่ใกล้เคียง", "recommended": "แนะนำ", "seeAll": "ดูทั้งหมด", "km": "กม." },
+  "transport": { "bus": "รถบัส", "subway": "รถไฟใต้ดิน", "train": "รถไฟ/KTX", "taxi": "แท็กซี่", "busNumber": "สายรถบัส", "fare": "ค่าโดยสาร", "schedule": "ตารางเวลา", "duration": "ระยะเวลา", "departure": "ออกเดินทาง", "arrival": "ถึง" },
+  "common": { "back": "กลับ", "close": "ปิด", "loading": "กำลังโหลด...", "error": "เกิดข้อผิดพลาด", "retry": "ลองอีกครั้ง", "noResults": "ไม่พบผลลัพธ์", "viewOnMap": "ดูบนแผนที่", "directions": "เส้นทาง", "reviews": "รีวิว", "photos": "รูปภาพ", "info": "ข้อมูล", "hours": "เวลาทำการ", "phone": "โทรศัพท์", "website": "เว็บไซต์", "free": "ฟรี", "open": "เปิด", "closed": "ปิด" },
+  "nav": { "home": "หน้าแรก", "map": "แผนที่", "translate": "แปลภาษา", "planner": "แพลนเนอร์", "mypage": "ของฉัน" },
+  "radius": { "title": "รัศมีการค้นหา", "adjust": "ปรับระยะทาง" }
+}

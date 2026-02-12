@@ -1,0 +1,66 @@
+{
+  "app": {
+    "title": "K-Tour Guide",
+    "subtitle": "한국 여행 가이드",
+    "search": "관광지, 식당 검색...",
+    "nearMe": "내 주변",
+    "selectLanguage": "언어"
+  },
+  "categories": {
+    "attractions": "관광지",
+    "restaurants": "식당",
+    "transport": "교통",
+    "culture": "문화체험",
+    "shopping": "쇼핑",
+    "emergency": "긴급"
+  },
+  "home": {
+    "popular": "인기 관광지",
+    "nearby": "주변 명소",
+    "recommended": "추천 여행지",
+    "seeAll": "전체보기",
+    "km": "km 거리"
+  },
+  "transport": {
+    "bus": "버스",
+    "subway": "지하철",
+    "train": "기차/KTX",
+    "taxi": "택시",
+    "busNumber": "버스 번호",
+    "fare": "요금",
+    "schedule": "시간표",
+    "duration": "소요시간",
+    "departure": "출발",
+    "arrival": "도착"
+  },
+  "common": {
+    "back": "뒤로",
+    "close": "닫기",
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "retry": "재시도",
+    "noResults": "검색 결과가 없습니다",
+    "viewOnMap": "지도에서 보기",
+    "directions": "길찾기",
+    "reviews": "리뷰",
+    "photos": "사진",
+    "info": "정보",
+    "hours": "운영시간",
+    "phone": "전화",
+    "website": "웹사이트",
+    "free": "무료",
+    "open": "영업중",
+    "closed": "영업종료"
+  },
+  "nav": {
+    "home": "홈",
+    "map": "지도",
+    "translate": "번역",
+    "planner": "플래너",
+    "mypage": "마이"
+  },
+  "radius": {
+    "title": "검색 반경",
+    "adjust": "거리 조절"
+  }
+}

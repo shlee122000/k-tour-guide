@@ -1,0 +1,9 @@
+{
+  "app": { "title": "K-Tour Guide", "subtitle": "Panduan Wisata Korea", "search": "Cari tempat wisata, restoran...", "nearMe": "Dekat saya", "selectLanguage": "Bahasa" },
+  "categories": { "attractions": "Tempat Wisata", "restaurants": "Restoran", "transport": "Transportasi", "culture": "Budaya", "shopping": "Belanja", "emergency": "Darurat" },
+  "home": { "popular": "Destinasi Populer", "nearby": "Tempat Terdekat", "recommended": "Rekomendasi", "seeAll": "Lihat Semua", "km": "km" },
+  "transport": { "bus": "Bus", "subway": "Kereta Bawah Tanah", "train": "Kereta/KTX", "taxi": "Taksi", "busNumber": "No. Bus", "fare": "Tarif", "schedule": "Jadwal", "duration": "Durasi", "departure": "Keberangkatan", "arrival": "Kedatangan" },
+  "common": { "back": "Kembali", "close": "Tutup", "loading": "Memuat...", "error": "Terjadi kesalahan", "retry": "Coba lagi", "noResults": "Tidak ada hasil", "viewOnMap": "Lihat di Peta", "directions": "Petunjuk Arah", "reviews": "Ulasan", "photos": "Foto", "info": "Info", "hours": "Jam Buka", "phone": "Telepon", "website": "Situs Web", "free": "Gratis", "open": "Buka", "closed": "Tutup" },
+  "nav": { "home": "Beranda", "map": "Peta", "translate": "Terjemah", "planner": "Perencana", "mypage": "Profil" },
+  "radius": { "title": "Radius Pencarian", "adjust": "Atur jarak" }
+}

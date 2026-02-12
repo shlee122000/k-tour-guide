@@ -1,0 +1,66 @@
+{
+  "app": {
+    "title": "K-Tour Guide",
+    "subtitle": "韓国旅行ガイド",
+    "search": "観光地、レストラン検索...",
+    "nearMe": "周辺",
+    "selectLanguage": "言語"
+  },
+  "categories": {
+    "attractions": "観光地",
+    "restaurants": "レストラン",
+    "transport": "交通",
+    "culture": "文化体験",
+    "shopping": "ショッピング",
+    "emergency": "緊急"
+  },
+  "home": {
+    "popular": "人気スポット",
+    "nearby": "周辺のスポット",
+    "recommended": "おすすめ",
+    "seeAll": "すべて見る",
+    "km": "km先"
+  },
+  "transport": {
+    "bus": "バス",
+    "subway": "地下鉄",
+    "train": "電車/KTX",
+    "taxi": "タクシー",
+    "busNumber": "バス番号",
+    "fare": "料金",
+    "schedule": "時刻表",
+    "duration": "所要時間",
+    "departure": "出発",
+    "arrival": "到着"
+  },
+  "common": {
+    "back": "戻る",
+    "close": "閉じる",
+    "loading": "読み込み中...",
+    "error": "エラーが発生しました",
+    "retry": "再試行",
+    "noResults": "結果が見つかりません",
+    "viewOnMap": "地図で見る",
+    "directions": "道案内",
+    "reviews": "レビュー",
+    "photos": "写真",
+    "info": "情報",
+    "hours": "営業時間",
+    "phone": "電話",
+    "website": "ウェブサイト",
+    "free": "無料",
+    "open": "営業中",
+    "closed": "閉店"
+  },
+  "nav": {
+    "home": "ホーム",
+    "map": "地図",
+    "translate": "翻訳",
+    "planner": "プランナー",
+    "mypage": "マイページ"
+  },
+  "radius": {
+    "title": "検索範囲",
+    "adjust": "距離調整"
+  }
+}

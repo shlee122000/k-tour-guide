@@ -1,0 +1,66 @@
+{
+  "app": {
+    "title": "K-Tour Guide",
+    "subtitle": "Your Korean Travel Companion",
+    "search": "Search attractions, restaurants...",
+    "nearMe": "Near Me",
+    "selectLanguage": "Language"
+  },
+  "categories": {
+    "attractions": "Attractions",
+    "restaurants": "Restaurants",
+    "transport": "Transport",
+    "culture": "Culture",
+    "shopping": "Shopping",
+    "emergency": "Emergency"
+  },
+  "home": {
+    "popular": "Popular Destinations",
+    "nearby": "Nearby Places",
+    "recommended": "Recommended for You",
+    "seeAll": "See All",
+    "km": "km away"
+  },
+  "transport": {
+    "bus": "Bus",
+    "subway": "Subway",
+    "train": "Train/KTX",
+    "taxi": "Taxi",
+    "busNumber": "Bus No.",
+    "fare": "Fare",
+    "schedule": "Schedule",
+    "duration": "Duration",
+    "departure": "Departure",
+    "arrival": "Arrival"
+  },
+  "common": {
+    "back": "Back",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "noResults": "No results found",
+    "viewOnMap": "View on Map",
+    "directions": "Directions",
+    "reviews": "Reviews",
+    "photos": "Photos",
+    "info": "Info",
+    "hours": "Hours",
+    "phone": "Phone",
+    "website": "Website",
+    "free": "Free",
+    "open": "Open",
+    "closed": "Closed"
+  },
+  "nav": {
+    "home": "Home",
+    "map": "Map",
+    "translate": "Translate",
+    "planner": "Planner",
+    "mypage": "My Page"
+  },
+  "radius": {
+    "title": "Search Radius",
+    "adjust": "Adjust distance"
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "app": {
+    "title": "K-Tour Guide",
+    "subtitle": "韩国旅游指南",
+    "search": "搜索景点、餐厅...",
+    "nearMe": "附近",
+    "selectLanguage": "语言"
+  },
+  "categories": {
+    "attractions": "景点",
+    "restaurants": "餐厅",
+    "transport": "交通",
+    "culture": "文化体验",
+    "shopping": "购物",
+    "emergency": "紧急"
+  },
+  "home": {
+    "popular": "热门景点",
+    "nearby": "附近景点",
+    "recommended": "推荐",
+    "seeAll": "查看全部",
+    "km": "公里"
+  },
+  "transport": {
+    "bus": "公交车",
+    "subway": "地铁",
+    "train": "火车/KTX",
+    "taxi": "出租车",
+    "busNumber": "公交号",
+    "fare": "费用",
+    "schedule": "时刻表",
+    "duration": "所需时间",
+    "departure": "出发",
+    "arrival": "到达"
+  },
+  "common": {
+    "back": "返回",
+    "close": "关闭",
+    "loading": "加载中...",
+    "error": "发生错误",
+    "retry": "重试",
+    "noResults": "没有找到结果",
+    "viewOnMap": "在地图上查看",
+    "directions": "导航",
+    "reviews": "评论",
+    "photos": "照片",
+    "info": "信息",
+    "hours": "营业时间",
+    "phone": "电话",
+    "website": "网站",
+    "free": "免费",
+    "open": "营业中",
+    "closed": "已关闭"
+  },
+  "nav": {
+    "home": "首页",
+    "map": "地图",
+    "translate": "翻译",
+    "planner": "行程",
+    "mypage": "我的"
+  },
+  "radius": {
+    "title": "搜索范围",
+    "adjust": "调整距离"
+  }
+}

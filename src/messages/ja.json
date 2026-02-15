@@ -92,5 +92,24 @@
     "tip2": "119救急隊は外国語通訳サービスあり",
     "tip3": "ほとんどの警察署で外国人対応が可能",
     "tip4": "パスポート紛失時は最寄りの大使館・領事館へ連絡"
+  },
+  "translate": {
+    "title": "AI翻訳",
+    "subtitle": "韓国旅行のための翻訳ヘルパー",
+    "textTab": "テキスト翻訳",
+    "phrasesTab": "旅行フレーズ",
+    "inputPlaceholder": "翻訳するテキストを入力...",
+    "translateBtn": "翻訳する",
+    "translating": "翻訳中...",
+    "listening": "聞いています...",
+    "voiceNotSupported": "このブラウザでは音声入力に対応していません",
+    "translateTo": "翻訳先",
+    "translatingPhrases": "フレーズ翻訳中...",
+    "cat_greetings": "挨拶",
+    "cat_restaurant": "レストラン",
+    "cat_transport": "交通",
+    "cat_shopping": "ショッピング",
+    "cat_emergency_phrases": "緊急",
+    "cat_accommodation": "宿泊"
   }
 }

@@ -92,5 +92,24 @@
     "tip2": "Der Rettungsdienst 119 bietet Fremdsprachendolmetschen",
     "tip3": "Die meisten Polizeistationen können Ausländern helfen",
     "tip4": "Bei Passverlust kontaktieren Sie die nächste Botschaft/das Konsulat"
+  },
+  "translate": {
+    "title": "KI-Übersetzung",
+    "subtitle": "Übersetzungshilfe für Ihre Koreareise",
+    "textTab": "Textübersetzung",
+    "phrasesTab": "Reisephrasen",
+    "inputPlaceholder": "Text zum Übersetzen eingeben...",
+    "translateBtn": "Übersetzen",
+    "translating": "Übersetze...",
+    "listening": "Höre zu...",
+    "voiceNotSupported": "Spracheingabe wird in diesem Browser nicht unterstützt",
+    "translateTo": "Übersetzen in",
+    "translatingPhrases": "Phrasen übersetzen...",
+    "cat_greetings": "Begrüßung",
+    "cat_restaurant": "Restaurant",
+    "cat_transport": "Verkehr",
+    "cat_shopping": "Einkaufen",
+    "cat_emergency_phrases": "Notfall",
+    "cat_accommodation": "Unterkunft"
   }
 }

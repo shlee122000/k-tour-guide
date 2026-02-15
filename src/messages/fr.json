@@ -92,5 +92,24 @@
     "tip2": "L'ambulance 119 propose un service d'interprétation",
     "tip3": "La plupart des postes de police peuvent aider les étrangers",
     "tip4": "En cas de perte de passeport, contactez l'ambassade la plus proche"
+  },
+  "translate": {
+    "title": "Traduction IA",
+    "subtitle": "Assistant de traduction pour votre voyage en Corée",
+    "textTab": "Texte",
+    "phrasesTab": "Phrases de voyage",
+    "inputPlaceholder": "Saisissez le texte à traduire...",
+    "translateBtn": "Traduire",
+    "translating": "Traduction en cours...",
+    "listening": "Écoute en cours...",
+    "voiceNotSupported": "La saisie vocale n'est pas prise en charge dans ce navigateur",
+    "translateTo": "Traduire en",
+    "translatingPhrases": "Traduction des phrases...",
+    "cat_greetings": "Salutations",
+    "cat_restaurant": "Restaurant",
+    "cat_transport": "Transport",
+    "cat_shopping": "Shopping",
+    "cat_emergency_phrases": "Urgence",
+    "cat_accommodation": "Hébergement"
   }
 }

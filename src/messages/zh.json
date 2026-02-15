@@ -92,5 +92,24 @@
     "tip2": "119急救队提供外语翻译服务",
     "tip3": "大多数警察局可以帮助外国人",
     "tip4": "护照丢失时请联系最近的大使馆/领事馆"
+  },
+  "translate": {
+    "title": "AI翻译",
+    "subtitle": "韩国旅行翻译助手",
+    "textTab": "文本翻译",
+    "phrasesTab": "旅行用语",
+    "inputPlaceholder": "输入要翻译的文本...",
+    "translateBtn": "翻译",
+    "translating": "翻译中...",
+    "listening": "正在听...",
+    "voiceNotSupported": "此浏览器不支持语音输入",
+    "translateTo": "翻译至",
+    "translatingPhrases": "短语翻译中...",
+    "cat_greetings": "问候",
+    "cat_restaurant": "餐厅",
+    "cat_transport": "交通",
+    "cat_shopping": "购物",
+    "cat_emergency_phrases": "紧急",
+    "cat_accommodation": "住宿"
   }
 }

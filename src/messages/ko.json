@@ -92,5 +92,24 @@
     "tip2": "119 구급대는 외국어 통역 서비스 제공",
     "tip3": "대부분의 경찰서에서 외국인 지원 가능",
     "tip4": "여권 분실 시 가까운 대사관/영사관에 연락하세요"
+  },
+  "translate": {
+    "title": "AI 번역",
+    "subtitle": "한국 여행을 위한 번역 도우미",
+    "textTab": "텍스트 번역",
+    "phrasesTab": "여행 회화",
+    "inputPlaceholder": "번역할 텍스트를 입력하세요...",
+    "translateBtn": "번역하기",
+    "translating": "번역 중...",
+    "listening": "듣고 있어요...",
+    "voiceNotSupported": "이 브라우저에서는 음성 입력을 지원하지 않습니다",
+    "translateTo": "번역 언어",
+    "translatingPhrases": "번역 중...",
+    "cat_greetings": "인사/기본",
+    "cat_restaurant": "식당",
+    "cat_transport": "교통",
+    "cat_shopping": "쇼핑",
+    "cat_emergency_phrases": "긴급상황",
+    "cat_accommodation": "숙소"
   }
 }

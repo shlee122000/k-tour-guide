@@ -92,5 +92,24 @@
     "tip2": "La ambulancia 119 ofrece interpretación en idiomas extranjeros",
     "tip3": "La mayoría de las comisarías pueden asistir a extranjeros",
     "tip4": "Si pierde su pasaporte, contacte la embajada/consulado más cercano"
+  },
+  "translate": {
+    "title": "Traducción IA",
+    "subtitle": "Asistente de traducción para tu viaje a Corea",
+    "textTab": "Texto",
+    "phrasesTab": "Frases de viaje",
+    "inputPlaceholder": "Escribe el texto a traducir...",
+    "translateBtn": "Traducir",
+    "translating": "Traduciendo...",
+    "listening": "Escuchando...",
+    "voiceNotSupported": "La entrada de voz no es compatible con este navegador",
+    "translateTo": "Traducir a",
+    "translatingPhrases": "Traduciendo frases...",
+    "cat_greetings": "Saludos",
+    "cat_restaurant": "Restaurante",
+    "cat_transport": "Transporte",
+    "cat_shopping": "Compras",
+    "cat_emergency_phrases": "Emergencia",
+    "cat_accommodation": "Hotel"
   }
 }

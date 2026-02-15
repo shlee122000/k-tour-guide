@@ -92,5 +92,24 @@
     "tip2": "119 ambulance provides foreign language interpretation",
     "tip3": "Most police stations can assist foreigners",
     "tip4": "If you lose your passport, contact the nearest embassy/consulate"
+  },
+  "translate": {
+    "title": "AI Translate",
+    "subtitle": "Translation helper for your Korea trip",
+    "textTab": "Text Translation",
+    "phrasesTab": "Travel Phrases",
+    "inputPlaceholder": "Enter text to translate...",
+    "translateBtn": "Translate",
+    "translating": "Translating...",
+    "listening": "Listening...",
+    "voiceNotSupported": "Voice input is not supported in this browser",
+    "translateTo": "Translate to",
+    "translatingPhrases": "Translating phrases...",
+    "cat_greetings": "Greetings",
+    "cat_restaurant": "Restaurant",
+    "cat_transport": "Transport",
+    "cat_shopping": "Shopping",
+    "cat_emergency_phrases": "Emergency",
+    "cat_accommodation": "Hotel"
   }
 }

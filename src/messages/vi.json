@@ -92,5 +92,24 @@
     "tip2": "Xe cấp cứu 119 cung cấp phiên dịch ngoại ngữ",
     "tip3": "Hầu hết đồn cảnh sát có thể hỗ trợ người nước ngoài",
     "tip4": "Nếu mất hộ chiếu, liên hệ đại sứ quán/lãnh sự quán gần nhất"
+  },
+  "translate": {
+    "title": "Dịch AI",
+    "subtitle": "Trợ giúp dịch thuật cho chuyến đi Hàn Quốc",
+    "textTab": "Dịch văn bản",
+    "phrasesTab": "Cụm từ du lịch",
+    "inputPlaceholder": "Nhập văn bản cần dịch...",
+    "translateBtn": "Dịch",
+    "translating": "Đang dịch...",
+    "listening": "Đang nghe...",
+    "voiceNotSupported": "Trình duyệt này không hỗ trợ nhập giọng nói",
+    "translateTo": "Dịch sang",
+    "translatingPhrases": "Đang dịch cụm từ...",
+    "cat_greetings": "Chào hỏi",
+    "cat_restaurant": "Nhà hàng",
+    "cat_transport": "Giao thông",
+    "cat_shopping": "Mua sắm",
+    "cat_emergency_phrases": "Khẩn cấp",
+    "cat_accommodation": "Khách sạn"
   }
 }

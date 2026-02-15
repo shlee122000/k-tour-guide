@@ -92,5 +92,24 @@
     "tip2": "รถพยาบาล 119 มีบริการล่ามภาษาต่างประเทศ",
     "tip3": "สถานีตำรวจส่วนใหญ่สามารถช่วยเหลือชาวต่างชาติได้",
     "tip4": "หากสูญเสียหนังสือเดินทาง ติดต่อสถานทูต/สถานกงสุลที่ใกล้ที่สุด"
+  },
+  "translate": {
+    "title": "แปลภาษา AI",
+    "subtitle": "ตัวช่วยแปลสำหรับเที่ยวเกาหลี",
+    "textTab": "แปลข้อความ",
+    "phrasesTab": "วลีท่องเที่ยว",
+    "inputPlaceholder": "พิมพ์ข้อความที่ต้องการแปล...",
+    "translateBtn": "แปล",
+    "translating": "กำลังแปล...",
+    "listening": "กำลังฟัง...",
+    "voiceNotSupported": "เบราว์เซอร์นี้ไม่รองรับการป้อนเสียง",
+    "translateTo": "แปลเป็น",
+    "translatingPhrases": "กำลังแปลวลี...",
+    "cat_greetings": "ทักทาย",
+    "cat_restaurant": "ร้านอาหาร",
+    "cat_transport": "การเดินทาง",
+    "cat_shopping": "ช้อปปิ้ง",
+    "cat_emergency_phrases": "ฉุกเฉิน",
+    "cat_accommodation": "ที่พัก"
   }
 }

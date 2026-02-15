@@ -92,5 +92,24 @@
     "tip2": "Ambulans 119 menyediakan layanan penerjemah bahasa asing",
     "tip3": "Sebagian besar kantor polisi dapat membantu orang asing",
     "tip4": "Jika kehilangan paspor, hubungi kedutaan/konsulat terdekat"
+  },
+  "translate": {
+    "title": "Terjemahan AI",
+    "subtitle": "Pembantu terjemahan untuk perjalanan Korea Anda",
+    "textTab": "Terjemahan Teks",
+    "phrasesTab": "Frasa Perjalanan",
+    "inputPlaceholder": "Masukkan teks untuk diterjemahkan...",
+    "translateBtn": "Terjemahkan",
+    "translating": "Menerjemahkan...",
+    "listening": "Mendengarkan...",
+    "voiceNotSupported": "Input suara tidak didukung di browser ini",
+    "translateTo": "Terjemahkan ke",
+    "translatingPhrases": "Menerjemahkan frasa...",
+    "cat_greetings": "Salam",
+    "cat_restaurant": "Restoran",
+    "cat_transport": "Transportasi",
+    "cat_shopping": "Belanja",
+    "cat_emergency_phrases": "Darurat",
+    "cat_accommodation": "Penginapan"
   }
 }

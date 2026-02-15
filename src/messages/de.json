@@ -1,9 +1,96 @@
 {
-  "app": { "title": "K-Tour Guide", "subtitle": "Ihr Korea-Reiseführer", "search": "Sehenswürdigkeiten, Restaurants suchen...", "nearMe": "In der Nähe", "selectLanguage": "Sprache" },
-  "categories": { "attractions": "Sehenswürdigkeiten", "restaurants": "Restaurants", "transport": "Verkehr", "culture": "Kultur", "shopping": "Einkaufen", "emergency": "Notfall" },
-  "home": { "popular": "Beliebte Ziele", "nearby": "In der Nähe", "recommended": "Empfohlen", "seeAll": "Alle anzeigen", "km": "km" },
-  "transport": { "bus": "Bus", "subway": "U-Bahn", "train": "Zug/KTX", "taxi": "Taxi", "busNumber": "Bus Nr.", "fare": "Fahrpreis", "schedule": "Fahrplan", "duration": "Dauer", "departure": "Abfahrt", "arrival": "Ankunft" },
-  "common": { "back": "Zurück", "close": "Schließen", "loading": "Laden...", "error": "Ein Fehler ist aufgetreten", "retry": "Erneut versuchen", "noResults": "Keine Ergebnisse", "viewOnMap": "Auf Karte anzeigen", "directions": "Wegbeschreibung", "reviews": "Bewertungen", "photos": "Fotos", "info": "Info", "hours": "Öffnungszeiten", "phone": "Telefon", "website": "Webseite", "free": "Kostenlos", "open": "Geöffnet", "closed": "Geschlossen" },
-  "nav": { "home": "Startseite", "map": "Karte", "translate": "Übersetzen", "planner": "Planer", "mypage": "Mein Profil" },
-  "radius": { "title": "Suchradius", "adjust": "Entfernung anpassen" }
+  "app": {
+    "title": "K-Tour Guide",
+    "subtitle": "Ihr Korea-Reiseführer",
+    "search": "Sehenswürdigkeiten, Restaurants suchen...",
+    "nearMe": "In der Nähe",
+    "selectLanguage": "Sprache"
+  },
+  "categories": {
+    "attractions": "Sehenswürdigkeiten",
+    "restaurants": "Restaurants",
+    "transport": "Verkehr",
+    "culture": "Kultur",
+    "shopping": "Einkaufen",
+    "emergency": "Notfall"
+  },
+  "home": {
+    "popular": "Beliebte Ziele",
+    "nearby": "In der Nähe",
+    "recommended": "Empfohlen",
+    "seeAll": "Alle anzeigen",
+    "km": "km"
+  },
+  "transport": {
+    "bus": "Bus",
+    "subway": "U-Bahn",
+    "train": "Zug/KTX",
+    "taxi": "Taxi",
+    "busNumber": "Bus Nr.",
+    "fare": "Fahrpreis",
+    "schedule": "Fahrplan",
+    "duration": "Dauer",
+    "departure": "Abfahrt",
+    "arrival": "Ankunft"
+  },
+  "common": {
+    "back": "Zurück",
+    "close": "Schließen",
+    "loading": "Laden...",
+    "error": "Ein Fehler ist aufgetreten",
+    "retry": "Erneut versuchen",
+    "noResults": "Keine Ergebnisse",
+    "viewOnMap": "Auf Karte anzeigen",
+    "directions": "Wegbeschreibung",
+    "reviews": "Bewertungen",
+    "photos": "Fotos",
+    "info": "Info",
+    "hours": "Öffnungszeiten",
+    "phone": "Telefon",
+    "website": "Webseite",
+    "free": "Kostenlos",
+    "open": "Geöffnet",
+    "closed": "Geschlossen"
+  },
+  "nav": {
+    "home": "Startseite",
+    "map": "Karte",
+    "translate": "Übersetzen",
+    "planner": "Planer",
+    "mypage": "Mein Profil"
+  },
+  "radius": {
+    "title": "Suchradius",
+    "adjust": "Entfernung anpassen"
+  },
+  "emergency": {
+    "title": "Notfallhilfe",
+    "subtitle": "Rufen Sie diese Nummern im Notfall an",
+    "quickSearch": "Schnelle Umgebungssuche",
+    "tips": "Nützliche Tipps",
+    "police": "Polizei",
+    "policeDesc": "Verbrechen, Unfälle, Notfälle",
+    "fire": "Feuerwehr/Rettung",
+    "fireDesc": "Brand, Medizin, Rettung",
+    "medical": "Notarzt",
+    "medicalDesc": "Notfall-Informationszentrum",
+    "tourism": "Tourismus-Hilfe",
+    "tourismDesc": "Korea Tourismus mehrsprachige Hilfe",
+    "government": "Regierungshilfe",
+    "governmentDesc": "Seoul Info, mehrsprachig",
+    "immigration": "Einwanderung",
+    "immigrationDesc": "Einwanderungs- und Visahilfe",
+    "pharmacy": "Apotheke finden",
+    "pharmacyDesc": "Apotheken in der Nähe auf der Karte",
+    "hospital": "Krankenhaus finden",
+    "hospitalDesc": "Krankenhäuser in der Nähe auf der Karte",
+    "atm": "Geldautomat finden",
+    "atmDesc": "Geldautomaten und Banken in der Nähe",
+    "convenience": "Convenience-Store",
+    "convenienceDesc": "24h Convenience-Stores in der Nähe",
+    "tip1": "Die Hotline 1330 unterstützt Englisch, Japanisch, Chinesisch und mehr",
+    "tip2": "Der Rettungsdienst 119 bietet Fremdsprachendolmetschen",
+    "tip3": "Die meisten Polizeistationen können Ausländern helfen",
+    "tip4": "Bei Passverlust kontaktieren Sie die nächste Botschaft/das Konsulat"
+  }
 }

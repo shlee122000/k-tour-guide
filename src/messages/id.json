@@ -1,9 +1,96 @@
 {
-  "app": { "title": "K-Tour Guide", "subtitle": "Panduan Wisata Korea", "search": "Cari tempat wisata, restoran...", "nearMe": "Dekat saya", "selectLanguage": "Bahasa" },
-  "categories": { "attractions": "Tempat Wisata", "restaurants": "Restoran", "transport": "Transportasi", "culture": "Budaya", "shopping": "Belanja", "emergency": "Darurat" },
-  "home": { "popular": "Destinasi Populer", "nearby": "Tempat Terdekat", "recommended": "Rekomendasi", "seeAll": "Lihat Semua", "km": "km" },
-  "transport": { "bus": "Bus", "subway": "Kereta Bawah Tanah", "train": "Kereta/KTX", "taxi": "Taksi", "busNumber": "No. Bus", "fare": "Tarif", "schedule": "Jadwal", "duration": "Durasi", "departure": "Keberangkatan", "arrival": "Kedatangan" },
-  "common": { "back": "Kembali", "close": "Tutup", "loading": "Memuat...", "error": "Terjadi kesalahan", "retry": "Coba lagi", "noResults": "Tidak ada hasil", "viewOnMap": "Lihat di Peta", "directions": "Petunjuk Arah", "reviews": "Ulasan", "photos": "Foto", "info": "Info", "hours": "Jam Buka", "phone": "Telepon", "website": "Situs Web", "free": "Gratis", "open": "Buka", "closed": "Tutup" },
-  "nav": { "home": "Beranda", "map": "Peta", "translate": "Terjemah", "planner": "Perencana", "mypage": "Profil" },
-  "radius": { "title": "Radius Pencarian", "adjust": "Atur jarak" }
+  "app": {
+    "title": "K-Tour Guide",
+    "subtitle": "Panduan Wisata Korea",
+    "search": "Cari tempat wisata, restoran...",
+    "nearMe": "Dekat saya",
+    "selectLanguage": "Bahasa"
+  },
+  "categories": {
+    "attractions": "Tempat Wisata",
+    "restaurants": "Restoran",
+    "transport": "Transportasi",
+    "culture": "Budaya",
+    "shopping": "Belanja",
+    "emergency": "Darurat"
+  },
+  "home": {
+    "popular": "Destinasi Populer",
+    "nearby": "Tempat Terdekat",
+    "recommended": "Rekomendasi",
+    "seeAll": "Lihat Semua",
+    "km": "km"
+  },
+  "transport": {
+    "bus": "Bus",
+    "subway": "Kereta Bawah Tanah",
+    "train": "Kereta/KTX",
+    "taxi": "Taksi",
+    "busNumber": "No. Bus",
+    "fare": "Tarif",
+    "schedule": "Jadwal",
+    "duration": "Durasi",
+    "departure": "Keberangkatan",
+    "arrival": "Kedatangan"
+  },
+  "common": {
+    "back": "Kembali",
+    "close": "Tutup",
+    "loading": "Memuat...",
+    "error": "Terjadi kesalahan",
+    "retry": "Coba lagi",
+    "noResults": "Tidak ada hasil",
+    "viewOnMap": "Lihat di Peta",
+    "directions": "Petunjuk Arah",
+    "reviews": "Ulasan",
+    "photos": "Foto",
+    "info": "Info",
+    "hours": "Jam Buka",
+    "phone": "Telepon",
+    "website": "Situs Web",
+    "free": "Gratis",
+    "open": "Buka",
+    "closed": "Tutup"
+  },
+  "nav": {
+    "home": "Beranda",
+    "map": "Peta",
+    "translate": "Terjemah",
+    "planner": "Perencana",
+    "mypage": "Profil"
+  },
+  "radius": {
+    "title": "Radius Pencarian",
+    "adjust": "Atur jarak"
+  },
+  "emergency": {
+    "title": "Bantuan Darurat",
+    "subtitle": "Hubungi nomor-nomor ini dalam keadaan darurat",
+    "quickSearch": "Pencarian cepat fasilitas terdekat",
+    "tips": "Tips berguna",
+    "police": "Polisi",
+    "policeDesc": "Kejahatan, kecelakaan, darurat",
+    "fire": "Pemadam/Ambulans",
+    "fireDesc": "Kebakaran, medis, penyelamatan",
+    "medical": "Darurat Medis",
+    "medicalDesc": "Pusat info medis darurat",
+    "tourism": "Bantuan Wisata",
+    "tourismDesc": "Bantuan wisata Korea multibahasa",
+    "government": "Bantuan Pemerintah",
+    "governmentDesc": "Info Seoul, dukungan multibahasa",
+    "immigration": "Imigrasi",
+    "immigrationDesc": "Bantuan imigrasi dan visa",
+    "pharmacy": "Cari apotek",
+    "pharmacyDesc": "Apotek terdekat di peta",
+    "hospital": "Cari rumah sakit",
+    "hospitalDesc": "Rumah sakit terdekat di peta",
+    "atm": "Cari ATM",
+    "atmDesc": "ATM dan bank terdekat",
+    "convenience": "Minimarket",
+    "convenienceDesc": "Minimarket 24 jam terdekat",
+    "tip1": "Hotline 1330 mendukung bahasa Inggris, Jepang, Cina, dan lainnya",
+    "tip2": "Ambulans 119 menyediakan layanan penerjemah bahasa asing",
+    "tip3": "Sebagian besar kantor polisi dapat membantu orang asing",
+    "tip4": "Jika kehilangan paspor, hubungi kedutaan/konsulat terdekat"
+  }
 }

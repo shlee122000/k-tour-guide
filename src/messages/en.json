@@ -62,5 +62,35 @@
   "radius": {
     "title": "Search Radius",
     "adjust": "Adjust distance"
+  },
+  "emergency": {
+    "title": "Emergency Help",
+    "subtitle": "Call these numbers in an emergency",
+    "quickSearch": "Quick Nearby Search",
+    "tips": "Useful Tips",
+    "police": "Police",
+    "policeDesc": "Crime, accidents, emergencies",
+    "fire": "Fire/Ambulance",
+    "fireDesc": "Fire, medical, rescue",
+    "medical": "Medical Emergency",
+    "medicalDesc": "Emergency medical info center",
+    "tourism": "Tourism Helpline",
+    "tourismDesc": "Korea Tourism multilingual help",
+    "government": "Government Help",
+    "governmentDesc": "Seoul city info, multilingual",
+    "immigration": "Immigration",
+    "immigrationDesc": "Immigration & visa help",
+    "pharmacy": "Find Pharmacy",
+    "pharmacyDesc": "Nearby pharmacies on map",
+    "hospital": "Find Hospital",
+    "hospitalDesc": "Nearby hospitals on map",
+    "atm": "Find ATM",
+    "atmDesc": "Nearby ATMs and banks",
+    "convenience": "Convenience Store",
+    "convenienceDesc": "24h convenience stores nearby",
+    "tip1": "1330 Tourism helpline supports English, Japanese, Chinese, and more",
+    "tip2": "119 ambulance provides foreign language interpretation",
+    "tip3": "Most police stations can assist foreigners",
+    "tip4": "If you lose your passport, contact the nearest embassy/consulate"
   }
 }

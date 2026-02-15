@@ -1,9 +1,96 @@
 {
-  "app": { "title": "K-Tour Guide", "subtitle": "Hướng Dẫn Du Lịch Hàn Quốc", "search": "Tìm kiếm điểm tham quan, nhà hàng...", "nearMe": "Gần tôi", "selectLanguage": "Ngôn ngữ" },
-  "categories": { "attractions": "Điểm tham quan", "restaurants": "Nhà hàng", "transport": "Giao thông", "culture": "Văn hóa", "shopping": "Mua sắm", "emergency": "Khẩn cấp" },
-  "home": { "popular": "Điểm đến phổ biến", "nearby": "Địa điểm gần đây", "recommended": "Đề xuất", "seeAll": "Xem tất cả", "km": "km" },
-  "transport": { "bus": "Xe buýt", "subway": "Tàu điện ngầm", "train": "Tàu hỏa/KTX", "taxi": "Taxi", "busNumber": "Số xe buýt", "fare": "Giá vé", "schedule": "Lịch trình", "duration": "Thời gian", "departure": "Xuất phát", "arrival": "Đến nơi" },
-  "common": { "back": "Quay lại", "close": "Đóng", "loading": "Đang tải...", "error": "Đã xảy ra lỗi", "retry": "Thử lại", "noResults": "Không có kết quả", "viewOnMap": "Xem trên bản đồ", "directions": "Chỉ đường", "reviews": "Đánh giá", "photos": "Ảnh", "info": "Thông tin", "hours": "Giờ mở cửa", "phone": "Điện thoại", "website": "Website", "free": "Miễn phí", "open": "Đang mở", "closed": "Đã đóng" },
-  "nav": { "home": "Trang chủ", "map": "Bản đồ", "translate": "Dịch", "planner": "Lịch trình", "mypage": "Của tôi" },
-  "radius": { "title": "Bán kính tìm kiếm", "adjust": "Điều chỉnh khoảng cách" }
+  "app": {
+    "title": "K-Tour Guide",
+    "subtitle": "Hướng Dẫn Du Lịch Hàn Quốc",
+    "search": "Tìm kiếm điểm tham quan, nhà hàng...",
+    "nearMe": "Gần tôi",
+    "selectLanguage": "Ngôn ngữ"
+  },
+  "categories": {
+    "attractions": "Điểm tham quan",
+    "restaurants": "Nhà hàng",
+    "transport": "Giao thông",
+    "culture": "Văn hóa",
+    "shopping": "Mua sắm",
+    "emergency": "Khẩn cấp"
+  },
+  "home": {
+    "popular": "Điểm đến phổ biến",
+    "nearby": "Địa điểm gần đây",
+    "recommended": "Đề xuất",
+    "seeAll": "Xem tất cả",
+    "km": "km"
+  },
+  "transport": {
+    "bus": "Xe buýt",
+    "subway": "Tàu điện ngầm",
+    "train": "Tàu hỏa/KTX",
+    "taxi": "Taxi",
+    "busNumber": "Số xe buýt",
+    "fare": "Giá vé",
+    "schedule": "Lịch trình",
+    "duration": "Thời gian",
+    "departure": "Xuất phát",
+    "arrival": "Đến nơi"
+  },
+  "common": {
+    "back": "Quay lại",
+    "close": "Đóng",
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi",
+    "retry": "Thử lại",
+    "noResults": "Không có kết quả",
+    "viewOnMap": "Xem trên bản đồ",
+    "directions": "Chỉ đường",
+    "reviews": "Đánh giá",
+    "photos": "Ảnh",
+    "info": "Thông tin",
+    "hours": "Giờ mở cửa",
+    "phone": "Điện thoại",
+    "website": "Website",
+    "free": "Miễn phí",
+    "open": "Đang mở",
+    "closed": "Đã đóng"
+  },
+  "nav": {
+    "home": "Trang chủ",
+    "map": "Bản đồ",
+    "translate": "Dịch",
+    "planner": "Lịch trình",
+    "mypage": "Của tôi"
+  },
+  "radius": {
+    "title": "Bán kính tìm kiếm",
+    "adjust": "Điều chỉnh khoảng cách"
+  },
+  "emergency": {
+    "title": "Trợ giúp khẩn cấp",
+    "subtitle": "Gọi các số này trong trường hợp khẩn cấp",
+    "quickSearch": "Tìm kiếm nhanh cơ sở gần đây",
+    "tips": "Mẹo hữu ích",
+    "police": "Cảnh sát",
+    "policeDesc": "Tội phạm, tai nạn, khẩn cấp",
+    "fire": "Cứu hỏa/Cấp cứu",
+    "fireDesc": "Hỏa hoạn, y tế, cứu hộ",
+    "medical": "Y tế khẩn cấp",
+    "medicalDesc": "Trung tâm thông tin y tế khẩn cấp",
+    "tourism": "Hỗ trợ du lịch",
+    "tourismDesc": "Hỗ trợ du lịch Hàn Quốc đa ngôn ngữ",
+    "government": "Hỗ trợ chính phủ",
+    "governmentDesc": "Thông tin Seoul, hỗ trợ đa ngôn ngữ",
+    "immigration": "Nhập cảnh",
+    "immigrationDesc": "Hỗ trợ nhập cảnh và thị thực",
+    "pharmacy": "Tìm nhà thuốc",
+    "pharmacyDesc": "Nhà thuốc gần đây trên bản đồ",
+    "hospital": "Tìm bệnh viện",
+    "hospitalDesc": "Bệnh viện gần đây trên bản đồ",
+    "atm": "Tìm ATM",
+    "atmDesc": "ATM và ngân hàng gần đây",
+    "convenience": "Cửa hàng tiện lợi",
+    "convenienceDesc": "Cửa hàng tiện lợi 24h gần đây",
+    "tip1": "Đường dây 1330 hỗ trợ tiếng Anh, Nhật, Trung và nhiều ngôn ngữ khác",
+    "tip2": "Xe cấp cứu 119 cung cấp phiên dịch ngoại ngữ",
+    "tip3": "Hầu hết đồn cảnh sát có thể hỗ trợ người nước ngoài",
+    "tip4": "Nếu mất hộ chiếu, liên hệ đại sứ quán/lãnh sự quán gần nhất"
+  }
 }

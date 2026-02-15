@@ -62,5 +62,35 @@
   "radius": {
     "title": "搜索范围",
     "adjust": "调整距离"
+  },
+  "emergency": {
+    "title": "紧急帮助",
+    "subtitle": "紧急情况请拨打以下号码",
+    "quickSearch": "周边设施快速搜索",
+    "tips": "实用小贴士",
+    "police": "警察",
+    "policeDesc": "犯罪、事件、事故报警",
+    "fire": "消防/急救",
+    "fireDesc": "火灾、急救、救援",
+    "medical": "急救医疗",
+    "medicalDesc": "急救医疗信息中心",
+    "tourism": "旅游咨询",
+    "tourismDesc": "韩国旅游公社多语言服务",
+    "government": "政府帮助",
+    "governmentDesc": "首尔市生活信息，多语言支持",
+    "immigration": "出入境/签证",
+    "immigrationDesc": "出入境·外国人咨询",
+    "pharmacy": "查找药房",
+    "pharmacyDesc": "在地图上查看附近药房",
+    "hospital": "查找医院",
+    "hospitalDesc": "在地图上查看附近医院",
+    "atm": "查找ATM",
+    "atmDesc": "查找附近ATM/银行",
+    "convenience": "查找便利店",
+    "convenienceDesc": "查找附近24小时便利店",
+    "tip1": "1330旅游咨询支持英语、日语、中文等多种语言",
+    "tip2": "119急救队提供外语翻译服务",
+    "tip3": "大多数警察局可以帮助外国人",
+    "tip4": "护照丢失时请联系最近的大使馆/领事馆"
   }
 }

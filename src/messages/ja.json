@@ -62,5 +62,35 @@
   "radius": {
     "title": "検索範囲",
     "adjust": "距離調整"
+  },
+  "emergency": {
+    "title": "緊急ヘルプ",
+    "subtitle": "緊急時は以下の番号に電話してください",
+    "quickSearch": "周辺施設クイック検索",
+    "tips": "知っておくと便利なヒント",
+    "police": "警察",
+    "policeDesc": "犯罪・事件・事故の通報",
+    "fire": "消防/救急",
+    "fireDesc": "火災・救急・救助要請",
+    "medical": "救急医療",
+    "medicalDesc": "救急医療情報センター",
+    "tourism": "観光案内",
+    "tourismDesc": "韓国観光公社 多言語案内",
+    "government": "政府ヘルプ",
+    "governmentDesc": "ソウル市生活情報、多言語対応",
+    "immigration": "出入国/ビザ",
+    "immigrationDesc": "出入国・外国人相談",
+    "pharmacy": "薬局を探す",
+    "pharmacyDesc": "近くの薬局を地図で表示",
+    "hospital": "病院を探す",
+    "hospitalDesc": "近くの病院を地図で表示",
+    "atm": "ATMを探す",
+    "atmDesc": "近くのATM・銀行を探す",
+    "convenience": "コンビニを探す",
+    "convenienceDesc": "24時間コンビニを探す",
+    "tip1": "1330観光案内は英語・日本語・中国語など多言語対応",
+    "tip2": "119救急隊は外国語通訳サービスあり",
+    "tip3": "ほとんどの警察署で外国人対応が可能",
+    "tip4": "パスポート紛失時は最寄りの大使館・領事館へ連絡"
   }
 }

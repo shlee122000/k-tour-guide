@@ -62,5 +62,35 @@
   "radius": {
     "title": "검색 반경",
     "adjust": "거리 조절"
+  },
+  "emergency": {
+    "title": "긴급 도움",
+    "subtitle": "긴급 상황 시 아래 번호로 전화하세요",
+    "quickSearch": "주변 시설 빠른 검색",
+    "tips": "알아두면 좋은 팁",
+    "police": "경찰",
+    "policeDesc": "범죄, 사건, 사고 신고",
+    "fire": "소방/구급",
+    "fireDesc": "화재, 구급, 구조 요청",
+    "medical": "응급의료",
+    "medicalDesc": "응급의료 정보센터",
+    "tourism": "관광안내",
+    "tourismDesc": "한국관광공사 다국어 안내",
+    "government": "다산콜센터",
+    "governmentDesc": "서울시 생활정보, 다국어 지원",
+    "immigration": "출입국/비자",
+    "immigrationDesc": "출입국·외국인 민원상담",
+    "pharmacy": "약국 찾기",
+    "pharmacyDesc": "가까운 약국 지도에서 보기",
+    "hospital": "병원 찾기",
+    "hospitalDesc": "가까운 병원 지도에서 보기",
+    "atm": "ATM 찾기",
+    "atmDesc": "가까운 ATM/은행 찾기",
+    "convenience": "편의점 찾기",
+    "convenienceDesc": "24시간 편의점 찾기",
+    "tip1": "1330 관광안내는 영어, 일본어, 중국어 등 다국어 지원",
+    "tip2": "119 구급대는 외국어 통역 서비스 제공",
+    "tip3": "대부분의 경찰서에서 외국인 지원 가능",
+    "tip4": "여권 분실 시 가까운 대사관/영사관에 연락하세요"
   }
 }

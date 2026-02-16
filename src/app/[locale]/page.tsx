@@ -173,10 +173,7 @@ export default function HomePage() {
 
         <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
           {popularPlaces.map((place) => {
-            const locale = (typeof window !== "undefined" 
-              ? window.location.pathname.split("/")[1] 
-              : "en") as keyof typeof place.name;
-            const name = place.name[locale] || place.name.en;
+            const name = place.name[locale as keyof typeof place.name] || place.name.en;
 
             return (
               <div

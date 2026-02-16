@@ -12,7 +12,8 @@
     "transport": "Transport",
     "culture": "Culture",
     "shopping": "Shopping",
-    "emergency": "Urgence"
+    "emergency": "Urgence",
+    "accommodation": "Hébergement"
   },
   "home": {
     "popular": "Destinations Populaires",

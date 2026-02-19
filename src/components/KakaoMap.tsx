@@ -56,6 +56,44 @@ export default function KakaoMap({
   const tCat = useTranslations("categories");
   const router = useRouter();
 
+  // 즐겨찾기
+  const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("k-tour-favorites");
+      if (saved) {
+        const favs = JSON.parse(saved);
+        setFavoriteIds(new Set(favs.map((f: any) => f.id)));
+      }
+    } catch { /* empty */ }
+  }, []);
+
+  const toggleFavorite = (place: TourItem) => {
+    try {
+      const saved = localStorage.getItem("k-tour-favorites");
+      let favs = saved ? JSON.parse(saved) : [];
+      const id = place.contentid || place.title;
+      if (favoriteIds.has(id)) {
+        favs = favs.filter((f: any) => f.id !== id);
+        setFavoriteIds(prev => { const n = new Set(prev); n.delete(id); return n; });
+      } else {
+        favs.push({
+          id, name: place.title, address: place.addr1 || "",
+          image: place.firstimage || "", contentTypeId: parseInt(place.contenttypeid) || 0,
+          addedAt: new Date().toISOString(),
+        });
+        setFavoriteIds(prev => new Set(prev).add(id));
+      }
+      localStorage.setItem("k-tour-favorites", JSON.stringify(favs));
+    } catch { /* empty */ }
+  };
+
+  // 길찾기 모달
+  const [showDirections, setShowDirections] = useState(false);
+  const [directionsTarget, setDirectionsTarget] = useState<TourItem|null>(null);
+  const [departureInput, setDepartureInput] = useState("");
+  const [gettingGPS, setGettingGPS] = useState(false);
+
   // Load Kakao Maps SDK
   useEffect(() => {
     const script = document.createElement("script");
@@ -84,8 +122,7 @@ export default function KakaoMap({
     const newMap = new window.kakao.maps.Map(mapRef.current, options);
     setMap(newMap);
 
-    const zoomControl = new window.kakao.maps.ZoomControl();
-    newMap.addControl(zoomControl, window.kakao.maps.ControlPosition.RIGHT);
+    // 줌 컨트롤은 커스텀 버튼으로 대체 (기본 컨트롤 사용 안함)
 
     // Reload markers when map drag ends
     window.kakao.maps.event.addListener(newMap, "dragend", () => {
@@ -287,17 +324,19 @@ export default function KakaoMap({
 
     setOverlays(newOverlays);
 
-    // 검색 결과 표시 후 지도 위치 조정
-    if (searchQuery.trim() && places.length > 0) {
-      if (useGPS) {
-        // GPS 모드: 내 위치 유지, 적절한 줌만 조정
-        map.setLevel(5);
-      } else {
-        // 일반 검색: 첫 번째 결과로 이동
+    // 검색 결과 표시 후 지도 위치 조정 - 모든 마커가 보이도록
+    if (places.length > 0) {
+      if (places.length === 1) {
         const firstPlace = places[0];
         const firstPos = new window.kakao.maps.LatLng(Number(firstPlace.mapy), Number(firstPlace.mapx));
         map.setCenter(firstPos);
-        map.setLevel(5);
+        map.setLevel(4);
+      } else {
+        const bounds = new window.kakao.maps.LatLngBounds();
+        places.forEach(place => {
+          bounds.extend(new window.kakao.maps.LatLng(Number(place.mapy), Number(place.mapx)));
+        });
+        map.setBounds(bounds, 80);
       }
     }
   }, [map, places, locale]);
@@ -313,10 +352,36 @@ export default function KakaoMap({
   };
 
   const goToDirections = (place: TourItem) => {
-    window.open(
-      `https://map.kakao.com/link/to/${place.title},${place.mapy},${place.mapx}`,
-      "_blank"
-    );
+    setDirectionsTarget(place);
+    setDepartureInput("");
+    setShowDirections(true);
+  };
+
+  const startDirections = (mode: "gps" | "input") => {
+    if (!directionsTarget) return;
+    if (mode === "gps") {
+      setGettingGPS(true);
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          setGettingGPS(false);
+          setShowDirections(false);
+          window.open(
+            `https://map.kakao.com/link/from/내 위치,${pos.coords.latitude},${pos.coords.longitude}/to/${directionsTarget.title},${directionsTarget.mapy},${directionsTarget.mapx}`,
+            "_blank"
+          );
+        },
+        () => {
+          setGettingGPS(false);
+          alert(locale === "ko" ? "위치 정보를 가져올 수 없습니다" : "Unable to get location");
+        }
+      );
+    } else if (departureInput.trim()) {
+      setShowDirections(false);
+      window.open(
+        `https://map.kakao.com/link/from/${encodeURIComponent(departureInput.trim())}/to/${directionsTarget.title},${directionsTarget.mapy},${directionsTarget.mapx}`,
+        "_blank"
+      );
+    }
   };
 
   return (
@@ -383,8 +448,20 @@ export default function KakaoMap({
         </div>
       )}
 
+      {/* 줌 컨트롤 (오른쪽 중간) */}
+      <div style={{position:"absolute",right:"12px",top:"50%",transform:"translateY(-50%)",zIndex:10,display:"flex",flexDirection:"column",gap:"2px"}}>
+        <button onClick={()=>map&&map.setLevel(map.getLevel()-1)}
+          style={{width:"36px",height:"36px",background:"white",border:"1px solid #d1d5db",borderRadius:"8px 8px 0 0",fontSize:"18px",fontWeight:"bold",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#374151"}}>
+          +
+        </button>
+        <button onClick={()=>map&&map.setLevel(map.getLevel()+1)}
+          style={{width:"36px",height:"36px",background:"white",border:"1px solid #d1d5db",borderRadius:"0 0 8px 8px",fontSize:"18px",fontWeight:"bold",cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",color:"#374151",borderTop:"none"}}>
+          −
+        </button>
+      </div>
+
       {/* GPS + Reload buttons */}
-      <div className="absolute bottom-28 right-3 z-10 flex flex-col gap-2">
+      <div style={{position:"absolute",bottom:"80px",right:"12px",zIndex:10,display:"flex",flexDirection:"column",gap:"8px"}}>
         <button
           onClick={() => {
             navigator.geolocation.getCurrentPosition(
@@ -426,7 +503,7 @@ export default function KakaoMap({
 
       {/* Selected Place Card */}
       {selectedPlace && (
-        <div className="absolute bottom-4 left-3 right-3 z-10">
+        <div style={{position:"absolute",bottom:"70px",left:"12px",right:"12px",zIndex:10}}>
           <div className="bg-white rounded-2xl shadow-xl p-4 border border-gray-100">
             <button
               onClick={() => setSelectedPlace(null)}
@@ -475,6 +552,19 @@ export default function KakaoMap({
 
             <div className="flex gap-2 mt-3">
               <button
+                onClick={() => toggleFavorite(selectedPlace)}
+                style={{
+                  padding: "10px 14px", borderRadius: "12px", border: "2px solid", cursor: "pointer",
+                  background: favoriteIds.has(selectedPlace.contentid || selectedPlace.title) ? "#ef4444" : "#fff5f5",
+                  borderColor: favoriteIds.has(selectedPlace.contentid || selectedPlace.title) ? "#ef4444" : "#fca5a5",
+                  color: favoriteIds.has(selectedPlace.contentid || selectedPlace.title) ? "white" : "#ef4444",
+                  fontSize: "12px", fontWeight: "bold",
+                  display: "flex", alignItems: "center", gap: "4px", whiteSpace: "nowrap",
+                }}
+              >
+                {favoriteIds.has(selectedPlace.contentid || selectedPlace.title) ? "❤️ 저장됨" : "🤍 즐겨찾기"}
+              </button>
+              <button
                 onClick={() => goToDetail(selectedPlace)}
                 className="flex-1 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-1.5"
               >
@@ -497,6 +587,64 @@ export default function KakaoMap({
             </div>
           </div>
         </div>
+      )}
+
+      {/* 길찾기 출발지 선택 모달 */}
+      {showDirections && directionsTarget && (
+        <>
+          <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.5)",zIndex:50}} onClick={()=>setShowDirections(false)} />
+          <div style={{position:"fixed",bottom:0,left:0,right:0,zIndex:51,background:"white",borderRadius:"20px 20px 0 0",padding:"20px",paddingBottom:"32px",maxWidth:"448px",margin:"0 auto"}}>
+            {/* 목적지 정보 */}
+            <div style={{display:"flex",alignItems:"center",gap:"10px",marginBottom:"16px",paddingBottom:"12px",borderBottom:"1px solid #f0f0f0"}}>
+              <div style={{width:"44px",height:"44px",background:"#eff6ff",borderRadius:"10px",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20px"}}>
+                🏁
+              </div>
+              <div>
+                <p style={{fontSize:"11px",color:"#9ca3af"}}>목적지</p>
+                <p style={{fontSize:"14px",fontWeight:"bold",color:"#1f2937"}}>{directionsTarget.title}</p>
+              </div>
+              <button onClick={()=>setShowDirections(false)}
+                style={{marginLeft:"auto",width:"28px",height:"28px",borderRadius:"50%",background:"#f3f4f6",border:"none",cursor:"pointer",fontSize:"14px",color:"#6b7280"}}>✕</button>
+            </div>
+
+            <p style={{fontSize:"13px",fontWeight:"bold",color:"#374151",marginBottom:"10px"}}>📍 출발지 선택</p>
+
+            {/* 내 위치 버튼 */}
+            <button onClick={()=>startDirections("gps")} disabled={gettingGPS}
+              style={{
+                width:"100%",padding:"14px",borderRadius:"14px",border:"2px solid #3b82f6",
+                background:"#eff6ff",color:"#2563eb",fontSize:"15px",fontWeight:"bold",
+                cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:"8px",
+                marginBottom:"10px",
+              }}>
+              {gettingGPS ? "⏳ 위치 확인 중..." : "📍 내 현재 위치에서 출발"}
+            </button>
+
+            {/* 구분선 */}
+            <div style={{display:"flex",alignItems:"center",gap:"10px",margin:"6px 0"}}>
+              <div style={{flex:1,height:"1px",background:"#e5e7eb"}} />
+              <span style={{fontSize:"12px",color:"#9ca3af"}}>또는</span>
+              <div style={{flex:1,height:"1px",background:"#e5e7eb"}} />
+            </div>
+
+            {/* 출발지 직접 입력 */}
+            <div style={{display:"flex",gap:"8px",marginTop:"6px"}}>
+              <input type="text" value={departureInput} onChange={e=>setDepartureInput(e.target.value)}
+                onKeyDown={e=>e.key==="Enter"&&departureInput.trim()&&startDirections("input")}
+                placeholder="출발지 입력 (예: 서울역, 강남역)"
+                style={{flex:1,padding:"12px 14px",borderRadius:"12px",border:"2px solid #e5e7eb",fontSize:"14px",outline:"none"}} />
+              <button onClick={()=>startDirections("input")} disabled={!departureInput.trim()}
+                style={{
+                  padding:"12px 16px",borderRadius:"12px",border:"none",cursor:"pointer",
+                  background:departureInput.trim()?"#3b82f6":"#d1d5db",
+                  color:departureInput.trim()?"white":"#9ca3af",
+                  fontSize:"14px",fontWeight:"bold",whiteSpace:"nowrap",
+                }}>
+                길찾기
+              </button>
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

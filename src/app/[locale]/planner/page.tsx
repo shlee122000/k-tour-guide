@@ -216,8 +216,21 @@ export default function PlannerPage() {
                   <span className="text-sm font-bold text-indigo-600">📆 {getDaysBetween(newStart,newEnd).length}일 여행</span>
                 </div>
               )}
-              <button onClick={createTrip} disabled={!newTitle||!newStart||!newEnd}
-                className="w-full py-4 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl font-bold text-base disabled:opacity-40 hover:opacity-90 active:scale-[0.98] transition-all shadow-lg">
+              {(!newTitle || !newStart || !newEnd) && (
+                <div style={{background:"#fef3c7",borderRadius:"10px",padding:"8px 12px",textAlign:"center"}}>
+                  <span style={{fontSize:"12px",color:"#d97706",fontWeight:"bold"}}>
+                    ⚠️ {!newTitle ? "여행 이름을 입력하세요" : !newStart ? "시작일을 선택하세요" : "종료일을 선택하세요"}
+                  </span>
+                </div>
+              )}
+              <button onClick={createTrip} disabled={!newTitle||!newStart||!newEnd||new Date(newEnd)<new Date(newStart)}
+                style={{
+                  width:"100%", padding:"16px", borderRadius:"14px", fontSize:"16px", fontWeight:"bold",
+                  border:"none", cursor: (!newTitle||!newStart||!newEnd) ? "not-allowed" : "pointer",
+                  background: (!newTitle||!newStart||!newEnd) ? "#d1d5db" : "linear-gradient(135deg,#6366f1,#a855f7)",
+                  color: (!newTitle||!newStart||!newEnd) ? "#9ca3af" : "white",
+                  boxShadow: (!newTitle||!newStart||!newEnd) ? "none" : "0 4px 12px rgba(99,102,241,0.3)",
+                }}>
                 ✈️ {t("create")}
               </button>
             </div>

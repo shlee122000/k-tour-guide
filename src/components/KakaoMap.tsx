@@ -464,7 +464,7 @@ export default function KakaoMap({
       </div>
 
       {/* GPS + Reload buttons */}
-      <div style={{position:"absolute",bottom:"80px",right:"12px",zIndex:10,display:"flex",flexDirection:"column",gap:"8px"}}>
+      <div style={{position:"absolute",bottom:"150px",right:"12px",zIndex:10,display:"flex",flexDirection:"column",gap:"8px"}}>
         <button
           onClick={() => {
             navigator.geolocation.getCurrentPosition(
@@ -506,7 +506,7 @@ export default function KakaoMap({
 
       {/* Selected Place Card */}
       {selectedPlace && (
-        <div style={{position:"absolute",bottom:"70px",left:"12px",right:"12px",zIndex:10}}>
+        <div style={{position:"absolute",bottom:"140px",left:"12px",right:"12px",zIndex:10}}>
           <div className="bg-white rounded-2xl shadow-xl p-4 border border-gray-100">
             <button
               onClick={() => setSelectedPlace(null)}

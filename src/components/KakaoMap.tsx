@@ -173,11 +173,14 @@ export default function KakaoMap({
             title: item.place_name || "",
             addr1: item.road_address_name || item.address_name || "",
             addr2: "",
+            areacode: "",
+            sigungucode: "",
             mapx: item.x || "0",
             mapy: item.y || "0",
             firstimage: "",
             firstimage2: "",
             tel: item.phone || "",
+            zipcode: "",
             dist: item.distance || "",
           }));
           resolve(converted);

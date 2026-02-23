@@ -174,5 +174,24 @@
     "developer": "Développeur",
     "dataSource": "Source",
     "freeNotice": "🎉 Application gratuite ! Profitez de votre voyage !"
+  },
+  "tour": {
+    "seoulTitle": "Guide de Séoul",
+    "seoulDesc": "Capitale où tradition et modernité se rencontrent",
+    "busanTitle": "Guide de Busan",
+    "busanDesc": "Capitale côtière de la mer et de la gastronomie",
+    "seoul": "Séoul",
+    "busan": "Busan",
+    "tabCourse": "Parcours",
+    "tabFood": "Restaurants",
+    "tabPhoto": "Photos",
+    "tabTransport": "Transport",
+    "dayUnit": " Jour",
+    "spotsUnit": " lieux",
+    "backToList": "Retour",
+    "viewMap": "Carte",
+    "directions": "Itinéraire",
+    "mustTry": "À goûter",
+    "bestTime": "Meilleur moment"
   }
 }

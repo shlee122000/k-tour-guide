@@ -174,5 +174,24 @@
     "developer": "开发者",
     "dataSource": "数据来源",
     "freeNotice": "🎉 免费应用！享受您的韩国之旅！"
+  },
+  "tour": {
+    "seoulTitle": "首尔旅游指南",
+    "seoulDesc": "韩国首都，传统与现代交融的城市",
+    "busanTitle": "釜山旅游指南",
+    "busanDesc": "韩国的海洋城市，海鲜与美食之都",
+    "seoul": "首尔",
+    "busan": "釜山",
+    "tabCourse": "推荐路线",
+    "tabFood": "美食",
+    "tabPhoto": "拍照点",
+    "tabTransport": "交通",
+    "dayUnit": "天",
+    "spotsUnit": "处",
+    "backToList": "返回",
+    "viewMap": "地图",
+    "directions": "导航",
+    "mustTry": "必点菜",
+    "bestTime": "最佳拍摄时间"
   }
 }

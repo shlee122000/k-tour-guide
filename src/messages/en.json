@@ -174,5 +174,24 @@
     "developer": "Developer",
     "dataSource": "Data Source",
     "freeNotice": "🎉 This is a free app! Enjoy your Korea trip!"
+  },
+  "tour": {
+    "seoulTitle": "Seoul Tour Guide",
+    "seoulDesc": "Korea's capital where tradition meets modernity",
+    "busanTitle": "Busan Tour Guide",
+    "busanDesc": "Korea's coastal capital of sea and food",
+    "seoul": "Seoul",
+    "busan": "Busan",
+    "tabCourse": "Courses",
+    "tabFood": "Food",
+    "tabPhoto": "Photo Spots",
+    "tabTransport": "Transport",
+    "dayUnit": " Day",
+    "spotsUnit": " spots",
+    "backToList": "Back",
+    "viewMap": "Map",
+    "directions": "Directions",
+    "mustTry": "Must Try",
+    "bestTime": "Best Time"
   }
 }

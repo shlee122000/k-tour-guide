@@ -174,5 +174,24 @@
     "developer": "Nhà phát triển",
     "dataSource": "Nguồn dữ liệu",
     "freeNotice": "🎉 Ứng dụng miễn phí! Tận hưởng chuyến đi!"
+  },
+  "tour": {
+    "seoulTitle": "Hướng dẫn Seoul",
+    "seoulDesc": "Thủ đô nơi truyền thống gặp hiện đại",
+    "busanTitle": "Hướng dẫn Busan",
+    "busanDesc": "Thành phố biển và ẩm thực",
+    "seoul": "Seoul",
+    "busan": "Busan",
+    "tabCourse": "Lộ trình",
+    "tabFood": "Ẩm thực",
+    "tabPhoto": "Điểm chụp ảnh",
+    "tabTransport": "Giao thông",
+    "dayUnit": " Ngày",
+    "spotsUnit": " điểm",
+    "backToList": "Quay lại",
+    "viewMap": "Bản đồ",
+    "directions": "Chỉ đường",
+    "mustTry": "Phải thử",
+    "bestTime": "Thời điểm tốt nhất"
   }
 }

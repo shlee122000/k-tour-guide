@@ -174,5 +174,24 @@
     "developer": "พัฒนา",
     "dataSource": "แหล่งข้อมูล",
     "freeNotice": "🎉 แอปฟรี! สนุกกับทริปเกาหลีของคุณ!"
+  },
+  "tour": {
+    "seoulTitle": "ไกด์โซล",
+    "seoulDesc": "เมืองหลวงที่ผสมผสานประเพณีกับความทันสมัย",
+    "busanTitle": "ไกด์ปูซาน",
+    "busanDesc": "เมืองชายทะเลแห่งอาหารทะเล",
+    "seoul": "โซล",
+    "busan": "ปูซาน",
+    "tabCourse": "เส้นทาง",
+    "tabFood": "อาหาร",
+    "tabPhoto": "จุดถ่ายรูป",
+    "tabTransport": "การเดินทาง",
+    "dayUnit": " วัน",
+    "spotsUnit": " แห่ง",
+    "backToList": "กลับ",
+    "viewMap": "แผนที่",
+    "directions": "เส้นทาง",
+    "mustTry": "ต้องลอง",
+    "bestTime": "เวลาที่ดีที่สุด"
   }
 }

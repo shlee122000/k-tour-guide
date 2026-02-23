@@ -174,5 +174,24 @@
     "developer": "Entwickler",
     "dataSource": "Datenquelle",
     "freeNotice": "🎉 Kostenlose App! Genießen Sie Ihre Koreareise!"
+  },
+  "tour": {
+    "seoulTitle": "Seoul Reiseführer",
+    "seoulDesc": "Hauptstadt wo Tradition auf Moderne trifft",
+    "busanTitle": "Busan Reiseführer",
+    "busanDesc": "Küstenstadt des Meeres und der Küche",
+    "seoul": "Seoul",
+    "busan": "Busan",
+    "tabCourse": "Routen",
+    "tabFood": "Essen",
+    "tabPhoto": "Fotospots",
+    "tabTransport": "Verkehr",
+    "dayUnit": " Tag",
+    "spotsUnit": " Orte",
+    "backToList": "Zurück",
+    "viewMap": "Karte",
+    "directions": "Route",
+    "mustTry": "Muss man probieren",
+    "bestTime": "Beste Zeit"
   }
 }

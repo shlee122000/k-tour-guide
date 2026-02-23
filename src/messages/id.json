@@ -174,5 +174,24 @@
     "developer": "Pengembang",
     "dataSource": "Sumber Data",
     "freeNotice": "🎉 Aplikasi gratis! Nikmati perjalanan Anda!"
+  },
+  "tour": {
+    "seoulTitle": "Panduan Seoul",
+    "seoulDesc": "Ibukota tempat tradisi bertemu modernitas",
+    "busanTitle": "Panduan Busan",
+    "busanDesc": "Kota pesisir makanan laut",
+    "seoul": "Seoul",
+    "busan": "Busan",
+    "tabCourse": "Rute",
+    "tabFood": "Kuliner",
+    "tabPhoto": "Foto Spot",
+    "tabTransport": "Transportasi",
+    "dayUnit": " Hari",
+    "spotsUnit": " tempat",
+    "backToList": "Kembali",
+    "viewMap": "Peta",
+    "directions": "Petunjuk Arah",
+    "mustTry": "Wajib Coba",
+    "bestTime": "Waktu Terbaik"
   }
 }

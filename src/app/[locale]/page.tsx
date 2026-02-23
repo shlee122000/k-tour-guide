@@ -198,6 +198,31 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Seoul / Busan Tour Guide */}
+      <div className="px-4 mt-6">
+        <h2 className="text-lg font-bold text-gray-800 mb-3">{locale === "ko" ? "🗺️ 도시별 관광가이드" : "🗺️ City Tour Guide"}</h2>
+        <div className="flex gap-3">
+          <div
+            onClick={() => router.push(`/${locale}/tour`)}
+            className="flex-1 rounded-2xl p-4 cursor-pointer hover:scale-[0.98] transition-transform active:scale-95"
+            style={{ background: "linear-gradient(135deg, #3b82f6, #6366f1)" }}
+          >
+            <span className="text-3xl">🏙️</span>
+            <h3 className="text-white font-bold text-sm mt-2">{locale === "ko" ? "서울 투어" : "Seoul Tour"}</h3>
+            <p className="text-blue-100 text-[10px] mt-1">{locale === "ko" ? "코스·맛집·포토·교통" : "Courses·Food·Photo·Transport"}</p>
+          </div>
+          <div
+            onClick={() => router.push(`/${locale}/tour`)}
+            className="flex-1 rounded-2xl p-4 cursor-pointer hover:scale-[0.98] transition-transform active:scale-95"
+            style={{ background: "linear-gradient(135deg, #06b6d4, #0891b2)" }}
+          >
+            <span className="text-3xl">🏖️</span>
+            <h3 className="text-white font-bold text-sm mt-2">{locale === "ko" ? "부산 투어" : "Busan Tour"}</h3>
+            <p className="text-cyan-100 text-[10px] mt-1">{locale === "ko" ? "코스·맛집·포토·교통" : "Courses·Food·Photo·Transport"}</p>
+          </div>
+        </div>
+      </div>
+
       {/* Quick Access - SOS */}
       <div className="px-4 mt-6">
         <div

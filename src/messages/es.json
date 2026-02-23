@@ -174,5 +174,24 @@
     "developer": "Desarrollador",
     "dataSource": "Fuente de datos",
     "freeNotice": "🎉 ¡App gratuita! ¡Disfruta tu viaje a Corea!"
+  },
+  "tour": {
+    "seoulTitle": "Guía de Seúl",
+    "seoulDesc": "Capital donde tradición y modernidad se encuentran",
+    "busanTitle": "Guía de Busan",
+    "busanDesc": "Capital costera de mar y gastronomía",
+    "seoul": "Seúl",
+    "busan": "Busan",
+    "tabCourse": "Rutas",
+    "tabFood": "Comida",
+    "tabPhoto": "Fotos",
+    "tabTransport": "Transporte",
+    "dayUnit": " Día",
+    "spotsUnit": " lugares",
+    "backToList": "Volver",
+    "viewMap": "Mapa",
+    "directions": "Cómo llegar",
+    "mustTry": "Imprescindible",
+    "bestTime": "Mejor hora"
   }
 }

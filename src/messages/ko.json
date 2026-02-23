@@ -174,5 +174,24 @@
     "developer": "개발",
     "dataSource": "데이터 출처",
     "freeNotice": "🎉 무료 앱입니다! 한국 여행을 즐기세요!"
+  },
+  "tour": {
+    "seoulTitle": "서울 관광 가이드",
+    "seoulDesc": "한국의 수도, 전통과 현대가 어우러진 도시",
+    "busanTitle": "부산 관광 가이드",
+    "busanDesc": "한국의 해양 수도, 바다와 맛의 도시",
+    "seoul": "서울",
+    "busan": "부산",
+    "tabCourse": "추천코스",
+    "tabFood": "맛집",
+    "tabPhoto": "포토스팟",
+    "tabTransport": "교통",
+    "dayUnit": "일",
+    "spotsUnit": "곳",
+    "backToList": "목록으로",
+    "viewMap": "지도",
+    "directions": "길찾기",
+    "mustTry": "필수 메뉴",
+    "bestTime": "촬영 추천 시간"
   }
 }

@@ -174,5 +174,24 @@
     "developer": "開発",
     "dataSource": "データソース",
     "freeNotice": "🎉 無料アプリです！韓国旅行をお楽しみください！"
+  },
+  "tour": {
+    "seoulTitle": "ソウル観光ガイド",
+    "seoulDesc": "韓国の首都、伝統と現代が調和する都市",
+    "busanTitle": "釜山観光ガイド",
+    "busanDesc": "韓国の海洋都市、海とグルメの街",
+    "seoul": "ソウル",
+    "busan": "釜山",
+    "tabCourse": "おすすめコース",
+    "tabFood": "グルメ",
+    "tabPhoto": "フォトスポット",
+    "tabTransport": "交通",
+    "dayUnit": "日",
+    "spotsUnit": "ヶ所",
+    "backToList": "戻る",
+    "viewMap": "地図",
+    "directions": "経路",
+    "mustTry": "必食メニュー",
+    "bestTime": "おすすめ撮影時間"
   }
 }

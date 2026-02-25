@@ -306,10 +306,8 @@ export default function PlannerPage() {
           </div>
 
           <div className="px-4">
-          <div className="flex gap-2 mt-3">
-            <button onClick={()=>setView("search")} className="flex-1 py-3 bg-indigo-500 text-white rounded-xl text-sm font-bold hover:bg-indigo-600 active:scale-[0.98] transition-all shadow-sm">🔍 {t("addPlace")}</button>
-            <button onClick={()=>showMapForDay(selectedDayIndex)} disabled={currentTrip.days[selectedDayIndex].places.length===0}
-              className="flex-1 py-3 bg-purple-500 text-white rounded-xl text-sm font-bold hover:bg-purple-600 active:scale-[0.98] transition-all shadow-sm disabled:opacity-40">🗺️ {t("viewMap")}</button>
+          <div className="mt-3">
+            <button onClick={()=>setView("search")} className="w-full py-3 bg-indigo-500 text-white rounded-xl text-sm font-bold hover:bg-indigo-600 active:scale-[0.98] transition-all shadow-sm">🔍 {t("addPlace")}</button>
           </div>
           <div className="mt-3 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-3 border border-amber-200">
             {editingDayMemo ? (
@@ -339,13 +337,16 @@ export default function PlannerPage() {
                 <div key={place.id} className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                   <div className="flex items-center p-3 gap-3">
                     <div className="w-9 h-9 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm flex-shrink-0 shadow-md">{idx+1}</div>
-                    <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center border border-gray-200">
+                    {/* 장소 클릭 → 바로 카카오맵 열기 */}
+                    <div onClick={()=>{if(place.lat&&place.lng){window.open(`https://map.kakao.com/link/map/${encodeURIComponent(place.name)},${place.lat},${place.lng}`,"_blank");}}}
+                      className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center border-2 border-blue-200 cursor-pointer hover:border-blue-400 transition-colors relative">
                       {place.image ? <img src={place.image} alt={place.name} className="w-full h-full object-cover" /> : <span className="text-2xl">{getCatIcon(place.contentTypeId)}</span>}
+                      <div style={{position:"absolute",bottom:"0",right:"0",background:"#3b82f6",borderRadius:"6px 0 0 0",padding:"1px 4px"}}><span style={{fontSize:"10px"}}>🗺️</span></div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-bold text-gray-800 text-sm truncate">{place.name}</h4>
-                      <p className="text-xs text-gray-400 truncate mt-0.5">{place.address}</p>
-                      <div className="flex items-center gap-1 mt-1">
+                    <div className="flex-1 min-w-0 cursor-pointer" onClick={()=>{if(place.lat&&place.lng){window.open(`https://map.kakao.com/link/map/${encodeURIComponent(place.name)},${place.lat},${place.lng}`,"_blank");}}}>
+                      <h4 className="font-bold text-blue-700 text-sm truncate hover:underline">{place.name}</h4>
+                      <p className="text-xs text-gray-400 truncate mt-0.5">📍 {place.address}</p>
+                      <div className="flex items-center gap-1 mt-1" onClick={e=>e.stopPropagation()}>
                         <span className="text-xs text-gray-400">⏰</span>
                         <input type="time" value={place.time} onChange={e=>savePlaceTime(selectedDayIndex,place.id,e.target.value)} className="text-xs text-indigo-600 font-bold border-none bg-transparent focus:outline-none" />
                       </div>
@@ -453,11 +454,12 @@ export default function PlannerPage() {
                     <div style={{width:"24px",height:"24px",borderRadius:"50%",background:"#4f46e5",color:"white",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"11px",fontWeight:"bold",flexShrink:0}}>
                       {idx+1}
                     </div>
-                    <div style={{width:"36px",height:"36px",borderRadius:"8px",overflow:"hidden",flexShrink:0,background:"#f3f4f6",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                    <div onClick={()=>{if(place.lat&&place.lng){window.open(`https://map.kakao.com/link/map/${encodeURIComponent(place.name)},${place.lat},${place.lng}`,"_blank");}}}
+                      style={{width:"36px",height:"36px",borderRadius:"8px",overflow:"hidden",flexShrink:0,background:"#f3f4f6",display:"flex",alignItems:"center",justifyContent:"center",cursor:"pointer",border:"1px solid #bfdbfe"}}>
                       {place.image ? <img src={place.image} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}} /> : <span style={{fontSize:"16px"}}>{getCatIcon(place.contentTypeId)}</span>}
                     </div>
-                    <div style={{flex:1,minWidth:0}}>
-                      <p style={{fontSize:"12px",fontWeight:"bold",color:"#1f2937",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{place.name}</p>
+                    <div style={{flex:1,minWidth:0,cursor:"pointer"}} onClick={()=>{if(place.lat&&place.lng){window.open(`https://map.kakao.com/link/map/${encodeURIComponent(place.name)},${place.lat},${place.lng}`,"_blank");}}}>
+                      <p style={{fontSize:"12px",fontWeight:"bold",color:"#2563eb",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{place.name}</p>
                       {place.time && <p style={{fontSize:"10px",color:"#6366f1"}}>⏰ {place.time}</p>}
                     </div>
                     <button onClick={()=>removePlaceFromDay(selectedDayIndex,place.id)}
@@ -492,18 +494,22 @@ export default function PlannerPage() {
           <div style={{display:"flex",flexDirection:"column",gap:"8px",paddingBottom:"80px"}}>
             {searchResults.map(place=>(
               <div key={place.id} style={{background:addedPlaceIds.has(place.id)?"#f0fdf4":"white",borderRadius:"16px",padding:"12px",boxShadow:"0 1px 4px rgba(0,0,0,0.06)",border:addedPlaceIds.has(place.id)?"2px solid #86efac":"1px solid #f0f0f0",display:"flex",alignItems:"center",gap:"12px"}}>
-                <div style={{width:"60px",height:"60px",borderRadius:"12px",overflow:"hidden",flexShrink:0,background:"#f3f4f6",display:"flex",alignItems:"center",justifyContent:"center",border:"1px solid #e5e7eb"}}>
+                {/* 사진 클릭 → 지도 */}
+                <div onClick={()=>{if(place.lat&&place.lng){window.open(`https://map.kakao.com/link/map/${encodeURIComponent(place.name)},${place.lat},${place.lng}`,"_blank");}}}
+                  style={{width:"60px",height:"60px",borderRadius:"12px",overflow:"hidden",flexShrink:0,background:"#f3f4f6",display:"flex",alignItems:"center",justifyContent:"center",border:"2px solid #bfdbfe",cursor:"pointer",position:"relative"}}>
                   {place.image ? <img src={place.image} alt={place.name} style={{width:"100%",height:"100%",objectFit:"cover"}} /> : <span style={{fontSize:"24px"}}>{getCatIcon(place.contentTypeId)}</span>}
+                  <div style={{position:"absolute",bottom:"0",right:"0",background:"#3b82f6",borderRadius:"6px 0 0 0",padding:"1px 3px"}}><span style={{fontSize:"9px"}}>🗺️</span></div>
                 </div>
-                <div style={{flex:1,minWidth:0}}>
-                  <h4 style={{fontWeight:"bold",color:"#1f2937",fontSize:"14px",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{place.name}</h4>
-                  <p style={{fontSize:"12px",color:"#9ca3af",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",marginTop:"2px"}}>{place.address}</p>
+                {/* 이름 클릭 → 지도 */}
+                <div style={{flex:1,minWidth:0,cursor:"pointer"}} onClick={()=>{if(place.lat&&place.lng){window.open(`https://map.kakao.com/link/map/${encodeURIComponent(place.name)},${place.lat},${place.lng}`,"_blank");}}}>
+                  <h4 style={{fontWeight:"bold",color:"#2563eb",fontSize:"14px",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{place.name}</h4>
+                  <p style={{fontSize:"12px",color:"#9ca3af",overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap",marginTop:"2px"}}>📍 {place.address}</p>
                   {addedPlaceIds.has(place.id) && <p style={{fontSize:"12px",color:"#16a34a",fontWeight:"bold",marginTop:"2px"}}>✓ Day {selectedDayIndex+1}에 추가됨</p>}
                 </div>
-                <button onClick={()=>addPlaceToDay(place)} disabled={addedPlaceIds.has(place.id)}
-                  style={{padding:"10px 16px",borderRadius:"12px",fontSize:"12px",fontWeight:"bold",border:"none",cursor:"pointer",flexShrink:0,minWidth:"72px",textAlign:"center",
+                <button onClick={(e)=>{e.stopPropagation();addPlaceToDay(place);}} disabled={addedPlaceIds.has(place.id)}
+                  style={{padding:"10px 16px",borderRadius:"12px",fontSize:"12px",fontWeight:"bold",border:"none",cursor:"pointer",flexShrink:0,minWidth:"60px",textAlign:"center",
                     background:addedPlaceIds.has(place.id)?"#22c55e":"#3b82f6",color:"white"}}>
-                  {addedPlaceIds.has(place.id) ? "✓ 추가됨" : `+ ${t("add")}`}
+                  {addedPlaceIds.has(place.id) ? "✓" : `+ ${t("add")}`}
                 </button>
               </div>
             ))}
@@ -526,10 +532,11 @@ export default function PlannerPage() {
           </div>
           <div className="mt-3 space-y-1.5">
             {currentTrip.days[selectedDayIndex].places.map((place,idx)=>(
-              <div key={place.id} className="flex items-center gap-2.5 bg-white rounded-xl p-3 border border-gray-100 shadow-sm">
+              <div key={place.id} onClick={()=>{if(place.lat&&place.lng){window.open(`https://map.kakao.com/link/map/${encodeURIComponent(place.name)},${place.lat},${place.lng}`,"_blank");}}} className="flex items-center gap-2.5 bg-white rounded-xl p-3 border border-gray-100 shadow-sm cursor-pointer hover:bg-blue-50 transition-colors active:scale-[0.98]">
                 <div className="w-7 h-7 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-sm">{idx+1}</div>
                 <span className="text-sm text-gray-700 truncate flex-1 font-medium">{place.name}</span>
                 {place.time && <span className="text-xs text-indigo-500 font-bold bg-indigo-50 px-2 py-0.5 rounded-lg">{place.time}</span>}
+                <span className="text-xs text-blue-400">🗺️</span>
               </div>
             ))}
           </div>

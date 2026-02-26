@@ -169,9 +169,11 @@ export default function MyPage() {
                   background: "white", borderRadius: "16px", padding: "12px",
                   boxShadow: "0 1px 4px rgba(0,0,0,0.06)", border: "1px solid #f0f0f0",
                 }}>
-                  <div style={{
+                  <div onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(place.name)}`, "_blank")}
+                    style={{
                     width: "52px", height: "52px", borderRadius: "12px", overflow: "hidden",
                     flexShrink: 0, background: "#f3f4f6", display: "flex", alignItems: "center", justifyContent: "center",
+                    cursor: "pointer", border: "2px solid #bfdbfe",
                   }}>
                     {place.image ? (
                       <img src={place.image} alt={place.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -179,12 +181,13 @@ export default function MyPage() {
                       <span style={{ fontSize: "24px" }}>{getCatIcon(place.contentTypeId)}</span>
                     )}
                   </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <h4 style={{ fontWeight: "bold", color: "#1f2937", fontSize: "14px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                  <div style={{ flex: 1, minWidth: 0, cursor: "pointer" }}
+                    onClick={() => window.open(`https://map.kakao.com/link/search/${encodeURIComponent(place.name)}`, "_blank")}>
+                    <h4 style={{ fontWeight: "bold", color: "#2563eb", fontSize: "14px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                       {place.name}
                     </h4>
                     <p style={{ fontSize: "12px", color: "#9ca3af", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                      {place.address}
+                      📍 {place.address}
                     </p>
                   </div>
                   <button onClick={() => removeFavorite(place.id)}

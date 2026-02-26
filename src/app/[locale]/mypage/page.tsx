@@ -113,18 +113,18 @@ export default function MyPage() {
           </div>
         </div>
 
-        {/* 통계 카드 */}
+        {/* 통계 카드 - 클릭 시 이동 */}
         <div style={{
           display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "8px",
           marginTop: "16px", background: "rgba(255,255,255,0.15)", borderRadius: "16px", padding: "12px",
         }}>
           {[
-            { value: stats.totalTrips, label: t("statTrips"), icon: "✈️" },
-            { value: stats.totalDays, label: t("statDays"), icon: "📅" },
-            { value: stats.totalPlaces, label: t("statPlaces"), icon: "📍" },
-            { value: stats.favorites, label: t("statFavorites"), icon: "❤️" },
+            { value: stats.totalTrips, label: t("statTrips"), icon: "✈️", action: () => router.push(`/${locale}/planner`) },
+            { value: stats.totalDays, label: t("statDays"), icon: "📅", action: () => router.push(`/${locale}/planner`) },
+            { value: stats.totalPlaces, label: t("statPlaces"), icon: "📍", action: () => router.push(`/${locale}/planner`) },
+            { value: stats.favorites, label: t("statFavorites"), icon: "❤️", action: () => setActiveTab("favorites") },
           ].map((stat) => (
-            <div key={stat.label} style={{ textAlign: "center" }}>
+            <div key={stat.label} onClick={stat.action} style={{ textAlign: "center", cursor: "pointer", borderRadius: "10px", padding: "4px" }}>
               <div style={{ fontSize: "16px" }}>{stat.icon}</div>
               <div style={{ fontSize: "20px", fontWeight: "bold" }}>{stat.value}</div>
               <div style={{ fontSize: "10px", opacity: 0.8 }}>{stat.label}</div>
@@ -265,22 +265,25 @@ export default function MyPage() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
               {[
-                { icon: "✈️", label: t("statTrips"), value: stats.totalTrips, unit: t("unitTrips"), color: "#6366f1" },
-                { icon: "📅", label: t("statDays"), value: stats.totalDays, unit: t("unitDays"), color: "#8b5cf6" },
-                { icon: "📍", label: t("statPlaces"), value: stats.totalPlaces, unit: t("unitPlaces"), color: "#ec4899" },
-                { icon: "❤️", label: t("statFavorites"), value: stats.favorites, unit: t("unitPlaces"), color: "#ef4444" },
+                { icon: "✈️", label: t("statTrips"), value: stats.totalTrips, unit: t("unitTrips"), color: "#6366f1", action: () => router.push(`/${locale}/planner`) },
+                { icon: "📅", label: t("statDays"), value: stats.totalDays, unit: t("unitDays"), color: "#8b5cf6", action: () => router.push(`/${locale}/planner`) },
+                { icon: "📍", label: t("statPlaces"), value: stats.totalPlaces, unit: t("unitPlaces"), color: "#ec4899", action: () => router.push(`/${locale}/planner`) },
+                { icon: "❤️", label: t("statFavorites"), value: stats.favorites, unit: t("unitPlaces"), color: "#ef4444", action: () => setActiveTab("favorites") },
               ].map((item) => (
-                <div key={item.label} style={{
+                <div key={item.label} onClick={item.action} style={{
                   display: "flex", alignItems: "center", justifyContent: "space-between",
-                  padding: "10px 12px", background: "#f9fafb", borderRadius: "10px",
+                  padding: "10px 12px", background: "#f9fafb", borderRadius: "10px", cursor: "pointer",
                 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                     <span style={{ fontSize: "16px" }}>{item.icon}</span>
                     <span style={{ fontSize: "13px", color: "#6b7280" }}>{item.label}</span>
                   </div>
-                  <span style={{ fontSize: "16px", fontWeight: "bold", color: item.color }}>
-                    {item.value} <span style={{ fontSize: "11px", fontWeight: "normal", color: "#9ca3af" }}>{item.unit}</span>
-                  </span>
+                  <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                    <span style={{ fontSize: "16px", fontWeight: "bold", color: item.color }}>
+                      {item.value} <span style={{ fontSize: "11px", fontWeight: "normal", color: "#9ca3af" }}>{item.unit}</span>
+                    </span>
+                    <span style={{ fontSize: "12px", color: "#9ca3af" }}>›</span>
+                  </div>
                 </div>
               ))}
             </div>

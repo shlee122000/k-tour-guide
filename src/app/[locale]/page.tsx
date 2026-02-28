@@ -19,16 +19,16 @@ const categories = [
 const popularPlaces = [
   { id: 1, searchName: "경복궁",
     name: { ko: "경복궁", en: "Gyeongbokgung Palace", ja: "景福宮", zh: "景福宫", es: "Palacio Gyeongbokgung", fr: "Palais Gyeongbokgung", th: "พระราชวังคยองบกกุง", vi: "Cung điện Gyeongbokgung", id: "Istana Gyeongbokgung", de: "Gyeongbokgung-Palast" },
-    image: "🏯", rating: 4.8, city: "Seoul" },
+    image: "🏯", rating: 4.8, city: "Seoul", lat: 37.5796, lng: 126.9770 },
   { id: 2, searchName: "해운대해수욕장",
     name: { ko: "해운대 해수욕장", en: "Haeundae Beach", ja: "海雲台ビーチ", zh: "海云台海水浴场", es: "Playa Haeundae", fr: "Plage Haeundae", th: "หาดแฮอุนแด", vi: "Bãi biển Haeundae", id: "Pantai Haeundae", de: "Haeundae-Strand" },
-    image: "🏖️", rating: 4.6, city: "Busan" },
+    image: "🏖️", rating: 4.6, city: "Busan", lat: 35.1587, lng: 129.1604 },
   { id: 3, searchName: "성산일출봉",
     name: { ko: "제주 성산일출봉", en: "Seongsan Sunrise Peak", ja: "城山日出峰", zh: "城山日出峰", es: "Pico Seongsan", fr: "Pic Seongsan", th: "ยอดเขาซองซาน", vi: "Đỉnh Seongsan", id: "Puncak Seongsan", de: "Seongsan-Gipfel" },
-    image: "🌋", rating: 4.7, city: "Jeju" },
-  { id: 4, searchName: "남산타워",
+    image: "🌋", rating: 4.7, city: "Jeju", lat: 33.4590, lng: 126.9425 },
+  { id: 4, searchName: "N서울타워",
     name: { ko: "남산타워", en: "N Seoul Tower", ja: "Nソウルタワー", zh: "南山塔", es: "Torre N Seoul", fr: "Tour N Seoul", th: "หอคอยเอ็นโซล", vi: "Tháp N Seoul", id: "Menara N Seoul", de: "N Seoul Tower" },
-    image: "🗼", rating: 4.5, city: "Seoul" },
+    image: "🗼", rating: 4.5, city: "Seoul", lat: 37.5512, lng: 126.9882 },
 ];
 
 interface KpopSpot {
@@ -119,8 +119,12 @@ export default function HomePage() {
   const handleSearch = () => {
     if (searchQuery.trim()) { router.push(`/${locale}/map?search=${encodeURIComponent(searchQuery.trim())}&radius=${radius}&gps=true`); }
   };
-  const handlePlaceClick = (place: { searchName: string }) => {
-    router.push(`/${locale}/map?search=${encodeURIComponent(place.searchName)}`);
+  const handlePlaceClick = (place: { searchName: string; lat?: number; lng?: number }) => {
+    if (place.lat && place.lng) {
+      window.open(`https://map.kakao.com/link/map/${encodeURIComponent(place.searchName)},${place.lat},${place.lng}`, "_blank");
+    } else {
+      router.push(`/${locale}/map?search=${encodeURIComponent(place.searchName)}`);
+    }
   };
   const getName = (nameObj: Record<string, string>) => nameObj[locale] || nameObj.en || "";
   const toggleZone = (zoneId: string) => { setExpandedZone(prev => prev === zoneId ? null : zoneId); };

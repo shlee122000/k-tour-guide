@@ -16,9 +16,6 @@ workflows:
       - name: Build web assets
         script: |
           npm run build
-      - name: Add iOS platform
-        script: |
-          npx cap add ios
       - name: Capacitor sync
         script: |
           npx cap sync ios

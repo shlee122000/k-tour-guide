@@ -34,6 +34,6 @@ workflows:
       - build/ios/ipa/*.ipa
     publishing:
       app_store_connect:
-        api_key: ZGZM5G64C2
-        issuer_id: fb1c5f0d-c2e1-49b1-9658-cb2641aba9d9
+        auth: integration
         submit_to_testflight: true
+        submit_to_app_store: false

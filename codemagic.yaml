@@ -29,6 +29,10 @@ workflows:
       - name: Install CocoaPods
         script: |
           cd ios/App && pod install
+      - name: Set build number
+        script: |
+          cd ios/App
+          agvtool new-version -all $BUILD_NUMBER
       - name: Set up code signing
         script: |
           xcode-project use-profiles
@@ -36,8 +40,7 @@ workflows:
         script: |
           xcode-project build-ipa \
             --workspace "$XCODE_WORKSPACE" \
-            --scheme "$XCODE_SCHEME" \
-            --build-number $BUILD_NUMBER
+            --scheme "$XCODE_SCHEME"
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log

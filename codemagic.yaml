@@ -9,12 +9,16 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.ktourguide.app
+      vars:
+        BUNDLE_ID: "com.ktourguide.app"
+        XCODE_WORKSPACE: "ios/App/App.xcworkspace"
+        XCODE_SCHEME: "App"
+        BUILD_NUMBER: "2"
       node: latest
     scripts:
       - name: Install dependencies
         script: |
           npm install
-          npm install @capacitor/ios
       - name: Build web assets
         script: |
           npm run build
@@ -30,10 +34,12 @@ workflows:
       - name: Build iOS
         script: |
           xcode-project build-ipa \
-            --workspace "ios/App/App.xcworkspace" \
-            --scheme "App"
+            --workspace "$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME" \
+            --build-number $BUILD_NUMBER
     artifacts:
       - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
     publishing:
       app_store_connect:
         auth: integration

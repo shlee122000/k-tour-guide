@@ -13,7 +13,7 @@ workflows:
         BUNDLE_ID: "com.ktourguide.app"
         XCODE_WORKSPACE: "ios/App/App.xcworkspace"
         XCODE_SCHEME: "App"
-        BUILD_NUMBER: "5"
+        BUILD_NUMBER: "6"
       node: latest
     scripts:
       - name: Install dependencies

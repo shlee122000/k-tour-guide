@@ -32,7 +32,7 @@ export default async function LocaleLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#0066CC" />
       </head>
-      <body className="antialiased bg-gray-50">
+      <body className="antialiased bg-gray-50 pt-safe">
         <NextIntlClientProvider messages={messages}>
           <div className="max-w-md mx-auto min-h-screen bg-white shadow-lg relative">
             {children}

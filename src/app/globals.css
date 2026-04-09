@@ -39,10 +39,20 @@ input[type="range"]::-moz-range-thumb {
 }
 
 /* Safe area padding for mobile */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
   }
+}
+
+body {
+  padding-top: env(safe-area-inset-top);
 }
 
 /* Smooth transitions */

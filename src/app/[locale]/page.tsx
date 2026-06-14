@@ -5,7 +5,8 @@ import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
 import LanguageSelector from "@/components/LanguageSelector";
 import BottomNav from "@/components/BottomNav";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 
 const categories = [
   { key: "attractions", icon: "🏛️", color: "bg-blue-100 text-blue-600", mapCategory: "attractions" },
@@ -101,12 +102,53 @@ const kbeautyItems = [
   { icon: "📋", bgColor: "#fecdd3", textColor: "#be123c", name: { ko: "시술 후기 참고", en: "Reviews" }, url: "https://www.babitalk.com" },
 ];
 
+const PROMO_TEXTS: Record<string, Record<string, string>> = {
+  title: {
+    en:"Try our related apps!", ja:"関連アプリも使ってみてください！",
+    zh:"试试我们的相关应用！", es:"¡Prueba nuestras apps relacionadas!",
+    fr:"Essayez nos applications connexes!", th:"ลองแอปที่เกี่ยวข้อง!",
+    vi:"Thử các ứng dụng liên quan!", id:"Coba aplikasi terkait kami!",
+    de:"Probieren Sie unsere verwandten Apps!", ko:"관련 앱도 사용해보세요!"
+  },
+  studyDesc: {
+    en:"Learn Korean with AI!", ja:"AIで韓国語を楽しく学習！",
+    zh:"用AI有趣地学习韩语！", es:"¡Aprende coreano con IA!",
+    fr:"Apprenez le coréen avec l'IA!", th:"เรียนภาษาเกาหลีด้วย AI!",
+    vi:"Học tiếng Hàn với AI!", id:"Belajar bahasa Korea dengan AI!",
+    de:"Koreanisch mit KI lernen!", ko:"AI로 한국어를 즐겁게 학습!"
+  },
+  kpopDesc: {
+    en:"Learn Korean with K-POP!", ja:"K-POPで韓国語を学ぼう！",
+    zh:"用K-POP学习韩语！", es:"¡Aprende coreano con K-POP!",
+    fr:"Apprenez le coréen avec K-POP!", th:"เรียนภาษาเกาหลีด้วย K-POP!",
+    vi:"Học tiếng Hàn với K-POP!", id:"Belajar bahasa Korea dengan K-POP!",
+    de:"Koreanisch mit K-POP lernen!", ko:"K-POP으로 한국어 학습!"
+  },
+  btn: {
+    en:"Get Started 🗺️", ja:"はじめる 🗺️",
+    zh:"开始使用 🗺️", es:"¡Empezar 🗺️",
+    fr:"Commencer 🗺️", th:"เริ่มต้น 🗺️",
+    vi:"Bắt đầu 🗺️", id:"Mulai 🗺️",
+    de:"Loslegen 🗺️", ko:"시작하기 🗺️"
+  },
+};
+
 export default function HomePage() {
   const t = useTranslations();
   const tCat = useTranslations("categories");
   const tHome = useTranslations("home");
   const tApp = useTranslations("app");
   const [searchQuery, setSearchQuery] = useState("");
+  const [showPromo, setShowPromo] = useState(false);
+
+  useEffect(() => {
+  const pending = localStorage.getItem("cross_promo_pending");
+  if (pending === "1") {
+    localStorage.removeItem("cross_promo_pending");
+    setTimeout(() => setShowPromo(true), 500);
+  }
+}, []);
+
   const [radius, setRadius] = useState(50);
   const [expandedZone, setExpandedZone] = useState<string | null>(null);
   const locale = useLocale();
@@ -131,6 +173,72 @@ export default function HomePage() {
 
   return (
     <div className="pb-20">
+      {/* 크로스 프로모션 팝업 */}
+      {showPromo && (
+        <div style={{position:"fixed",inset:0,zIndex:9999,
+          background:"rgba(0,0,0,.75)",backdropFilter:"blur(8px)",
+          display:"flex",alignItems:"center",justifyContent:"center",padding:"20px"}}>
+          <div style={{background:"linear-gradient(135deg,#1A1A2E,#2D1B69)",
+            borderRadius:24,padding:"24px 20px",maxWidth:400,width:"100%",
+            border:"1.5px solid rgba(108,99,255,.5)",
+            boxShadow:"0 20px 60px rgba(0,0,0,.5)",position:"relative"}}>
+
+            <button onClick={()=>{
+              setShowPromo(false);
+              localStorage.setItem("cross_promo_shown", Date.now().toString());
+            }} style={{position:"absolute",top:16,right:16,background:"none",
+              border:"none",color:"rgba(255,255,255,.5)",fontSize:20,cursor:"pointer"}}>✕</button>
+
+            <div style={{textAlign:"center",marginBottom:20}}>
+              <div style={{fontSize:32,marginBottom:8}}>🧭</div>
+              <div style={{fontSize:17,fontWeight:900,color:"#A29BFE",marginBottom:6}}>
+                {PROMO_TEXTS.title[locale] || PROMO_TEXTS.title.en}
+              </div>
+            </div>
+
+            {/* Korean Study */}
+            <div style={{borderRadius:16,padding:"14px 16px",marginBottom:10,
+              background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.12)"}}>
+              <div style={{display:"flex",alignItems:"center",gap:12}}>
+                <div style={{width:44,height:44,borderRadius:12,flexShrink:0,
+                  background:"linear-gradient(135deg,#6C63FF,#4ECDC4)",
+                  display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>📚</div>
+                <div>
+                  <div style={{fontSize:14,fontWeight:800,color:"#fff",marginBottom:2}}>Korean Study Level-Up</div>
+                  <div style={{fontSize:12,color:"rgba(255,255,255,.5)"}}>
+                    {PROMO_TEXTS.studyDesc[locale] || PROMO_TEXTS.studyDesc.en}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* K-POP Korean */}
+            <div style={{borderRadius:16,padding:"14px 16px",marginBottom:20,
+              background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.12)"}}>
+              <div style={{display:"flex",alignItems:"center",gap:12}}>
+                <div style={{width:44,height:44,borderRadius:12,flexShrink:0,
+                  background:"linear-gradient(135deg,#E84393,#FD79A8)",
+                  display:"flex",alignItems:"center",justifyContent:"center",fontSize:22}}>🎵</div>
+                <div>
+                  <div style={{fontSize:14,fontWeight:800,color:"#fff",marginBottom:2}}>K-POP Korean</div>
+                  <div style={{fontSize:12,color:"rgba(255,255,255,.5)"}}>
+                    {PROMO_TEXTS.kpopDesc[locale] || PROMO_TEXTS.kpopDesc.en}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button onClick={()=>{
+              setShowPromo(false);
+              localStorage.setItem("cross_promo_shown", Date.now().toString());
+            }} style={{width:"100%",padding:"14px",borderRadius:14,border:"none",
+              cursor:"pointer",background:"linear-gradient(135deg,#6C63FF,#4ECDC4)",
+              color:"#fff",fontWeight:900,fontSize:15}}>
+              {PROMO_TEXTS.btn[locale] || PROMO_TEXTS.btn.en}
+            </button>
+          </div>
+        </div>
+      )}
       {/* Header */}
       <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white">
         <div className="px-4 pt-12 pb-6">

@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const API_KEY = process.env.GOOGLE_TTS_API_KEY || "";
+const GOOGLE_API_KEY = process.env.GOOGLE_TTS_API_KEY || "";
+const TYPECAST_API_KEY = process.env.TYPECAST_API_KEY || "";
+const TYPECAST_VOICE_ID = "tc_68f9c6a72f0f04a417bb136f";
 
-// 언어별 최적 음성 매핑
 const voiceMap: Record<string, { name: string; languageCode: string }> = {
-  ko: { name: "ko-KR-Wavenet-A", languageCode: "ko-KR" },
   en: { name: "en-US-Wavenet-F", languageCode: "en-US" },
   ja: { name: "ja-JP-Wavenet-B", languageCode: "ja-JP" },
   "zh-CN": { name: "cmn-CN-Wavenet-A", languageCode: "cmn-CN" },
@@ -16,48 +16,87 @@ const voiceMap: Record<string, { name: string; languageCode: string }> = {
   de: { name: "de-DE-Wavenet-C", languageCode: "de-DE" },
 };
 
-export async function POST(request: NextRequest) {
+// Typecast TTS (한국어 전용)
+async function typecastTTS(text: string): Promise<string | null> {
   try {
-    const { text, lang } = await request.json();
+    const res = await fetch("https://api.typecast.ai/v1/text-to-speech", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": TYPECAST_API_KEY,
+      },
+      body: JSON.stringify({
+        text: text.substring(0, 500),
+        voice_id: TYPECAST_VOICE_ID,
+        model: "ssfm-v30",
+      }),
+    });
 
-    if (!text || !lang) {
-      return NextResponse.json({ error: "Missing text or lang" }, { status: 400 });
+    console.log("Typecast status:", res.status);
+    if (!res.ok) {
+      const errText = await res.text();
+      console.log("Typecast error:", errText);
+      return null;
     }
 
-    if (!API_KEY) {
-      return NextResponse.json({ error: "TTS API key not configured" }, { status: 500 });
-    }
+    const arrayBuffer = await res.arrayBuffer();
+    const base64 = Buffer.from(arrayBuffer).toString("base64");
+    return base64;
+  } catch (e) {
+    console.log("Typecast exception:", e);
+    return null;
+  }
+}
 
+// Google Cloud TTS
+async function googleTTS(text: string, lang: string): Promise<string | null> {
+  try {
     const voice = voiceMap[lang] || voiceMap["en"];
-
-    const response = await fetch(
-      `https://texttospeech.googleapis.com/v1/text:synthesize?key=${API_KEY}`,
+    const res = await fetch(
+      `https://texttospeech.googleapis.com/v1/text:synthesize?key=${GOOGLE_API_KEY}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           input: { text: text.substring(0, 500) },
-          voice: {
-            languageCode: voice.languageCode,
-            name: voice.name,
-          },
-          audioConfig: {
-            audioEncoding: "MP3",
-            speakingRate: 0.9,
-            pitch: 0,
-          },
+          voice: { languageCode: voice.languageCode, name: voice.name },
+          audioConfig: { audioEncoding: "MP3", speakingRate: 0.9, pitch: 0 },
         }),
       }
     );
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data.audioContent || null;
+  } catch {
+    return null;
+  }
+}
 
-    if (!response.ok) {
-      const error = await response.text();
-      console.error("Google TTS error:", error);
+export async function POST(request: NextRequest) {
+  try {
+    const { text, lang } = await request.json();
+    if (!text || !lang) {
+      return NextResponse.json({ error: "Missing text or lang" }, { status: 400 });
+    }
+
+    let audioContent: string | null = null;
+
+    // 한국어는 Typecast 사용
+    console.log("lang:", lang, "TYPECAST_API_KEY exists:", !!TYPECAST_API_KEY);
+    if (lang === "ko" && TYPECAST_API_KEY) {
+      audioContent = await typecastTTS(text);
+    }
+
+    // 다른 언어 또는 Typecast 실패 시 Google TTS
+    if (!audioContent && GOOGLE_API_KEY) {
+      audioContent = await googleTTS(text, lang);
+    }
+
+    if (!audioContent) {
       return NextResponse.json({ error: "TTS failed" }, { status: 500 });
     }
 
-    const data = await response.json();
-    return NextResponse.json({ audioContent: data.audioContent });
+    return NextResponse.json({ audioContent });
   } catch (error) {
     console.error("TTS API error:", error);
     return NextResponse.json({ error: "TTS failed" }, { status: 500 });

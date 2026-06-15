@@ -27,6 +27,15 @@ const categoryFilters = [
   { key: "accommodation", icon: "🏨", contentTypeId: 32 },
 ];
 
+const categoryColors: Record<string, string> = {
+  "12": "#3B82F6",
+  "39": "#F97316",
+  "38": "#EC4899",
+  "14": "#8B5CF6",
+  "32": "#10B981",
+  "0":  "#6B7280",
+};
+
 interface KakaoMapProps {
   initialCategory?: string;
   initialSearch?: string;
@@ -55,6 +64,8 @@ export default function KakaoMap({
   const t = useTranslations();
   const tCat = useTranslations("categories");
   const router = useRouter();
+  const [panelOpen, setPanelOpen] = useState(false);
+
 
   // 즐겨찾기
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
@@ -273,57 +284,55 @@ export default function KakaoMap({
       return;
     }
 
-    const newOverlays = places.map((place) => {
-      const lat = Number(place.mapy);
-      const lng = Number(place.mapx);
-      const position = new window.kakao.maps.LatLng(lat, lng);
+    const newOverlays = places.map((place, index) => {
+  const lat = Number(place.mapy);
+  const lng = Number(place.mapx);
+  const position = new window.kakao.maps.LatLng(lat, lng);
+  const color = categoryColors[place.contenttypeid] || "#6B7280";
+  const num = index + 1;
 
-      const icon = getCategoryIcon(place.contenttypeid);
-      const name = place.title.length > 10 ? place.title.substring(0, 10) + "..." : place.title;
+  const content = document.createElement("div");
+  content.innerHTML = `
+    <div style="
+      width: 28px;
+      height: 28px;
+      background: ${color};
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      border: 2px solid white;
+    ">${num}</div>
+    <div style="
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid ${color};
+      margin: 0 auto;
+    "></div>
+  `;
 
-      const content = document.createElement("div");
-      content.innerHTML = `
-        <div style="
-          background: white;
-          border-radius: 20px;
-          padding: 5px 10px;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-          font-size: 12px;
-          font-weight: 600;
-          cursor: pointer;
-          border: 2px solid #3B82F6;
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          white-space: nowrap;
-        ">
-          <span>${icon}</span>
-          <span style="color: #1F2937;">${name}</span>
-        </div>
-        <div style="
-          width: 0;
-          height: 0;
-          border-left: 8px solid transparent;
-          border-right: 8px solid transparent;
-          border-top: 8px solid #3B82F6;
-          margin: 0 auto;
-        "></div>
-      `;
+  content.addEventListener("click", () => {
+    setSelectedPlace(place);
+    map.panTo(position);
+    setPanelOpen(true);
+  });
 
-      content.addEventListener("click", () => {
-        setSelectedPlace(place);
-        map.panTo(position);
-      });
+  const overlay = new window.kakao.maps.CustomOverlay({
+    content,
+    position,
+    yAnchor: 1.3,
+  });
 
-      const overlay = new window.kakao.maps.CustomOverlay({
-        content,
-        position,
-        yAnchor: 1.3,
-      });
-
-      overlay.setMap(map);
-      return overlay;
-    });
+  overlay.setMap(map);
+  return overlay;
+});
 
     setOverlays(newOverlays);
 
@@ -446,7 +455,17 @@ export default function KakaoMap({
       {!loading && places.length > 0 && (
         <div className="absolute top-28 left-1/2 -translate-x-1/2 z-10">
           <div className="bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-sm text-xs text-gray-600">
-            📍 {places.length} {locale === "ko" ? "개 장소" : "places"}
+            📍 {places.length} {
+              locale === "ko" ? "개 장소" :
+              locale === "ja" ? "か所" :
+              locale === "zh" ? "个地点" :
+              locale === "es" ? " lugares" :
+              locale === "fr" ? " lieux" :
+              locale === "de" ? " Orte" :
+              locale === "th" ? " สถานที่" :
+              locale === "vi" ? " địa điểm" :
+              " places"
+            }
           </div>
         </div>
       )}
@@ -649,6 +668,89 @@ export default function KakaoMap({
           </div>
         </>
       )}
+      {/* 하단 슬라이드 패널 */}
+      <div style={{
+        position: "absolute", bottom: 60, left: 0, right: 0, zIndex: 20,
+        transition: "transform 0.3s ease",
+        transform: panelOpen ? "translateY(0)" : "translateY(calc(100% - 44px))",
+      }}>
+        {/* 탭 핸들 */}
+        <div
+          onClick={() => setPanelOpen(!panelOpen)}
+          style={{
+            background: "white", borderRadius: "16px 16px 0 0",
+            padding: "10px", textAlign: "center", cursor: "pointer",
+            boxShadow: "0 -2px 10px rgba(0,0,0,0.1)",
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+          }}
+        >
+          <div style={{width: 36, height: 4, background: "#D1D5DB", borderRadius: 2}} />
+          <span style={{fontSize: 13, fontWeight: 700, color: "#374151"}}>
+            📍 {places.length} {
+              locale === "ko" ? "개 장소" :
+              locale === "ja" ? "か所" :
+              locale === "zh" ? "个地点" :
+              locale === "es" ? " lugares" :
+              locale === "fr" ? " lieux" :
+              locale === "de" ? " Orte" :
+              locale === "th" ? " สถานที่" :
+              locale === "vi" ? " địa điểm" :
+              " places"
+            }
+          </span>
+          <span style={{fontSize: 12, color: "#9CA3AF"}}>{panelOpen ? "▼" : "▲"}</span>
+        </div>
+
+        {/* 목록 */}
+        <div style={{
+          background: "white", maxHeight: "40vh", overflowY: "auto",
+          boxShadow: "0 -2px 10px rgba(0,0,0,0.1)",
+        }}>
+          {places.map((place, index) => {
+            const color = categoryColors[place.contenttypeid] || "#6B7280";
+            const isSelected = selectedPlace?.contentid === place.contentid;
+            return (
+              <div
+                key={place.contentid || index}
+                onClick={() => {
+                  setSelectedPlace(place);
+                  map.panTo(new window.kakao.maps.LatLng(Number(place.mapy), Number(place.mapx)));
+                  setPanelOpen(false);
+                }}
+                style={{
+                  display: "flex", alignItems: "center", gap: 12,
+                  padding: "10px 16px", cursor: "pointer",
+                  background: isSelected ? "#EFF6FF" : "white",
+                  borderBottom: "1px solid #F3F4F6",
+                }}
+              >
+                {/* 번호 원 */}
+                <div style={{
+                  width: 28, height: 28, borderRadius: "50%",
+                  background: color, color: "white",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 12, fontWeight: 900, flexShrink: 0,
+                  border: "2px solid white", boxShadow: "0 1px 4px rgba(0,0,0,0.2)",
+                }}>
+                  {index + 1}
+                </div>
+                {/* 장소 정보 */}
+                <div style={{flex: 1, minWidth: 0}}>
+                  <div style={{fontSize: 13, fontWeight: 700, color: "#1F2937",
+                    overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>
+                    {place.title}
+                  </div>
+                  <div style={{fontSize: 11, color: "#9CA3AF", marginTop: 2,
+                    overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap"}}>
+                    {place.addr1}
+                  </div>
+                </div>
+                <span style={{fontSize: 11, color: "#9CA3AF", flexShrink: 0}}>›</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

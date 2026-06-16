@@ -197,8 +197,11 @@ export default function HomePage() {
             </div>
 
             {/* Korean Study */}
-            <div style={{borderRadius:16,padding:"14px 16px",marginBottom:10,
-              background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.12)"}}>
+            <div 
+              onClick={() => window.open("https://play.google.com/store/apps/details?id=com.leewillwin.koreanstudy", "_blank")}
+              style={{borderRadius:16,padding:"14px 16px",marginBottom:10,
+                background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.12)",
+                cursor:"pointer"}}>
               <div style={{display:"flex",alignItems:"center",gap:12}}>
                 <div style={{width:44,height:44,borderRadius:12,flexShrink:0,
                   background:"linear-gradient(135deg,#6C63FF,#4ECDC4)",

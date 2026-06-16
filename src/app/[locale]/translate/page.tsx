@@ -42,6 +42,7 @@ import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import BottomNav from "@/components/BottomNav";
 import { useState, useRef, useEffect, useCallback } from "react";
+import { isPro, getDailyCount, incrementDailyCount, FREE_TRANSLATE_LIMIT, FREE_TTS_LIMIT } from "@/lib/paddle";
 
 // 언어 코드 매핑 (앱 locale → 번역 API 코드)
 const langMap: Record<string, { code: string; name: string; flag: string; speechCode: string }> = {
@@ -143,6 +144,20 @@ const phrases: Record<string, { ko: string; pronunciation: string }[]> = {
   ],
 };
 
+const LIMIT_MSGS: Record<string, {translate: string, tts: string}> = {
+  ko: { translate: `무료 번역 횟수(${FREE_TRANSLATE_LIMIT}회/일)를 초과했습니다. Pro로 업그레이드하세요!`, tts: `무료 TTS 횟수(${FREE_TTS_LIMIT}회/일)를 초과했습니다. Pro로 업그레이드하세요!` },
+  en: { translate: `Free translation limit (${FREE_TRANSLATE_LIMIT} times/day) reached. Upgrade to Pro!`, tts: `Free TTS limit (${FREE_TTS_LIMIT} times/day) reached. Upgrade to Pro!` },
+  ja: { translate: `無料翻訳回数(${FREE_TRANSLATE_LIMIT}回/日)を超えました。Proにアップグレードしてください！`, tts: `無料TTS回数(${FREE_TTS_LIMIT}回/日)を超えました。Proにアップグレードしてください！` },
+  zh: { translate: `免费翻译次数(${FREE_TRANSLATE_LIMIT}次/天)已达上限。请升级到Pro！`, tts: `免费TTS次数(${FREE_TTS_LIMIT}次/天)已达上限。请升级到Pro！` },
+  es: { translate: `Límite de traducción gratuita (${FREE_TRANSLATE_LIMIT} veces/día) alcanzado. ¡Actualiza a Pro!`, tts: `Límite de TTS gratuito (${FREE_TTS_LIMIT} veces/día) alcanzado. ¡Actualiza a Pro!` },
+  fr: { translate: `Limite de traduction gratuite (${FREE_TRANSLATE_LIMIT} fois/jour) atteinte. Passez à Pro!`, tts: `Limite TTS gratuite (${FREE_TTS_LIMIT} fois/jour) atteinte. Passez à Pro!` },
+  de: { translate: `Kostenloses Übersetzungslimit (${FREE_TRANSLATE_LIMIT} Mal/Tag) erreicht. Upgrade auf Pro!`, tts: `Kostenloses TTS-Limit (${FREE_TTS_LIMIT} Mal/Tag) erreicht. Upgrade auf Pro!` },
+  th: { translate: `ถึงขีดจำกัดการแปลฟรี (${FREE_TRANSLATE_LIMIT} ครั้ง/วัน) แล้ว อัปเกรดเป็น Pro!`, tts: `ถึงขีดจำกัด TTS ฟรี (${FREE_TTS_LIMIT} ครั้ง/วัน) แล้ว อัปเกรดเป็น Pro!` },
+  vi: { translate: `Đã đạt giới hạn dịch miễn phí (${FREE_TRANSLATE_LIMIT} lần/ngày). Nâng cấp lên Pro!`, tts: `Đã đạt giới hạn TTS miễn phí (${FREE_TTS_LIMIT} lần/ngày). Nâng cấp lên Pro!` },
+  id: { translate: `Batas terjemahan gratis (${FREE_TRANSLATE_LIMIT} kali/hari) tercapai. Upgrade ke Pro!`, tts: `Batas TTS gratis (${FREE_TTS_LIMIT} kali/hari) tercapai. Upgrade ke Pro!` },
+};
+
+
 export default function TranslatePage() {
   const t = useTranslations("translate");
   const locale = useLocale();
@@ -187,6 +202,17 @@ export default function TranslatePage() {
   // 텍스트 번역 실행
   const handleTranslate = async () => {
     if (!inputText.trim()) return;
+    
+    // 무료 제한 체크
+    if (!isPro()) {
+      const count = getDailyCount("translate");
+      if (count >= FREE_TRANSLATE_LIMIT) {
+        alert(LIMIT_MSGS[locale]?.translate || LIMIT_MSGS.en.translate);
+        return;
+      }
+      incrementDailyCount("translate");
+    }
+    
     setIsTranslating(true);
     const result = await translateText(inputText, fromLang, toLang);
     setTranslatedText(result);
@@ -251,6 +277,17 @@ export default function TranslatePage() {
     }
 
     setIsSpeaking(true);
+
+    // 무료 TTS 제한 체크
+    if (!isPro()) {
+      const count = getDailyCount("tts");
+      if (count >= FREE_TTS_LIMIT) {
+        alert(LIMIT_MSGS[locale]?.tts || LIMIT_MSGS.en.tts);
+        setIsSpeaking(false);
+        return;
+      }
+      incrementDailyCount("tts");
+    }
     try {
       const langCode = langMap[lang]?.code || lang;
       const res = await fetch("/api/tts", {

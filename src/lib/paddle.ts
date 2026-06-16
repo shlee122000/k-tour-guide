@@ -53,3 +53,26 @@ export function getTrialDaysLeft(): number {
   const daysPassed = (Date.now() - parseInt(installDate)) / (1000 * 60 * 60 * 24);
   return Math.max(0, Math.ceil(3 - daysPassed));
 }
+
+// 번역/TTS 일일 횟수 관리
+export function getDailyCount(key: string): number {
+  if (typeof window === "undefined") return 0;
+  const today = new Date().toDateString();
+  const stored = localStorage.getItem(`ktour_daily_${key}`);
+  if (!stored) return 0;
+  const { date, count } = JSON.parse(stored);
+  if (date !== today) return 0;
+  return count;
+}
+
+export function incrementDailyCount(key: string) {
+  if (typeof window === "undefined") return;
+  const today = new Date().toDateString();
+  const count = getDailyCount(key);
+  localStorage.setItem(`ktour_daily_${key}`, JSON.stringify({ date: today, count: count + 1 }));
+}
+
+export const FREE_TRANSLATE_LIMIT = 10;
+export const FREE_TTS_LIMIT = 10;
+export const FREE_FAVORITES_LIMIT = 5;
+export const FREE_RADIUS_LIMIT = 5000; // 5km

@@ -61,7 +61,11 @@ export default function KakaoMap({
   const [loading, setLoading] = useState(false);
   const [mapCenter, setMapCenter] = useState({ lat: 37.5665, lng: 126.9780 });
   const [searchQuery, setSearchQuery] = useState(initialSearch || "");
-  const [radius] = useState(initialRadius || 20000);
+  const [radius] = useState(() => {
+    if (initialRadius) return initialRadius;
+    const proUser = typeof window !== "undefined" && isPro();
+    return proUser ? 20000 : 5000;
+  });
   const locale = useLocale();
   const t = useTranslations();
   const tCat = useTranslations("categories");

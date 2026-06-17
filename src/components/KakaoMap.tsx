@@ -11,6 +11,8 @@ import {
   getCategoryName,
   type TourItem,
 } from "@/lib/tourApi";
+import { isPro, FREE_FAVORITES_LIMIT } from "@/lib/paddle";
+
 
 declare global {
   interface Window {
@@ -80,24 +82,42 @@ export default function KakaoMap({
   }, []);
 
   const toggleFavorite = (place: TourItem) => {
-    try {
-      const saved = localStorage.getItem("k-tour-favorites");
-      let favs = saved ? JSON.parse(saved) : [];
-      const id = place.contentid || place.title;
-      if (favoriteIds.has(id)) {
-        favs = favs.filter((f: any) => f.id !== id);
-        setFavoriteIds(prev => { const n = new Set(prev); n.delete(id); return n; });
-      } else {
-        favs.push({
-          id, name: place.title, address: place.addr1 || "",
-          image: place.firstimage || "", contentTypeId: parseInt(place.contenttypeid) || 0,
-          addedAt: new Date().toISOString(),
-        });
-        setFavoriteIds(prev => new Set(prev).add(id));
+  try {
+    const saved = localStorage.getItem("k-tour-favorites");
+    let favs = saved ? JSON.parse(saved) : [];
+    const id = place.contentid || place.title;
+    if (favoriteIds.has(id)) {
+      favs = favs.filter((f: any) => f.id !== id);
+      setFavoriteIds(prev => { const n = new Set(prev); n.delete(id); return n; });
+    } else {
+      // 무료 제한 체크
+      if (!isPro() && favs.length >= FREE_FAVORITES_LIMIT) {
+        const msgs: Record<string, string> = {
+          ko: `즐겨찾기는 무료 ${FREE_FAVORITES_LIMIT}개까지 가능합니다. Pro로 업그레이드하세요!`,
+          en: `Free plan allows up to ${FREE_FAVORITES_LIMIT} favorites. Upgrade to Pro!`,
+          ja: `無料プランはお気に入り${FREE_FAVORITES_LIMIT}件まで。Proにアップグレードしてください！`,
+          zh: `免费版最多${FREE_FAVORITES_LIMIT}个收藏。请升级到Pro！`,
+          es: `El plan gratuito permite hasta ${FREE_FAVORITES_LIMIT} favoritos. ¡Actualiza a Pro!`,
+          fr: `Le plan gratuit permet jusqu'à ${FREE_FAVORITES_LIMIT} favoris. Passez à Pro!`,
+          de: `Kostenloser Plan erlaubt bis zu ${FREE_FAVORITES_LIMIT} Favoriten. Upgrade auf Pro!`,
+          th: `แผนฟรีอนุญาตได้สูงสุด ${FREE_FAVORITES_LIMIT} รายการโปรด อัปเกรดเป็น Pro!`,
+          vi: `Gói miễn phí cho phép tối đa ${FREE_FAVORITES_LIMIT} yêu thích. Nâng cấp lên Pro!`,
+          id: `Paket gratis memungkinkan hingga ${FREE_FAVORITES_LIMIT} favorit. Upgrade ke Pro!`,
+        };
+        alert(msgs[locale] || msgs.en);
+        return;
       }
-      localStorage.setItem("k-tour-favorites", JSON.stringify(favs));
-    } catch { /* empty */ }
-  };
+      favs.push({
+        id, name: place.title, address: place.addr1 || "",
+        image: place.firstimage || "", contentTypeId: parseInt(place.contenttypeid) || 0,
+        addedAt: new Date().toISOString(),
+      });
+      setFavoriteIds(prev => new Set(prev).add(id));
+    }
+    localStorage.setItem("k-tour-favorites", JSON.stringify(favs));
+  } catch { /* empty */ }
+};
+
 
   // 길찾기 모달
   const [showDirections, setShowDirections] = useState(false);
@@ -493,14 +513,59 @@ export default function KakaoMap({
                 setMapCenter({ lat, lng });
                 if (map) {
                   map.setCenter(new window.kakao.maps.LatLng(lat, lng));
+
+                  const myLocLabel: Record<string, string> = {
+                    ko:"내 위치", en:"My Location", ja:"現在地",
+                    zh:"我的位置", es:"Mi ubicación", fr:"Ma position",
+                    de:"Mein Standort", th:"ตำแหน่งของฉัน",
+                    vi:"Vị trí của tôi", id:"Lokasi saya"
+                  };
+
+                  const content = document.createElement("div");
+                  content.innerHTML = `
+                    <div style="
+                      background: #ef4444;
+                      color: white;
+                      padding: 4px 10px;
+                      border-radius: 20px;
+                      font-size: 11px;
+                      font-weight: bold;
+                      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+                      white-space: nowrap;
+                    ">${myLocLabel[locale] || "My Location"}</div>
+                    <div style="
+                      width: 0; height: 0;
+                      border-left: 6px solid transparent;
+                      border-right: 6px solid transparent;
+                      border-top: 6px solid #ef4444;
+                      margin: 0 auto;
+                    "></div>
+                  `;
+
+                  const overlay = new window.kakao.maps.CustomOverlay({
+                    content,
+                    position: new window.kakao.maps.LatLng(lat, lng),
+                    yAnchor: 1.3,
+                  });
+                  overlay.setMap(map);
                 }
               },
               () => alert(locale === "ko" ? "위치 정보를 가져올 수 없습니다" : "Unable to get location")
             );
           }}
-          className="w-11 h-11 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors border border-gray-200"
+          style={{
+            width:"44px", background:"white", borderRadius:"12px",
+            border:"1px solid #e5e7eb", cursor:"pointer",
+            display:"flex", flexDirection:"column",
+            alignItems:"center", justifyContent:"center",
+            padding:"6px 4px", boxShadow:"0 2px 8px rgba(0,0,0,0.1)",
+            gap:"2px"
+          }}
         >
-          📍
+          <span style={{fontSize:"18px"}}>📍</span>
+          <span style={{fontSize:"9px", fontWeight:"bold", color:"#374151", whiteSpace:"nowrap"}}>
+            {{ko:"내위치",en:"My Loc",ja:"現在地",zh:"我的位置",es:"Ubicación",fr:"Position",de:"Standort",th:"ตำแหน่ง",vi:"Vị trí",id:"Lokasi"}[locale]||"My Loc"}
+          </span>
         </button>
         <button
           onClick={fetchPlaces}
@@ -584,7 +649,10 @@ export default function KakaoMap({
                   display: "flex", alignItems: "center", gap: "4px", whiteSpace: "nowrap",
                 }}
               >
-                {favoriteIds.has(selectedPlace.contentid || selectedPlace.title) ? "❤️ 저장됨" : "🤍 즐겨찾기"}
+              {favoriteIds.has(selectedPlace.contentid || selectedPlace.title) 
+                ? `❤️ ${{ko:"저장됨",en:"Saved",ja:"保存済",zh:"已收藏",es:"Guardado",fr:"Sauvegardé",de:"Gespeichert",th:"บันทึกแล้ว",vi:"Đã lưu",id:"Tersimpan"}[locale]||"Saved"}` 
+                : `🤍 ${{ko:"즐겨찾기",en:"Favorite",ja:"お気に入り",zh:"収藏",es:"Favorito",fr:"Favori",de:"Favorit",th:"รายการโปรด",vi:"Yêu thích",id:"Favorit"}[locale]||"Favorite"}`
+              }              
               </button>
               <button
                 onClick={() => goToDetail(selectedPlace)}
@@ -612,62 +680,72 @@ export default function KakaoMap({
       )}
 
       {/* 길찾기 출발지 선택 모달 */}
-      {showDirections && directionsTarget && (
-        <>
-          <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.5)",zIndex:50}} onClick={()=>setShowDirections(false)} />
-          <div style={{position:"fixed",bottom:0,left:0,right:0,zIndex:51,background:"white",borderRadius:"20px 20px 0 0",padding:"20px",paddingBottom:"32px",maxWidth:"448px",margin:"0 auto"}}>
-            {/* 목적지 정보 */}
-            <div style={{display:"flex",alignItems:"center",gap:"10px",marginBottom:"16px",paddingBottom:"12px",borderBottom:"1px solid #f0f0f0"}}>
-              <div style={{width:"44px",height:"44px",background:"#eff6ff",borderRadius:"10px",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20px"}}>
-                🏁
-              </div>
-              <div>
-                <p style={{fontSize:"11px",color:"#9ca3af"}}>목적지</p>
-                <p style={{fontSize:"14px",fontWeight:"bold",color:"#1f2937"}}>{directionsTarget.title}</p>
-              </div>
-              <button onClick={()=>setShowDirections(false)}
-                style={{marginLeft:"auto",width:"28px",height:"28px",borderRadius:"50%",background:"#f3f4f6",border:"none",cursor:"pointer",fontSize:"14px",color:"#6b7280"}}>✕</button>
-            </div>
+{showDirections && directionsTarget && (
+  <>
+    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.5)",zIndex:50}} onClick={()=>setShowDirections(false)} />
+    <div style={{position:"fixed",bottom:0,left:0,right:0,zIndex:51,background:"white",borderRadius:"20px 20px 0 0",padding:"20px",paddingBottom:"32px",maxWidth:"448px",margin:"0 auto"}}>
+      {/* 목적지 정보 */}
+      <div style={{display:"flex",alignItems:"center",gap:"10px",marginBottom:"16px",paddingBottom:"12px",borderBottom:"1px solid #f0f0f0"}}>
+        <div style={{width:"44px",height:"44px",background:"#eff6ff",borderRadius:"10px",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"20px"}}>
+          🏁
+        </div>
+        <div>
+          <p style={{fontSize:"11px",color:"#9ca3af"}}>
+            {{ko:"목적지",en:"Destination",ja:"目的地",zh:"目的地",es:"Destino",fr:"Destination",de:"Ziel",th:"จุดหมาย",vi:"Điểm đến",id:"Tujuan"}[locale]||"Destination"}
+          </p>
+          <p style={{fontSize:"14px",fontWeight:"bold",color:"#1f2937"}}>{directionsTarget.title}</p>
+        </div>
+        <button onClick={()=>setShowDirections(false)}
+          style={{marginLeft:"auto",width:"28px",height:"28px",borderRadius:"50%",background:"#f3f4f6",border:"none",cursor:"pointer",fontSize:"14px",color:"#6b7280"}}>✕</button>
+      </div>
 
-            <p style={{fontSize:"13px",fontWeight:"bold",color:"#374151",marginBottom:"10px"}}>📍 출발지 선택</p>
+      <p style={{fontSize:"13px",fontWeight:"bold",color:"#374151",marginBottom:"10px"}}>
+        📍 {{ko:"출발지 선택",en:"Select Departure",ja:"出発地を選択",zh:"选择出发地",es:"Seleccionar salida",fr:"Choisir le départ",de:"Abfahrt wählen",th:"เลือกจุดออกเดินทาง",vi:"Chọn điểm khởi hành",id:"Pilih keberangkatan"}[locale]||"Select Departure"}
+      </p>
 
-            {/* 내 위치 버튼 */}
-            <button onClick={()=>startDirections("gps")} disabled={gettingGPS}
-              style={{
-                width:"100%",padding:"14px",borderRadius:"14px",border:"2px solid #3b82f6",
-                background:"#eff6ff",color:"#2563eb",fontSize:"15px",fontWeight:"bold",
-                cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:"8px",
-                marginBottom:"10px",
-              }}>
-              {gettingGPS ? "⏳ 위치 확인 중..." : "📍 내 현재 위치에서 출발"}
-            </button>
+      {/* 내 위치 버튼 */}
+      <button onClick={()=>startDirections("gps")} disabled={gettingGPS}
+        style={{
+          width:"100%",padding:"14px",borderRadius:"14px",border:"2px solid #3b82f6",
+          background:"#eff6ff",color:"#2563eb",fontSize:"15px",fontWeight:"bold",
+          cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:"8px",
+          marginBottom:"10px",
+        }}>
+        {gettingGPS 
+          ? `⏳ ${{ko:"위치 확인 중...",en:"Getting location...",ja:"位置確認中...",zh:"获取位置中...",es:"Obteniendo ubicación...",fr:"Obtention de la position...",de:"Position wird ermittelt...",th:"กำลังรับตำแหน่ง...",vi:"Đang lấy vị trí...",id:"Mendapatkan lokasi..."}[locale]||"Getting location..."}`
+          : `📍 ${{ko:"내 현재 위치에서 출발",en:"Start from my location",ja:"現在地から出発",zh:"从我的位置出发",es:"Salir desde mi ubicación",fr:"Partir de ma position",de:"Von meinem Standort starten",th:"ออกเดินทางจากตำแหน่งของฉัน",vi:"Xuất phát từ vị trí của tôi",id:"Berangkat dari lokasi saya"}[locale]||"Start from my location"}`
+        }
+      </button>
 
-            {/* 구분선 */}
-            <div style={{display:"flex",alignItems:"center",gap:"10px",margin:"6px 0"}}>
-              <div style={{flex:1,height:"1px",background:"#e5e7eb"}} />
-              <span style={{fontSize:"12px",color:"#9ca3af"}}>또는</span>
-              <div style={{flex:1,height:"1px",background:"#e5e7eb"}} />
-            </div>
+      {/* 구분선 */}
+      <div style={{display:"flex",alignItems:"center",gap:"10px",margin:"6px 0"}}>
+        <div style={{flex:1,height:"1px",background:"#e5e7eb"}} />
+        <span style={{fontSize:"12px",color:"#9ca3af"}}>
+          {{ko:"또는",en:"or",ja:"または",zh:"或者",es:"o",fr:"ou",de:"oder",th:"หรือ",vi:"hoặc",id:"atau"}[locale]||"or"}
+        </span>
+        <div style={{flex:1,height:"1px",background:"#e5e7eb"}} />
+      </div>
 
-            {/* 출발지 직접 입력 */}
-            <div style={{display:"flex",gap:"8px",marginTop:"6px"}}>
-              <input type="text" value={departureInput} onChange={e=>setDepartureInput(e.target.value)}
-                onKeyDown={e=>e.key==="Enter"&&departureInput.trim()&&startDirections("input")}
-                placeholder="출발지 입력 (예: 서울역, 강남역)"
-                style={{flex:1,padding:"12px 14px",borderRadius:"12px",border:"2px solid #e5e7eb",fontSize:"14px",outline:"none"}} />
-              <button onClick={()=>startDirections("input")} disabled={!departureInput.trim()}
-                style={{
-                  padding:"12px 16px",borderRadius:"12px",border:"none",cursor:"pointer",
-                  background:departureInput.trim()?"#3b82f6":"#d1d5db",
-                  color:departureInput.trim()?"white":"#9ca3af",
-                  fontSize:"14px",fontWeight:"bold",whiteSpace:"nowrap",
-                }}>
-                길찾기
-              </button>
-            </div>
-          </div>
-        </>
-      )}
+      {/* 출발지 직접 입력 */}
+      <div style={{display:"flex",gap:"8px",marginTop:"6px"}}>
+        <input type="text" value={departureInput} onChange={e=>setDepartureInput(e.target.value)}
+          onKeyDown={e=>e.key==="Enter"&&departureInput.trim()&&startDirections("input")}
+          placeholder={{ko:"출발지 입력 (예: 서울역, 강남역)",en:"Enter departure (e.g. Seoul Station)",ja:"出発地を入力（例：ソウル駅）",zh:"输入出发地（例：首尔站）",es:"Ingresar salida (ej. Estación Seúl)",fr:"Saisir le départ (ex. Gare de Séoul)",de:"Abfahrt eingeben (z.B. Bahnhof Seoul)",th:"ป้อนจุดออกเดินทาง",vi:"Nhập điểm khởi hành",id:"Masukkan keberangkatan"}[locale]||"Enter departure"}
+          style={{flex:1,padding:"12px 14px",borderRadius:"12px",border:"2px solid #e5e7eb",fontSize:"14px",outline:"none"}} />
+        <button onClick={()=>startDirections("input")} disabled={!departureInput.trim()}
+          style={{
+            padding:"12px 16px",borderRadius:"12px",border:"none",cursor:"pointer",
+            background:departureInput.trim()?"#3b82f6":"#d1d5db",
+            color:departureInput.trim()?"white":"#9ca3af",
+            fontSize:"14px",fontWeight:"bold",whiteSpace:"nowrap",
+          }}>
+          {{ko:"길찾기",en:"Go",ja:"経路",zh:"导航",es:"Ir",fr:"Aller",de:"Los",th:"นำทาง",vi:"Đi",id:"Pergi"}[locale]||"Go"}
+        </button>
+      </div>
+    </div>
+  </>
+)}
+
       {/* 하단 슬라이드 패널 */}
       <div style={{
         position: "absolute", bottom: 60, left: 0, right: 0, zIndex: 20,

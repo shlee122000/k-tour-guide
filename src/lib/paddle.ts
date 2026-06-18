@@ -12,6 +12,7 @@ export function initPaddle() {
         clearInterval(check);
         window.Paddle.Initialize({
           token: CLIENT_TOKEN,
+          environment: "production",
           eventCallback: (event: any) => {
             if (event.name === "checkout.completed") {
               localStorage.setItem("ktour_pro", "true");

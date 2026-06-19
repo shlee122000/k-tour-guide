@@ -20,7 +20,6 @@ export default function DetailPage() {
   const params = useParams();
   const searchParams = useSearchParams();
   const t = useTranslations();
-
   const contentId = params.id as string;
   const contentTypeId = Number(searchParams.get("type") || 12);
 
@@ -29,6 +28,11 @@ export default function DetailPage() {
   const [loading, setLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
   const [activeTab, setActiveTab] = useState<"info" | "map">("info");
+
+  // 번역 관련 상태
+  const [translatedOverview, setTranslatedOverview] = useState<string | null>(null);
+  const [translating, setTranslating] = useState(false);
+  const [showOriginal, setShowOriginal] = useState(false);
 
   useEffect(() => {
     const fetchDetail = async () => {
@@ -46,54 +50,10 @@ export default function DetailPage() {
         setLoading(false);
       }
     };
-
     if (contentId) {
       fetchDetail();
     }
   }, [contentId, contentTypeId]);
-
-  const getText = (textMap: Record<string, string>) => {
-    return textMap[locale] || textMap.en || Object.values(textMap)[0] || "";
-  };
-
-  // Extract useful info from intro based on content type
-  const getInfoItems = () => {
-    if (!intro) return [];
-    const items: { icon: string; label: string; value: string }[] = [];
-
-    // Attraction (12)
-    if (contentTypeId === 12) {
-      if (intro.usetime) items.push({ icon: "🕐", label: locale === "ko" ? "이용시간" : "Hours", value: intro.usetime.replace(/<[^>]*>/g, "") });
-      if (intro.restdate) items.push({ icon: "📅", label: locale === "ko" ? "휴무일" : "Closed", value: intro.restdate.replace(/<[^>]*>/g, "") });
-      if (intro.infocenter) items.push({ icon: "📞", label: locale === "ko" ? "문의처" : "Contact", value: intro.infocenter.replace(/<[^>]*>/g, "") });
-      if (intro.parking) items.push({ icon: "🅿️", label: locale === "ko" ? "주차" : "Parking", value: intro.parking.replace(/<[^>]*>/g, "") });
-    }
-
-    // Restaurant (39)
-    if (contentTypeId === 39) {
-      if (intro.opentimefood) items.push({ icon: "🕐", label: locale === "ko" ? "영업시간" : "Hours", value: intro.opentimefood.replace(/<[^>]*>/g, "") });
-      if (intro.firstmenu) items.push({ icon: "⭐", label: locale === "ko" ? "대표메뉴" : "Main Menu", value: intro.firstmenu.replace(/<[^>]*>/g, "") });
-      if (intro.treatmenu) items.push({ icon: "📋", label: locale === "ko" ? "취급메뉴" : "Menu", value: intro.treatmenu.replace(/<[^>]*>/g, "") });
-      if (intro.packing) items.push({ icon: "📦", label: locale === "ko" ? "포장" : "Takeout", value: intro.packing.replace(/<[^>]*>/g, "") });
-    }
-
-    // Culture (14)
-    if (contentTypeId === 14) {
-      if (intro.usetimeculture) items.push({ icon: "🕐", label: locale === "ko" ? "이용시간" : "Hours", value: intro.usetimeculture.replace(/<[^>]*>/g, "") });
-      if (intro.usefee) items.push({ icon: "🎟️", label: locale === "ko" ? "이용요금" : "Fee", value: intro.usefee.replace(/<[^>]*>/g, "") });
-      if (intro.restdateculture) items.push({ icon: "📅", label: locale === "ko" ? "휴무일" : "Closed", value: intro.restdateculture.replace(/<[^>]*>/g, "") });
-      if (intro.infocenterculture) items.push({ icon: "📞", label: locale === "ko" ? "문의처" : "Contact", value: intro.infocenterculture.replace(/<[^>]*>/g, "") });
-    }
-
-    // Shopping (38)
-    if (contentTypeId === 38) {
-      if (intro.opentime) items.push({ icon: "🕐", label: locale === "ko" ? "영업시간" : "Hours", value: intro.opentime.replace(/<[^>]*>/g, "") });
-      if (intro.restdateshopping) items.push({ icon: "📅", label: locale === "ko" ? "휴무일" : "Closed", value: intro.restdateshopping.replace(/<[^>]*>/g, "") });
-      if (intro.infocentershopping) items.push({ icon: "📞", label: locale === "ko" ? "문의처" : "Contact", value: intro.infocentershopping.replace(/<[^>]*>/g, "") });
-    }
-
-    return items;
-  };
 
   // Strip HTML tags from overview
   const cleanHtml = (html: string) => {
@@ -105,6 +65,71 @@ export default function DetailPage() {
       .replace(/&lt;/g, "<")
       .replace(/&gt;/g, ">")
       .trim();
+  };
+
+  // 한국어가 아니면 자동 번역 호출
+  useEffect(() => {
+    const translate = async () => {
+      if (!detail?.overview || locale === "ko") {
+        setTranslatedOverview(null);
+        return;
+      }
+      const original = cleanHtml(detail.overview);
+      if (!original) return;
+
+      setTranslating(true);
+      try {
+        const res = await fetch("/api/translate-place", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ contentId, locale, text: original }),
+        });
+        const data = await res.json();
+        if (data.translated) {
+          setTranslatedOverview(data.translated);
+        }
+      } catch (error) {
+        console.error("Translation error:", error);
+      } finally {
+        setTranslating(false);
+      }
+    };
+    translate();
+  }, [detail, locale, contentId]);
+
+  const getText = (textMap: Record<string, string>) => {
+    return textMap[locale] || textMap.en || Object.values(textMap)[0] || "";
+  };
+
+  // Extract useful info from intro based on content type
+  const getInfoItems = () => {
+    if (!intro) return [];
+    const items: { icon: string; label: string; value: string }[] = [];
+
+    if (contentTypeId === 12) {
+      if (intro.usetime) items.push({ icon: "🕐", label: locale === "ko" ? "이용시간" : "Hours", value: intro.usetime.replace(/<[^>]*>/g, "") });
+      if (intro.restdate) items.push({ icon: "📅", label: locale === "ko" ? "휴무일" : "Closed", value: intro.restdate.replace(/<[^>]*>/g, "") });
+      if (intro.infocenter) items.push({ icon: "📞", label: locale === "ko" ? "문의처" : "Contact", value: intro.infocenter.replace(/<[^>]*>/g, "") });
+      if (intro.parking) items.push({ icon: "🅿️", label: locale === "ko" ? "주차" : "Parking", value: intro.parking.replace(/<[^>]*>/g, "") });
+    }
+    if (contentTypeId === 39) {
+      if (intro.opentimefood) items.push({ icon: "🕐", label: locale === "ko" ? "영업시간" : "Hours", value: intro.opentimefood.replace(/<[^>]*>/g, "") });
+      if (intro.firstmenu) items.push({ icon: "⭐", label: locale === "ko" ? "대표메뉴" : "Main Menu", value: intro.firstmenu.replace(/<[^>]*>/g, "") });
+      if (intro.treatmenu) items.push({ icon: "📋", label: locale === "ko" ? "취급메뉴" : "Menu", value: intro.treatmenu.replace(/<[^>]*>/g, "") });
+      if (intro.packing) items.push({ icon: "📦", label: locale === "ko" ? "포장" : "Takeout", value: intro.packing.replace(/<[^>]*>/g, "") });
+    }
+    if (contentTypeId === 14) {
+      if (intro.usetimeculture) items.push({ icon: "🕐", label: locale === "ko" ? "이용시간" : "Hours", value: intro.usetimeculture.replace(/<[^>]*>/g, "") });
+      if (intro.usefee) items.push({ icon: "🎟️", label: locale === "ko" ? "이용요금" : "Fee", value: intro.usefee.replace(/<[^>]*>/g, "") });
+      if (intro.restdateculture) items.push({ icon: "📅", label: locale === "ko" ? "휴무일" : "Closed", value: intro.restdateculture.replace(/<[^>]*>/g, "") });
+      if (intro.infocenterculture) items.push({ icon: "📞", label: locale === "ko" ? "문의처" : "Contact", value: intro.infocenterculture.replace(/<[^>]*>/g, "") });
+    }
+    if (contentTypeId === 38) {
+      if (intro.opentime) items.push({ icon: "🕐", label: locale === "ko" ? "영업시간" : "Hours", value: intro.opentime.replace(/<[^>]*>/g, "") });
+      if (intro.restdateshopping) items.push({ icon: "📅", label: locale === "ko" ? "휴무일" : "Closed", value: intro.restdateshopping.replace(/<[^>]*>/g, "") });
+      if (intro.infocentershopping) items.push({ icon: "📞", label: locale === "ko" ? "문의처" : "Contact", value: intro.infocentershopping.replace(/<[^>]*>/g, "") });
+    }
+    return items;
   };
 
   if (loading) {
@@ -133,6 +158,10 @@ export default function DetailPage() {
   }
 
   const infoItems = getInfoItems();
+  const originalOverview = detail.overview ? cleanHtml(detail.overview) : "";
+  const displayOverview = locale === "ko"
+    ? originalOverview
+    : (showOriginal ? originalOverview : (translatedOverview || originalOverview));
 
   return (
     <div className="pb-20 bg-white min-h-screen">
@@ -150,11 +179,7 @@ export default function DetailPage() {
             <span className="text-8xl">{getCategoryIcon(contentTypeId)}</span>
           </div>
         )}
-
-        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-
-        {/* Back button */}
         <button
           onClick={() => router.back()}
           className="absolute top-10 left-4 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center shadow-md z-10"
@@ -175,7 +200,6 @@ export default function DetailPage() {
           </div>
         </div>
 
-        {/* Category & Area tags */}
         <div className="flex flex-wrap gap-1.5 mt-3">
           <span className="px-2.5 py-1 bg-blue-50 text-blue-600 rounded-full text-xs font-medium">
             {getCategoryName(contentTypeId, locale)}
@@ -187,7 +211,6 @@ export default function DetailPage() {
           )}
         </div>
 
-        {/* Action buttons */}
         <div className="flex gap-2 mt-4">
           {detail.mapx && detail.mapy && (
             <a
@@ -249,14 +272,40 @@ export default function DetailPage() {
         {activeTab === "info" && (
           <div className="space-y-4">
             {/* Overview */}
-            {detail.overview && (
+            {originalOverview && (
               <div>
-                <h2 className="font-bold text-gray-800 text-sm mb-2">
-                  {locale === "ko" ? "소개" : "Overview"}
-                </h2>
-                <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">
-                  {cleanHtml(detail.overview)}
-                </p>
+                <div className="flex items-center justify-between mb-2">
+                  <h2 className="font-bold text-gray-800 text-sm">
+                    {locale === "ko" ? "소개" : "Overview"}
+                  </h2>
+                  {locale !== "ko" && translatedOverview && (
+                    <button
+                      onClick={() => setShowOriginal(!showOriginal)}
+                      className="text-xs text-blue-600 font-medium flex items-center gap-1"
+                    >
+                      {showOriginal
+                        ? "🌐 " + t("common.info")
+                        : "🇰🇷 " + (locale === "ko" ? "원문" : "Original")}
+                    </button>
+                  )}
+                </div>
+
+                {translating ? (
+                  <div className="flex items-center gap-2 text-gray-400 text-sm py-2">
+                    <div className="animate-spin w-4 h-4 border-2 border-blue-400 border-t-transparent rounded-full" />
+                    {locale === "ko" ? "번역 중..." : "Translating..."}
+                  </div>
+                ) : (
+                  <p className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">
+                    {displayOverview}
+                  </p>
+                )}
+
+                {locale !== "ko" && !translating && translatedOverview && !showOriginal && (
+                  <p className="text-[11px] text-gray-400 mt-1.5 flex items-center gap-1">
+                    🌐 {locale === "ko" ? "" : "Auto-translated"}
+                  </p>
+                )}
               </div>
             )}
 
@@ -303,7 +352,6 @@ export default function DetailPage() {
                 loading="lazy"
               />
             </div>
-
             <a
               href={`https://map.kakao.com/link/to/${detail.title},${detail.mapy},${detail.mapx}`}
               target="_blank"

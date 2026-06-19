@@ -222,6 +222,16 @@ export default function DetailPage() {
               🗺️ {t("common.directions")}
             </a>
           )}
+          {detail.mapx && detail.mapy && (
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${detail.mapy},${detail.mapx}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 py-2.5 bg-gray-100 text-gray-700 rounded-xl text-sm font-semibold hover:bg-gray-200 transition-colors flex items-center justify-center gap-1.5"
+            >
+              🌍 Google Maps
+            </a>
+          )}
           {detail.tel && (
             <a
               href={`tel:${detail.tel}`}
@@ -241,6 +251,7 @@ export default function DetailPage() {
             </a>
           )}
         </div>
+
       </div>
 
       {/* Tabs */}

@@ -420,6 +420,16 @@ export default function KakaoMap({
     }
   };
 
+  // Google Maps 길찾기 (목적지로 바로 연결, 별도 입력 불필요)
+  const openGoogleMapsDirections = () => {
+    if (!directionsTarget) return;
+    setShowDirections(false);
+    window.open(
+      `https://www.google.com/maps/dir/?api=1&destination=${directionsTarget.mapy},${directionsTarget.mapx}`,
+      "_blank"
+    );
+  };
+
   return (
     <div className="relative h-full">
       {/* Search Bar */}
@@ -719,6 +729,17 @@ export default function KakaoMap({
           ? `⏳ ${{ko:"위치 확인 중...",en:"Getting location...",ja:"位置確認中...",zh:"获取位置中...",es:"Obteniendo ubicación...",fr:"Obtention de la position...",de:"Position wird ermittelt...",th:"กำลังรับตำแหน่ง...",vi:"Đang lấy vị trí...",id:"Mendapatkan lokasi..."}[locale]||"Getting location..."}`
           : `📍 ${{ko:"내 현재 위치에서 출발",en:"Start from my location",ja:"現在地から出発",zh:"从我的位置出发",es:"Salir desde mi ubicación",fr:"Partir de ma position",de:"Von meinem Standort starten",th:"ออกเดินทางจากตำแหน่งของฉัน",vi:"Xuất phát từ vị trí của tôi",id:"Berangkat dari lokasi saya"}[locale]||"Start from my location"}`
         }
+      </button>
+
+      {/* Google Maps 길찾기 버튼 */}
+      <button onClick={openGoogleMapsDirections}
+        style={{
+          width:"100%",padding:"14px",borderRadius:"14px",border:"2px solid #e5e7eb",
+          background:"#f9fafb",color:"#374151",fontSize:"15px",fontWeight:"bold",
+          cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center",gap:"8px",
+          marginBottom:"10px",
+        }}>
+        🌍 Google Maps
       </button>
 
       {/* 구분선 */}

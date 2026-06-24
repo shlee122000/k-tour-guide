@@ -490,6 +490,15 @@ export default function HomePage() {
         </div>
       </div>
 
+      {/* Footer - Legal Links */}
+      <div style={{ padding: '16px', textAlign: 'center', borderTop: '1px solid #e5e7eb', marginTop: '8px' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
+          <a href={`/${locale}/terms`} style={{ fontSize: '12px', color: '#6b7280', textDecoration: 'none' }}>Terms of Service</a>
+          <a href={`/${locale}/privacy`} style={{ fontSize: '12px', color: '#6b7280', textDecoration: 'none' }}>Privacy Policy</a>
+          <a href={`/${locale}/refund`} style={{ fontSize: '12px', color: '#6b7280', textDecoration: 'none' }}>Refund Policy</a>
+        </div>
+      </div>
+
       <BottomNav />
     </div>
   );

@@ -164,6 +164,11 @@ export default function PricingPage() {
                   color:"white",border:"none",borderRadius:12,fontSize:16,fontWeight:900,cursor:"pointer"}}>
                 {t("cta")}
               </button>
+              <p style={{fontSize:11,color:"#9CA3AF",textAlign:"center",marginTop:10,lineHeight:1.5}}>
+                {locale === "ko"
+                  ? "3일 무료 체험 후 평생 이용권 $9.99가 1회 청구됩니다. 세금이 부과될 수 있으며 결제 시 계산됩니다."
+                  : "After a 3-day free trial, a one-time lifetime payment of $9.99 is charged. Taxes may apply and will be calculated at checkout."}
+              </p>
             </div>
           </>
         )}

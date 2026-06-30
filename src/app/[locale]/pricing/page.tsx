@@ -60,6 +60,19 @@ const TEXTS: Record<string, Record<string, string>> = {
     de:"Jetzt kaufen $9.99", th:"ซื้อเลย $9.99",
     vi:"Mua ngay $9.99", id:"Beli Sekarang $9.99",
   },
+
+  disclosure: {
+    ko:"3일 무료 체험 후 평생 이용권 $9.99가 1회 청구됩니다. 세금이 부과될 수 있으며 결제 시 계산됩니다.",
+    en:"After a 3-day free trial, a one-time lifetime payment of $9.99 is charged. Taxes may apply and will be calculated at checkout.",
+    ja:"3日間の無料体験後、永久ライセンス料$9.99が1回請求されます。税金が適用される場合があり、決済時に計算されます。",
+    zh:"3天免费试用后，将一次性收取终身使用费$9.99。可能会收取税费，并在结账时计算。",
+    es:"Después de una prueba gratuita de 3 días, se cobrará un pago único de por vida de $9.99. Pueden aplicarse impuestos que se calcularán al finalizar la compra.",
+    fr:"Après un essai gratuit de 3 jours, un paiement unique à vie de 9,99 $ sera facturé. Des taxes peuvent s'appliquer et seront calculées lors du paiement.",
+    de:"Nach einer 3-tägigen kostenlosen Testphase wird eine einmalige lebenslange Zahlung von 9,99 $ berechnet. Es können Steuern anfallen, die beim Checkout berechnet werden.",
+    th:"หลังทดลองใช้ฟรี 3 วัน จะมีการเรียกเก็บเงินครั้งเดียวตลอดชีพ $9.99 อาจมีภาษีเพิ่มเติมซึ่งจะคำนวณตอนชำระเงิน",
+    vi:"Sau 3 ngày dùng thử miễn phí, bạn sẽ bị tính phí một lần trọn đời $9.99. Có thể áp dụng thuế và sẽ được tính khi thanh toán.",
+    id:"Setelah uji coba gratis 3 hari, akan dikenakan biaya seumur hidup satu kali sebesar $9.99. Pajak mungkin berlaku dan akan dihitung saat checkout.",
+  },
 };
 
 const FREE_FEATURES: Record<string, string[]> = {
@@ -165,9 +178,7 @@ export default function PricingPage() {
                 {t("cta")}
               </button>
               <p style={{fontSize:11,color:"#9CA3AF",textAlign:"center",marginTop:10,lineHeight:1.5}}>
-                {locale === "ko"
-                  ? "3일 무료 체험 후 평생 이용권 $9.99가 1회 청구됩니다. 세금이 부과될 수 있으며 결제 시 계산됩니다."
-                  : "After a 3-day free trial, a one-time lifetime payment of $9.99 is charged. Taxes may apply and will be calculated at checkout."}
+                {t("disclosure")}
               </p>
             </div>
           </>

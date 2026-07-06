@@ -11,7 +11,7 @@ import {
   getCategoryName,
   type TourItem,
 } from "@/lib/tourApi";
-import { isPro, FREE_FAVORITES_LIMIT } from "@/lib/paddle";
+import { isPro, FREE_FAVORITES_LIMIT } from "@/lib/revenuecat";
 
 
 declare global {
@@ -61,11 +61,12 @@ export default function KakaoMap({
   const [loading, setLoading] = useState(false);
   const [mapCenter, setMapCenter] = useState({ lat: 37.5665, lng: 126.9780 });
   const [searchQuery, setSearchQuery] = useState(initialSearch || "");
-  const [radius] = useState(() => {
-    if (initialRadius) return initialRadius;
-    const proUser = typeof window !== "undefined" && isPro();
-    return proUser ? 20000 : 5000;
-  });
+  const [radius, setRadius] = useState(initialRadius || 5000);
+
+  useEffect(() => {
+    if (initialRadius) return;
+    isPro().then(proUser => setRadius(proUser ? 20000 : 5000));
+  }, []);
   const locale = useLocale();
   const t = useTranslations();
   const tCat = useTranslations("categories");
@@ -85,7 +86,7 @@ export default function KakaoMap({
     } catch { /* empty */ }
   }, []);
 
-  const toggleFavorite = (place: TourItem) => {
+  const toggleFavorite = async (place: TourItem) => {
   try {
     const saved = localStorage.getItem("k-tour-favorites");
     let favs = saved ? JSON.parse(saved) : [];
@@ -94,8 +95,7 @@ export default function KakaoMap({
       favs = favs.filter((f: any) => f.id !== id);
       setFavoriteIds(prev => { const n = new Set(prev); n.delete(id); return n; });
     } else {
-      // 무료 제한 체크
-      if (!isPro() && favs.length >= FREE_FAVORITES_LIMIT) {
+      if (!(await isPro()) && favs.length >= FREE_FAVORITES_LIMIT) {
         const msgs: Record<string, string> = {
           ko: `즐겨찾기는 무료 ${FREE_FAVORITES_LIMIT}개까지 가능합니다. Pro로 업그레이드하세요!`,
           en: `Free plan allows up to ${FREE_FAVORITES_LIMIT} favorites. Upgrade to Pro!`,

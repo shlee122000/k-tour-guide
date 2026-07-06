@@ -3,6 +3,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import RevenueCatInit from "@/components/RevenueCatInit";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -31,10 +32,10 @@ export default async function LocaleLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#0066CC" />
-        <script src="https://cdn.paddle.com/paddle/v2/paddle.js" async></script>
       </head>
       <body className="antialiased bg-gray-50 pt-safe">
         <NextIntlClientProvider messages={messages}>
+          <RevenueCatInit />
           <div className="max-w-md mx-auto min-h-screen bg-white shadow-lg relative">
             {children}
           </div>

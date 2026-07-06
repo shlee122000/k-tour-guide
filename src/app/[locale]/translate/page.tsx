@@ -42,7 +42,7 @@ import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import BottomNav from "@/components/BottomNav";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { isPro, getDailyCount, incrementDailyCount, FREE_TRANSLATE_LIMIT, FREE_TTS_LIMIT } from "@/lib/paddle";
+import { isPro, getDailyCount, incrementDailyCount, FREE_TRANSLATE_LIMIT, FREE_TTS_LIMIT } from "@/lib/revenuecat";
 
 // 언어 코드 매핑 (앱 locale → 번역 API 코드)
 const langMap: Record<string, { code: string; name: string; flag: string; speechCode: string }> = {
@@ -204,7 +204,7 @@ export default function TranslatePage() {
     if (!inputText.trim()) return;
     
     // 무료 제한 체크
-    if (!isPro()) {
+    if (!(await isPro())) {
       const count = getDailyCount("translate");
       if (count >= FREE_TRANSLATE_LIMIT) {
         alert(LIMIT_MSGS[locale]?.translate || LIMIT_MSGS.en.translate);
@@ -279,7 +279,7 @@ export default function TranslatePage() {
     setIsSpeaking(true);
 
     // 무료 TTS 제한 체크
-    if (!isPro()) {
+    if (!(await isPro())) {
       const count = getDailyCount("tts");
       if (count >= FREE_TTS_LIMIT) {
         alert(LIMIT_MSGS[locale]?.tts || LIMIT_MSGS.en.tts);

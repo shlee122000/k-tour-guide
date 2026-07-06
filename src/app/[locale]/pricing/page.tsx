@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
-import { isPro, getTrialDaysLeft, openCheckout } from "@/lib/paddle";
+import { isPro, getTrialDaysLeft, purchaseLifetime } from "@/lib/revenuecat";
 import BottomNav from "@/components/BottomNav";
 
 const TEXTS: Record<string, Record<string, string>> = {
@@ -60,7 +60,6 @@ const TEXTS: Record<string, Record<string, string>> = {
     de:"Jetzt kaufen $9.99", th:"ซื้อเลย $9.99",
     vi:"Mua ngay $9.99", id:"Beli Sekarang $9.99",
   },
-
   disclosure: {
     ko:"평생 이용권 $9.99가 1회 청구됩니다. 세금이 부과될 수 있으며 결제 시 계산됩니다.",
     en:"A one-time lifetime payment of $9.99 is charged. Taxes may apply and will be calculated at checkout.",
@@ -104,18 +103,11 @@ const PRO_FEATURES: Record<string, string[]> = {
 export default function PricingPage() {
   const locale = useLocale();
   const [pro, setPro] = useState(false);
-  const [trialDays, setTrialDays] = useState(3);
+  const [trialDays, setTrialDays] = useState(2);
 
   useEffect(() => {
-    setPro(isPro());
+    isPro().then(setPro);
     setTrialDays(getTrialDaysLeft());
-
-    // Paddle 스크립트 로드
-    const script = document.createElement("script");
-    script.src = "https://cdn.paddle.com/paddle/v2/paddle.js";
-    script.async = true;
-    document.head.appendChild(script);
-    return () => { document.head.removeChild(script); };
   }, []);
 
   const t = (key: string) => TEXTS[key]?.[locale] || TEXTS[key]?.en || "";
@@ -132,14 +124,13 @@ export default function PricingPage() {
           {t("trial")}
         </p>
 
-        {pro && localStorage.getItem("ktour_pro") === "true" ? (
+        {pro && trialDays === 0 && typeof window !== "undefined" && localStorage.getItem("ktour_pro") ? (
           <div style={{textAlign:"center",padding:"40px 20px",background:"white",borderRadius:16,boxShadow:"0 2px 12px rgba(0,0,0,0.08)"}}>
             <h2 style={{color:"#1a3a5c"}}>{t("alreadyPro")}</h2>
             <p style={{color:"#666"}}>{t("alreadyProDesc")}</p>
           </div>
         ) : (
           <>
-            {/* 무료 체험 남은 기간 */}
             {trialDays > 0 && (
               <div style={{background:"#EFF6FF",borderRadius:12,padding:"12px 16px",marginBottom:20,
                 display:"flex",alignItems:"center",justifyContent:"space-between"}}>
@@ -148,7 +139,6 @@ export default function PricingPage() {
               </div>
             )}
 
-            {/* 무료 플랜 */}
             <div style={{border:"1px solid #E5E7EB",borderRadius:16,padding:20,marginBottom:16,background:"white"}}>
               <h3 style={{color:"#6B7280",marginBottom:12,fontSize:16}}>{t("free")}</h3>
               <ul style={{listStyle:"none",padding:0,margin:0}}>
@@ -158,7 +148,6 @@ export default function PricingPage() {
               </ul>
             </div>
 
-            {/* Pro 플랜 */}
             <div style={{border:"2px solid #3B82F6",borderRadius:16,padding:20,marginBottom:24,
               background:"white",position:"relative"}}>
               <div style={{position:"absolute",top:-12,left:"50%",transform:"translateX(-50%)",
@@ -172,7 +161,14 @@ export default function PricingPage() {
                 ))}
               </ul>
               <button
-                onClick={openCheckout}
+                onClick={async () => {
+                  try {
+                    await purchaseLifetime();
+                    setPro(true);
+                  } catch (e) {
+                    console.error(e);
+                  }
+                }}
                 style={{width:"100%",padding:14,background:"linear-gradient(135deg,#3B82F6,#2563EB)",
                   color:"white",border:"none",borderRadius:12,fontSize:16,fontWeight:900,cursor:"pointer"}}>
                 {t("cta")}

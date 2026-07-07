@@ -116,7 +116,7 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
-      <div className="max-w-md mx-auto px-4 py-8">
+.      <div className="max-w-md mx-auto px-4 py-8">
         <h1 style={{textAlign:"center",fontSize:24,fontWeight:900,color:"#1a3a5c",marginBottom:8}}>
           {t("title")}
         </h1>
@@ -162,17 +162,20 @@ export default function PricingPage() {
               </ul>
               <button
                 onClick={async () => {
+                  alert("클릭됨");
                   try {
                     await purchaseLifetime();
                     setPro(true);
-                  } catch (e) {
-                    console.error(e);
+                  } catch (e: any) {
+                    alert(JSON.stringify(e?.message || e));
                   }
                 }}
                 style={{width:"100%",padding:14,background:"linear-gradient(135deg,#3B82F6,#2563EB)",
-                  color:"white",border:"none",borderRadius:12,fontSize:16,fontWeight:900,cursor:"pointer"}}>
+                  color:"white",border:"none",borderRadius:12,fontSize:16,fontWeight:900,cursor:"pointer",
+                  position:"relative",zIndex:50}}>
                 {t("cta")}
               </button>
+              
               <p style={{fontSize:11,color:"#9CA3AF",textAlign:"center",marginTop:10,lineHeight:1.5}}>
                 {t("disclosure")}
               </p>

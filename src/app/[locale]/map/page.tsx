@@ -18,7 +18,7 @@ function MapContent() {
 
   return (
     <div className="h-screen flex flex-col">
-      <div className="flex-1 relative pb-28">
+      <div className="flex-1 relative pb-32">
         <KakaoMap
           initialCategory={category}
           initialSearch={search}

@@ -773,7 +773,7 @@ export default function KakaoMap({
 
       {/* 하단 슬라이드 패널 */}
       <div style={{
-        position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 20,
+        position: "absolute", bottom: 60, left: 0, right: 0, zIndex: 20,
         transition: "transform 0.3s ease",
         transform: panelOpen ? "translateY(0)" : "translateY(calc(100% - 44px))",
       }}>

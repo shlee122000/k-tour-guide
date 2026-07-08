@@ -42,7 +42,27 @@ import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import BottomNav from "@/components/BottomNav";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { isPro, getDailyCount, incrementDailyCount, FREE_TRANSLATE_LIMIT, FREE_TTS_LIMIT } from "@/lib/revenuecat";
+import {
+  isPro,
+  getDailyCount,
+  incrementDailyCount,
+  FREE_TRANSLATE_LIMIT,
+  FREE_TTS_LIMIT,
+} from "@/lib/revenuecat";
+
+// 무료 한도 관련 다국어 텍스트
+const LIMIT_TEXTS: Record<string, { limitReached: string; usageLabel: string; translateWord: string; ttsWord: string }> = {
+  ko: { limitReached: "오늘 무료 사용 횟수를 모두 사용했어요. Pro로 업그레이드하면 무제한 이용 가능합니다.", usageLabel: "오늘 사용량", translateWord: "번역", ttsWord: "TTS" },
+  en: { limitReached: "You've used all your free uses for today. Upgrade to Pro for unlimited access.", usageLabel: "Today's usage", translateWord: "Translate", ttsWord: "TTS" },
+  ja: { limitReached: "本日の無料利用回数を使い切りました。Proにアップグレードすると無制限に利用できます。", usageLabel: "本日の利用状況", translateWord: "翻訳", ttsWord: "TTS" },
+  zh: { limitReached: "您今天的免费使用次数已用完。升级到Pro即可无限使用。", usageLabel: "今日使用量", translateWord: "翻译", ttsWord: "TTS" },
+  es: { limitReached: "Has usado todos tus usos gratuitos de hoy. Actualiza a Pro para acceso ilimitado.", usageLabel: "Uso de hoy", translateWord: "Traducir", ttsWord: "TTS" },
+  fr: { limitReached: "Vous avez utilisé toutes vos utilisations gratuites d'aujourd'hui. Passez à Pro pour un accès illimité.", usageLabel: "Utilisation du jour", translateWord: "Traduction", ttsWord: "TTS" },
+  de: { limitReached: "Sie haben Ihre kostenlosen Nutzungen für heute aufgebraucht. Upgraden Sie auf Pro für unbegrenzten Zugriff.", usageLabel: "Heutige Nutzung", translateWord: "Übersetzung", ttsWord: "TTS" },
+  th: { limitReached: "คุณใช้สิทธิ์ฟรีวันนี้หมดแล้ว อัปเกรดเป็น Pro เพื่อใช้งานได้ไม่จำกัด", usageLabel: "การใช้งานวันนี้", translateWord: "แปล", ttsWord: "TTS" },
+  vi: { limitReached: "Bạn đã dùng hết lượt miễn phí hôm nay. Nâng cấp lên Pro để dùng không giới hạn.", usageLabel: "Sử dụng hôm nay", translateWord: "Dịch", ttsWord: "TTS" },
+  id: { limitReached: "Anda telah menggunakan semua penggunaan gratis hari ini. Upgrade ke Pro untuk akses tanpa batas.", usageLabel: "Penggunaan hari ini", translateWord: "Terjemahan", ttsWord: "TTS" },
+};
 
 // 언어 코드 매핑 (앱 locale → 번역 API 코드)
 const langMap: Record<string, { code: string; name: string; flag: string; speechCode: string }> = {
@@ -144,23 +164,21 @@ const phrases: Record<string, { ko: string; pronunciation: string }[]> = {
   ],
 };
 
-const LIMIT_MSGS: Record<string, {translate: string, tts: string}> = {
-  ko: { translate: `무료 번역 횟수(${FREE_TRANSLATE_LIMIT}회/일)를 초과했습니다. Pro로 업그레이드하세요!`, tts: `무료 TTS 횟수(${FREE_TTS_LIMIT}회/일)를 초과했습니다. Pro로 업그레이드하세요!` },
-  en: { translate: `Free translation limit (${FREE_TRANSLATE_LIMIT} times/day) reached. Upgrade to Pro!`, tts: `Free TTS limit (${FREE_TTS_LIMIT} times/day) reached. Upgrade to Pro!` },
-  ja: { translate: `無料翻訳回数(${FREE_TRANSLATE_LIMIT}回/日)を超えました。Proにアップグレードしてください！`, tts: `無料TTS回数(${FREE_TTS_LIMIT}回/日)を超えました。Proにアップグレードしてください！` },
-  zh: { translate: `免费翻译次数(${FREE_TRANSLATE_LIMIT}次/天)已达上限。请升级到Pro！`, tts: `免费TTS次数(${FREE_TTS_LIMIT}次/天)已达上限。请升级到Pro！` },
-  es: { translate: `Límite de traducción gratuita (${FREE_TRANSLATE_LIMIT} veces/día) alcanzado. ¡Actualiza a Pro!`, tts: `Límite de TTS gratuito (${FREE_TTS_LIMIT} veces/día) alcanzado. ¡Actualiza a Pro!` },
-  fr: { translate: `Limite de traduction gratuite (${FREE_TRANSLATE_LIMIT} fois/jour) atteinte. Passez à Pro!`, tts: `Limite TTS gratuite (${FREE_TTS_LIMIT} fois/jour) atteinte. Passez à Pro!` },
-  de: { translate: `Kostenloses Übersetzungslimit (${FREE_TRANSLATE_LIMIT} Mal/Tag) erreicht. Upgrade auf Pro!`, tts: `Kostenloses TTS-Limit (${FREE_TTS_LIMIT} Mal/Tag) erreicht. Upgrade auf Pro!` },
-  th: { translate: `ถึงขีดจำกัดการแปลฟรี (${FREE_TRANSLATE_LIMIT} ครั้ง/วัน) แล้ว อัปเกรดเป็น Pro!`, tts: `ถึงขีดจำกัด TTS ฟรี (${FREE_TTS_LIMIT} ครั้ง/วัน) แล้ว อัปเกรดเป็น Pro!` },
-  vi: { translate: `Đã đạt giới hạn dịch miễn phí (${FREE_TRANSLATE_LIMIT} lần/ngày). Nâng cấp lên Pro!`, tts: `Đã đạt giới hạn TTS miễn phí (${FREE_TTS_LIMIT} lần/ngày). Nâng cấp lên Pro!` },
-  id: { translate: `Batas terjemahan gratis (${FREE_TRANSLATE_LIMIT} kali/hari) tercapai. Upgrade ke Pro!`, tts: `Batas TTS gratis (${FREE_TTS_LIMIT} kali/hari) tercapai. Upgrade ke Pro!` },
-};
-
-
 export default function TranslatePage() {
   const t = useTranslations("translate");
   const locale = useLocale();
+  const lt = LIMIT_TEXTS[locale] || LIMIT_TEXTS.en;
+
+  // Pro / 사용량 상태
+  const [pro, setPro] = useState(true); // 초기값 true로 두어 로딩 중 깜빡임(제한 표시) 방지
+  const [translateCount, setTranslateCount] = useState(0);
+  const [ttsCount, setTtsCount] = useState(0);
+
+  useEffect(() => {
+    isPro().then(setPro);
+    setTranslateCount(getDailyCount("translate"));
+    setTtsCount(getDailyCount("tts"));
+  }, []);
 
   // 번역 탭 상태
   const [activeTab, setActiveTab] = useState<"translate" | "phrases">("translate");
@@ -183,7 +201,7 @@ export default function TranslatePage() {
   const [phraseTranslations, setPhraseTranslations] = useState<Record<string, string>>({});
   const [translatingPhrases, setTranslatingPhrases] = useState(false);
 
-  // 번역 함수
+  // 번역 함수 (내부 헬퍼 - 한도 체크 없음, 회화탭 자동번역 등에도 재사용)
   const translateText = useCallback(async (text: string, from: string, to: string) => {
     if (!text.trim()) return "";
     const fromCode = langMap[from]?.code || from;
@@ -199,24 +217,24 @@ export default function TranslatePage() {
     }
   }, []);
 
-  // 텍스트 번역 실행
+  // 텍스트 번역 실행 (무료 한도 체크 포함)
   const handleTranslate = async () => {
     if (!inputText.trim()) return;
-    
-    // 무료 제한 체크
-    if (!(await isPro())) {
-      const count = getDailyCount("translate");
-      if (count >= FREE_TRANSLATE_LIMIT) {
-        alert(LIMIT_MSGS[locale]?.translate || LIMIT_MSGS.en.translate);
-        return;
-      }
-      incrementDailyCount("translate");
+
+    if (!pro && translateCount >= FREE_TRANSLATE_LIMIT) {
+      alert(lt.limitReached);
+      return;
     }
-    
+
     setIsTranslating(true);
     const result = await translateText(inputText, fromLang, toLang);
     setTranslatedText(result);
     setIsTranslating(false);
+
+    if (!pro) {
+      incrementDailyCount("translate");
+      setTranslateCount(getDailyCount("translate"));
+    }
   };
 
   // 언어 교체
@@ -261,13 +279,13 @@ export default function TranslatePage() {
     setIsListening(false);
   };
 
-  // TTS 읽기 (Google Cloud TTS)
+  // TTS 읽기 (Google Cloud TTS) - 무료 한도 체크 포함
   const [isSpeaking, setIsSpeaking] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const speakText = async (text: string, lang: string) => {
     if (isSpeaking) {
-      // 재생 중이면 중지
+      // 재생 중이면 중지 (한도 체크 대상 아님)
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
@@ -276,18 +294,12 @@ export default function TranslatePage() {
       return;
     }
 
-    setIsSpeaking(true);
-
-    // 무료 TTS 제한 체크
-    if (!(await isPro())) {
-      const count = getDailyCount("tts");
-      if (count >= FREE_TTS_LIMIT) {
-        alert(LIMIT_MSGS[locale]?.tts || LIMIT_MSGS.en.tts);
-        setIsSpeaking(false);
-        return;
-      }
-      incrementDailyCount("tts");
+    if (!pro && ttsCount >= FREE_TTS_LIMIT) {
+      alert(lt.limitReached);
+      return;
     }
+
+    setIsSpeaking(true);
     try {
       const langCode = langMap[lang]?.code || lang;
       const res = await fetch("/api/tts", {
@@ -329,6 +341,11 @@ export default function TranslatePage() {
         setIsSpeaking(false);
       }
     }
+
+    if (!pro) {
+      incrementDailyCount("tts");
+      setTtsCount(getDailyCount("tts"));
+    }
   };
 
   // 클립보드 복사
@@ -367,6 +384,18 @@ export default function TranslatePage() {
         <h1 className="text-xl font-bold">🌐 {t("title")}</h1>
         <p className="text-blue-200 text-xs mt-0.5">{t("subtitle")}</p>
       </div>
+
+      {/* 무료 사용자 오늘 사용량 표시 */}
+      {!pro && (
+        <div className="px-4 pt-3">
+          <div className="bg-white rounded-xl px-3 py-2 text-xs text-gray-600 border border-gray-100 flex items-center justify-between">
+            <span className="font-medium text-gray-500">{lt.usageLabel}</span>
+            <span>
+              {lt.translateWord} {translateCount}/{FREE_TRANSLATE_LIMIT} · {lt.ttsWord} {ttsCount}/{FREE_TTS_LIMIT}
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* 탭 전환 */}
       <div className="flex bg-white border-b border-gray-200 sticky top-0 z-10">

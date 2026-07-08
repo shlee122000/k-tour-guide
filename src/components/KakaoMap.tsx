@@ -808,6 +808,7 @@ export default function KakaoMap({
         <div style={{
           background: "white", maxHeight: "40vh", overflowY: "auto",
           boxShadow: "0 -2px 10px rgba(0,0,0,0.1)",
+          display: panelOpen ? "block" : "none",
         }}>
           {places.map((place, index) => {
             const color = categoryColors[place.contenttypeid] || "#6B7280";

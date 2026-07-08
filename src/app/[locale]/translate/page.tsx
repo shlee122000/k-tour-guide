@@ -365,7 +365,7 @@ export default function TranslatePage() {
   }, [activeCategory, toLang, translateText]);
 
   return (
-    <div className="min-h-screen bg-gray-50 max-w-md mx-auto pb-32">
+    <div className="min-h-screen bg-gray-50 max-w-md mx-auto pb-40">
       {/* 헤더 */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 pt-12 pb-4">
         <h1 className="text-xl font-bold">🌐 {t("title")}</h1>

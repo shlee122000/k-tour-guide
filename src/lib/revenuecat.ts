@@ -51,6 +51,7 @@ export function incrementDailyCount(key: string) {
   const today = new Date().toDateString();
   const count = getDailyCount(key);
   localStorage.setItem(`ktour_daily_${key}`, JSON.stringify({ date: today, count: count + 1 }));
+  window.dispatchEvent(new Event("ktour-usage-updated"));
 }
 
 // 즐겨찾기 개수 조회 (KakaoMap.tsx의 "k-tour-favorites" 키 재사용)

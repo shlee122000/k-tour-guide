@@ -92,7 +92,11 @@ export default function BottomNav() {
       setFavoritesCount(getFavoritesCount());
     };
     window.addEventListener("focus", onFocus);
-    return () => window.removeEventListener("focus", onFocus);
+    window.addEventListener("ktour-usage-updated", onFocus);
+    return () => {
+      window.removeEventListener("focus", onFocus);
+      window.removeEventListener("ktour-usage-updated", onFocus);
+    };
   }, [pathname]);
 
   const isActive = (href: string) => {
@@ -126,19 +130,19 @@ export default function BottomNav() {
         </div>
       )}
 
-      <div className="flex justify-around items-center py-2 pb-[env(safe-area-inset-bottom)]">
+      <div className="flex justify-around items-center py-1.5 pb-[env(safe-area-inset-bottom)]">
         {navItems.map((item) => (
           <Link
             key={item.key}
             href={`/${locale}${item.href}`}
-            className={`flex flex-col items-center gap-0.5 px-3 py-1 rounded-lg transition-colors ${
+            className={`flex flex-col items-center gap-0 px-2 py-0.5 rounded-lg transition-colors ${
               isActive(item.href)
                 ? "text-blue-600"
                 : "text-gray-400 hover:text-gray-600"
             }`}
           >
-            {item.icon}
-            <span className="text-xs font-medium">{t(item.key)}</span>
+            <span className="[&>svg]:w-5 [&>svg]:h-5">{item.icon}</span>
+            <span className="text-[11px] font-medium">{t(item.key)}</span>
           </Link>
         ))}
       </div>

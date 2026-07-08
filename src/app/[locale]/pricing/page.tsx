@@ -162,12 +162,12 @@ export default function PricingPage() {
               </ul>
               <button
                 onClick={async () => {
-                  alert("클릭됨");
                   try {
                     await purchaseLifetime();
                     setPro(true);
                   } catch (e: any) {
-                    alert(JSON.stringify(e?.message || e));
+                    if (e?.message?.includes("already own") || e?.userCancelled) return;
+                    alert("구매 중 오류가 발생했습니다.");
                   }
                 }}
                 style={{width:"100%",padding:14,background:"linear-gradient(135deg,#3B82F6,#2563EB)",

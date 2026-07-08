@@ -49,20 +49,7 @@ import {
   FREE_TRANSLATE_LIMIT,
   FREE_TTS_LIMIT,
 } from "@/lib/revenuecat";
-
-// 무료 한도 관련 다국어 텍스트
-const LIMIT_TEXTS: Record<string, { limitReached: string; usageLabel: string; translateWord: string; ttsWord: string }> = {
-  ko: { limitReached: "오늘 무료 사용 횟수를 모두 사용했어요. Pro로 업그레이드하면 무제한 이용 가능합니다.", usageLabel: "오늘 사용량", translateWord: "번역", ttsWord: "TTS" },
-  en: { limitReached: "You've used all your free uses for today. Upgrade to Pro for unlimited access.", usageLabel: "Today's usage", translateWord: "Translate", ttsWord: "TTS" },
-  ja: { limitReached: "本日の無料利用回数を使い切りました。Proにアップグレードすると無制限に利用できます。", usageLabel: "本日の利用状況", translateWord: "翻訳", ttsWord: "TTS" },
-  zh: { limitReached: "您今天的免费使用次数已用完。升级到Pro即可无限使用。", usageLabel: "今日使用量", translateWord: "翻译", ttsWord: "TTS" },
-  es: { limitReached: "Has usado todos tus usos gratuitos de hoy. Actualiza a Pro para acceso ilimitado.", usageLabel: "Uso de hoy", translateWord: "Traducir", ttsWord: "TTS" },
-  fr: { limitReached: "Vous avez utilisé toutes vos utilisations gratuites d'aujourd'hui. Passez à Pro pour un accès illimité.", usageLabel: "Utilisation du jour", translateWord: "Traduction", ttsWord: "TTS" },
-  de: { limitReached: "Sie haben Ihre kostenlosen Nutzungen für heute aufgebraucht. Upgraden Sie auf Pro für unbegrenzten Zugriff.", usageLabel: "Heutige Nutzung", translateWord: "Übersetzung", ttsWord: "TTS" },
-  th: { limitReached: "คุณใช้สิทธิ์ฟรีวันนี้หมดแล้ว อัปเกรดเป็น Pro เพื่อใช้งานได้ไม่จำกัด", usageLabel: "การใช้งานวันนี้", translateWord: "แปล", ttsWord: "TTS" },
-  vi: { limitReached: "Bạn đã dùng hết lượt miễn phí hôm nay. Nâng cấp lên Pro để dùng không giới hạn.", usageLabel: "Sử dụng hôm nay", translateWord: "Dịch", ttsWord: "TTS" },
-  id: { limitReached: "Anda telah menggunakan semua penggunaan gratis hari ini. Upgrade ke Pro untuk akses tanpa batas.", usageLabel: "Penggunaan hari ini", translateWord: "Terjemahan", ttsWord: "TTS" },
-};
+import { LIMIT_TEXTS } from "@/lib/limitTexts";
 
 // 언어 코드 매핑 (앱 locale → 번역 API 코드)
 const langMap: Record<string, { code: string; name: string; flag: string; speechCode: string }> = {
@@ -378,24 +365,12 @@ export default function TranslatePage() {
   }, [activeCategory, toLang, translateText]);
 
   return (
-    <div className="min-h-screen bg-gray-50 max-w-md mx-auto pb-20">
+    <div className="min-h-screen bg-gray-50 max-w-md mx-auto pb-32">
       {/* 헤더 */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 pt-12 pb-4">
         <h1 className="text-xl font-bold">🌐 {t("title")}</h1>
         <p className="text-blue-200 text-xs mt-0.5">{t("subtitle")}</p>
       </div>
-
-      {/* 무료 사용자 오늘 사용량 표시 */}
-      {!pro && (
-        <div className="px-4 pt-3">
-          <div className="bg-white rounded-xl px-3 py-2 text-xs text-gray-600 border border-gray-100 flex items-center justify-between">
-            <span className="font-medium text-gray-500">{lt.usageLabel}</span>
-            <span>
-              {lt.translateWord} {translateCount}/{FREE_TRANSLATE_LIMIT} · {lt.ttsWord} {ttsCount}/{FREE_TTS_LIMIT}
-            </span>
-          </div>
-        </div>
-      )}
 
       {/* 탭 전환 */}
       <div className="flex bg-white border-b border-gray-200 sticky top-0 z-10">
@@ -693,6 +668,7 @@ export default function TranslatePage() {
         </div>
       )}
 
+      {/* 오늘 사용량 표시는 BottomNav에서 전역으로 처리됨 */}
       <BottomNav />
     </div>
   );

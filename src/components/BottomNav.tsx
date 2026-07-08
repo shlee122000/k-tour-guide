@@ -4,6 +4,9 @@ import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { isPro, getDailyCount, getFavoritesCount, FREE_TRANSLATE_LIMIT, FREE_TTS_LIMIT, FREE_FAVORITES_LIMIT } from "@/lib/revenuecat";
+import { LIMIT_TEXTS } from "@/lib/limitTexts";
 
 const navItems = [
   {
@@ -42,18 +45,17 @@ const navItems = [
       </svg>
     ),
   },
-  
+
   {
-  key: "pricing",
-  href: "/pricing",
-  icon: (
-    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-    </svg>
-  ),
-},
-  
-  
+    key: "pricing",
+    href: "/pricing",
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+  },
+
   {
     key: "mypage",
     href: "/mypage",
@@ -69,6 +71,29 @@ export default function BottomNav() {
   const t = useTranslations("nav");
   const locale = useLocale();
   const pathname = usePathname();
+  const lt = LIMIT_TEXTS[locale] || LIMIT_TEXTS.en;
+
+  const [pro, setPro] = useState(true); // 초기값 true → 로딩 중 깜빡임 방지
+  const [translateCount, setTranslateCount] = useState(0);
+  const [ttsCount, setTtsCount] = useState(0);
+  const [favoritesCount, setFavoritesCount] = useState(0);
+
+  useEffect(() => {
+    isPro().then(setPro);
+    setTranslateCount(getDailyCount("translate"));
+    setTtsCount(getDailyCount("tts"));
+    setFavoritesCount(getFavoritesCount());
+
+    // pricing/지도 페이지 등에서 변경 후 이 페이지로 돌아왔을 때 갱신되도록
+    const onFocus = () => {
+      isPro().then(setPro);
+      setTranslateCount(getDailyCount("translate"));
+      setTtsCount(getDailyCount("tts"));
+      setFavoritesCount(getFavoritesCount());
+    };
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, [pathname]);
 
   const isActive = (href: string) => {
     const fullPath = `/${locale}${href}`;
@@ -78,6 +103,29 @@ export default function BottomNav() {
 
   return (
     <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white border-t border-gray-200 z-30">
+      {/* 무료 사용자 오늘 사용량 - 모든 페이지 공통 표시 */}
+      {!pro && (
+        <div className="flex items-center justify-between gap-2 px-3 py-1.5 text-[10px] border-b border-gray-100 bg-gray-50">
+          <span className="text-gray-500 leading-tight">
+            {lt.usageLabel}: {lt.translateWord} {translateCount}/{FREE_TRANSLATE_LIMIT} · {lt.ttsWord} {ttsCount}/{FREE_TTS_LIMIT} · {lt.favoritesWord} {favoritesCount}/{FREE_FAVORITES_LIMIT}
+          </span>
+          <Link
+            href={`/${locale}/pricing`}
+            style={{
+              background: "linear-gradient(135deg,#3B82F6,#2563EB)",
+              color: "white",
+              padding: "3px 10px",
+              borderRadius: 999,
+              fontWeight: 700,
+              fontSize: 10,
+              whiteSpace: "nowrap",
+            }}
+          >
+            ⭐ {lt.upgrade}
+          </Link>
+        </div>
+      )}
+
       <div className="flex justify-around items-center py-2 pb-[env(safe-area-inset-bottom)]">
         {navItems.map((item) => (
           <Link

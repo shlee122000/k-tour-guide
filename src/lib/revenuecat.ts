@@ -53,6 +53,18 @@ export function incrementDailyCount(key: string) {
   localStorage.setItem(`ktour_daily_${key}`, JSON.stringify({ date: today, count: count + 1 }));
 }
 
+// 즐겨찾기 개수 조회 (KakaoMap.tsx의 "k-tour-favorites" 키 재사용)
+export function getFavoritesCount(): number {
+  if (typeof window === "undefined") return 0;
+  try {
+    const saved = localStorage.getItem("k-tour-favorites");
+    if (!saved) return 0;
+    return JSON.parse(saved).length;
+  } catch {
+    return 0;
+  }
+}
+
 export const FREE_TRANSLATE_LIMIT = 10;
 export const FREE_TTS_LIMIT = 10;
 export const FREE_FAVORITES_LIMIT = 5;

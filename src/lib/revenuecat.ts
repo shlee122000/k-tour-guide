@@ -9,6 +9,12 @@ export async function purchaseLifetime() {
   await Purchases.purchasePackage({ aPackage: pkg });
 }
 
+// Apple Guideline 3.1.1 대응: 명시적 "구매 복원" 버튼용 함수
+export async function restorePurchases(): Promise<boolean> {
+  const { customerInfo } = await Purchases.restorePurchases();
+  return customerInfo.entitlements.active["Pro"] !== undefined;
+}
+
 async function hasProEntitlement(): Promise<boolean> {
   try {
     const { customerInfo } = await Purchases.getCustomerInfo();

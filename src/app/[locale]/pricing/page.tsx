@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
-import { isPro, getTrialDaysLeft, purchaseLifetime } from "@/lib/revenuecat";
+import { isPro, getTrialDaysLeft, purchaseLifetime, restorePurchases } from "@/lib/revenuecat";
 import BottomNav from "@/components/BottomNav";
 
 const TEXTS: Record<string, Record<string, string>> = {
@@ -72,6 +72,41 @@ const TEXTS: Record<string, Record<string, string>> = {
     vi:"Bạn sẽ bị tính phí một lần trọn đời $9.99. Có thể áp dụng thuế và sẽ được tính khi thanh toán.",
     id:"Akan dikenakan biaya seumur hidup satu kali sebesar $9.99. Pajak mungkin berlaku dan akan dihitung saat checkout.",
   },
+  restore: {
+    ko:"구매 복원", en:"Restore Purchases",
+    ja:"購入を復元", zh:"恢复购买",
+    es:"Restaurar compras", fr:"Restaurer les achats",
+    de:"Käufe wiederherstellen", th:"กู้คืนการซื้อ",
+    vi:"Khôi phục giao dịch mua", id:"Pulihkan Pembelian",
+  },
+  restoring: {
+    ko:"복원 중...", en:"Restoring...",
+    ja:"復元中...", zh:"恢复中...",
+    es:"Restaurando...", fr:"Restauration...",
+    de:"Wird wiederhergestellt...", th:"กำลังกู้คืน...",
+    vi:"Đang khôi phục...", id:"Memulihkan...",
+  },
+  restoreSuccess: {
+    ko:"구매가 복원되었습니다!", en:"Purchases restored!",
+    ja:"購入が復元されました!", zh:"购买已恢复!",
+    es:"¡Compras restauradas!", fr:"Achats restaurés!",
+    de:"Käufe wiederhergestellt!", th:"กู้คืนการซื้อสำเร็จ!",
+    vi:"Đã khôi phục giao dịch mua!", id:"Pembelian dipulihkan!",
+  },
+  restoreNone: {
+    ko:"복원할 구매 내역이 없습니다.", en:"No purchases to restore.",
+    ja:"復元できる購入履歴がありません。", zh:"没有可恢复的购买记录。",
+    es:"No hay compras para restaurar.", fr:"Aucun achat à restaurer.",
+    de:"Keine Käufe zum Wiederherstellen.", th:"ไม่มีรายการซื้อให้กู้คืน",
+    vi:"Không có giao dịch mua để khôi phục.", id:"Tidak ada pembelian untuk dipulihkan.",
+  },
+  restoreFail: {
+    ko:"복원 중 오류가 발생했습니다.", en:"An error occurred while restoring.",
+    ja:"復元中にエラーが発生しました。", zh:"恢复时发生错误。",
+    es:"Ocurrió un error al restaurar.", fr:"Une erreur s'est produite lors de la restauration.",
+    de:"Beim Wiederherstellen ist ein Fehler aufgetreten.", th:"เกิดข้อผิดพลาดขณะกู้คืน",
+    vi:"Đã xảy ra lỗi khi khôi phục.", id:"Terjadi kesalahan saat memulihkan.",
+  },
 };
 
 const FREE_FEATURES: Record<string, string[]> = {
@@ -104,6 +139,7 @@ export default function PricingPage() {
   const locale = useLocale();
   const [pro, setPro] = useState(false);
   const [trialDays, setTrialDays] = useState(2);
+  const [restoring, setRestoring] = useState(false);
 
   useEffect(() => {
     isPro().then(setPro);
@@ -113,6 +149,23 @@ export default function PricingPage() {
   const t = (key: string) => TEXTS[key]?.[locale] || TEXTS[key]?.en || "";
   const freeFeatures = FREE_FEATURES[locale] || FREE_FEATURES.en;
   const proFeatures = PRO_FEATURES[locale] || PRO_FEATURES.en;
+
+  const handleRestore = async () => {
+    setRestoring(true);
+    try {
+      const restored = await restorePurchases();
+      if (restored) {
+        setPro(true);
+        alert(t("restoreSuccess"));
+      } else {
+        alert(t("restoreNone"));
+      }
+    } catch (e) {
+      alert(t("restoreFail"));
+    } finally {
+      setRestoring(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
@@ -175,7 +228,17 @@ export default function PricingPage() {
                   position:"relative",zIndex:50}}>
                 {t("cta")}
               </button>
-              
+
+              {/* Apple Guideline 3.1.1 대응: 명시적 구매 복원 버튼 */}
+              <button
+                onClick={handleRestore}
+                disabled={restoring}
+                style={{width:"100%",padding:10,background:"transparent",
+                  color:"#3B82F6",border:"none",fontSize:13,fontWeight:600,cursor:"pointer",
+                  marginTop:8,textDecoration:"underline",position:"relative",zIndex:50}}>
+                {restoring ? t("restoring") : t("restore")}
+              </button>
+
               <p style={{fontSize:11,color:"#9CA3AF",textAlign:"center",marginTop:10,lineHeight:1.5}}>
                 {t("disclosure")}
               </p>

@@ -51,7 +51,7 @@ import {
 } from "@/lib/revenuecat";
 import { LIMIT_TEXTS } from "@/lib/limitTexts";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
-import { createWorker } from "tesseract.js";
+
 
 // 언어 코드 매핑 (앱 locale → 번역 API 코드)
 const langMap: Record<string, { code: string; name: string; flag: string; speechCode: string }> = {
@@ -229,7 +229,7 @@ export default function TranslatePage() {
     }
   };
 
-  // 카메라로 사진 찍고 텍스트 인식
+ // 카메라로 사진 찍고 텍스트 인식 (Google Cloud Vision API)
   const handleCameraTranslate = async () => {
     try {
       const photo = await Camera.getPhoto({
@@ -243,19 +243,17 @@ export default function TranslatePage() {
 
       setIsScanning(true);
 
-      // fromLang에 따라 OCR 언어팩 선택 (한국어 기본 + 영어 보조)
-      const ocrLang = fromLang === "ko" ? "kor+eng" : "eng+kor";
+      const res = await fetch("/api/ocr", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageBase64: photo.base64String }),
+      });
+      const data = await res.json();
 
-      const worker = await createWorker(ocrLang);
-      const {
-        data: { text },
-      } = await worker.recognize(`data:image/jpeg;base64,${photo.base64String}`);
-      await worker.terminate();
-
-      const cleanedText = text.trim();
+      const cleanedText = (data.text || "").trim();
       if (cleanedText) {
         setInputText(cleanedText);
-        setTranslatedText(""); // 이전 번역 결과 초기화
+        setTranslatedText("");
       } else {
         alert(t("ocrNoText") || "텍스트를 인식하지 못했습니다. 다시 시도해주세요.");
       }

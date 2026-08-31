@@ -50,6 +50,8 @@ import {
   FREE_TTS_LIMIT,
 } from "@/lib/revenuecat";
 import { LIMIT_TEXTS } from "@/lib/limitTexts";
+import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
+import { createWorker } from "tesseract.js";
 
 // 언어 코드 매핑 (앱 locale → 번역 API 코드)
 const langMap: Record<string, { code: string; name: string; flag: string; speechCode: string }> = {
@@ -183,6 +185,9 @@ export default function TranslatePage() {
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef<SpeechRecognition | null>(null);
 
+  // 카메라 OCR 상태
+  const [isScanning, setIsScanning] = useState(false);
+
   // 회화 상태
   const [activeCategory, setActiveCategory] = useState("greetings");
   const [phraseTranslations, setPhraseTranslations] = useState<Record<string, string>>({});
@@ -221,6 +226,43 @@ export default function TranslatePage() {
     if (!pro) {
       incrementDailyCount("translate");
       setTranslateCount(getDailyCount("translate"));
+    }
+  };
+
+  // 카메라로 사진 찍고 텍스트 인식
+  const handleCameraTranslate = async () => {
+    try {
+      const photo = await Camera.getPhoto({
+        quality: 80,
+        allowEditing: false,
+        resultType: CameraResultType.Base64,
+        source: CameraSource.Camera,
+      });
+
+      if (!photo.base64String) return;
+
+      setIsScanning(true);
+
+      // fromLang에 따라 OCR 언어팩 선택 (한국어 기본 + 영어 보조)
+      const ocrLang = fromLang === "ko" ? "kor+eng" : "eng+kor";
+
+      const worker = await createWorker(ocrLang);
+      const {
+        data: { text },
+      } = await worker.recognize(`data:image/jpeg;base64,${photo.base64String}`);
+      await worker.terminate();
+
+      const cleanedText = text.trim();
+      if (cleanedText) {
+        setInputText(cleanedText);
+        setTranslatedText(""); // 이전 번역 결과 초기화
+      } else {
+        alert(t("ocrNoText") || "텍스트를 인식하지 못했습니다. 다시 시도해주세요.");
+      }
+    } catch (error) {
+      console.error("Camera OCR error:", error);
+    } finally {
+      setIsScanning(false);
     }
   };
 
@@ -479,6 +521,17 @@ export default function TranslatePage() {
               {/* 입력 하단 버튼들 */}
               <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between">
                 <div className="flex gap-2">
+                  <button
+                    onClick={handleCameraTranslate}
+                    disabled={isScanning}
+                    className={`p-2 rounded-full transition-all ${
+                      isScanning
+                        ? "bg-blue-100 text-blue-400 animate-pulse"
+                        : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                    }`}
+                  >
+                    {isScanning ? "⏳" : "📷"}
+                  </button>
                   {/* 음성 입력 */}
                   <button
                     onClick={isListening ? stopListening : startListening}

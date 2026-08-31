@@ -99,6 +99,7 @@
     "title": "AI 번역",
     "subtitle": "한국 여행을 위한 번역 도우미",
     "textTab": "텍스트 번역",
+    "ocrNoText": "텍스트를 인식하지 못했습니다. 다시 시도해주세요.",
     "phrasesTab": "여행 회화",
     "inputPlaceholder": "번역할 텍스트를 입력하세요...",
     "translateBtn": "번역하기",

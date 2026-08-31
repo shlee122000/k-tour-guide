@@ -99,6 +99,7 @@
     "title": "AI Translate",
     "subtitle": "Translation helper for your Korea trip",
     "textTab": "Text Translation",
+    "ocrNoText": "No text detected. Please try again.",
     "phrasesTab": "Travel Phrases",
     "inputPlaceholder": "Enter text to translate...",
     "translateBtn": "Translate",

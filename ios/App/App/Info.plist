@@ -51,5 +51,9 @@
 	<false/>
 	<key>NSCameraUsageDescription</key>
 	<string>메뉴판이나 표지판을 촬영해서 텍스트를 인식하기 위해 카메라 접근이 필요합니다.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>촬영한 사진을 불러오거나 저장하기 위해 사진 보관함 접근이 필요합니다.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>촬영한 사진을 사진 보관함에 저장하기 위해 접근이 필요합니다.</string>
 </dict>
 </plist>

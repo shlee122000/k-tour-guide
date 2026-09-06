@@ -99,6 +99,7 @@
     "title": "Traduction IA",
     "subtitle": "Assistant de traduction pour votre voyage en Corée",
     "textTab": "Texte",
+    "ocrNoText": "Aucun texte détecté. Veuillez réessayer.",
     "phrasesTab": "Phrases de voyage",
     "inputPlaceholder": "Saisissez le texte à traduire...",
     "translateBtn": "Traduire",

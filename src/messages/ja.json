@@ -99,6 +99,7 @@
     "title": "AI翻訳",
     "subtitle": "韓国旅行のための翻訳ヘルパー",
     "textTab": "テキスト翻訳",
+    "ocrNoText": "テキストが検出されませんでした。もう一度お試しください。",
     "phrasesTab": "旅行フレーズ",
     "inputPlaceholder": "翻訳するテキストを入力...",
     "translateBtn": "翻訳する",

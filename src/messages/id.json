@@ -99,6 +99,7 @@
     "title": "Terjemahan AI",
     "subtitle": "Pembantu terjemahan untuk perjalanan Korea Anda",
     "textTab": "Terjemahan Teks",
+    "ocrNoText": "Teks tidak terdeteksi. Silakan coba lagi.",
     "phrasesTab": "Frasa Perjalanan",
     "inputPlaceholder": "Masukkan teks untuk diterjemahkan...",
     "translateBtn": "Terjemahkan",

@@ -99,6 +99,7 @@
     "title": "Dịch AI",
     "subtitle": "Trợ giúp dịch thuật cho chuyến đi Hàn Quốc",
     "textTab": "Dịch văn bản",
+    "ocrNoText": "Không phát hiện được văn bản. Vui lòng thử lại.",
     "phrasesTab": "Cụm từ du lịch",
     "inputPlaceholder": "Nhập văn bản cần dịch...",
     "translateBtn": "Dịch",

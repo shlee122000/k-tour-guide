@@ -99,6 +99,7 @@
     "title": "AI翻译",
     "subtitle": "韩国旅行翻译助手",
     "textTab": "文本翻译",
+    "ocrNoText": "未检测到文本，请重试。",
     "phrasesTab": "旅行用语",
     "inputPlaceholder": "输入要翻译的文本...",
     "translateBtn": "翻译",

@@ -19,8 +19,7 @@
     "next-intl": "^4.8.2",
     "pg": "^8.22.0",
     "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "tesseract.js": "^7.0.0"
+    "react-dom": "19.2.3"
   },
   "devDependencies": {
     "@capacitor/assets": "^3.0.5",

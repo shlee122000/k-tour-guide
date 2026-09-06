@@ -99,6 +99,7 @@
     "title": "KI-Übersetzung",
     "subtitle": "Übersetzungshilfe für Ihre Koreareise",
     "textTab": "Textübersetzung",
+    "ocrNoText": "Kein Text erkannt. Bitte versuchen Sie es erneut.",
     "phrasesTab": "Reisephrasen",
     "inputPlaceholder": "Text zum Übersetzen eingeben...",
     "translateBtn": "Übersetzen",

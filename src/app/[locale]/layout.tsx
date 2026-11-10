@@ -4,6 +4,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import RevenueCatInit from "@/components/RevenueCatInit";
+import BackButtonHandler from "@/components/BackButtonHandler";
 import "../globals.css";
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default async function LocaleLayout({
       <body className="antialiased bg-gray-50 pt-safe">
         <NextIntlClientProvider messages={messages}>
           <RevenueCatInit />
+          <BackButtonHandler />
           <div className="max-w-md mx-auto min-h-screen bg-white shadow-lg relative">
             {children}
           </div>

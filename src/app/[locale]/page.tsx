@@ -1,5 +1,6 @@
 "use client";
 
+import { Capacitor } from "@capacitor/core";
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -196,9 +197,14 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Korean Study */}
+                        {/* Korean Study */}
             <div 
-              onClick={() => window.open("https://play.google.com/store/apps/details?id=com.leewillwin.koreanstudy", "_blank")}
+              onClick={() => window.open(
+                Capacitor.getPlatform() === "ios"
+                  ? "https://apps.apple.com/app/korean-study-level-up/id6775454691"
+                  : "https://play.google.com/store/apps/details?id=com.leewillwin.koreanstudy",
+                "_blank"
+              )}
               style={{borderRadius:16,padding:"14px 16px",marginBottom:10,
                 background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.12)",
                 cursor:"pointer"}}>
@@ -216,8 +222,16 @@ export default function HomePage() {
             </div>
 
             {/* K-POP Korean */}
-            <div style={{borderRadius:16,padding:"14px 16px",marginBottom:20,
-              background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.12)"}}>
+            <div 
+              onClick={() => window.open(
+                Capacitor.getPlatform() === "ios"
+                  ? "https://apps.apple.com/app/k-pop-korean/id6816399256"
+                  : "https://play.google.com/store/apps/details?id=com.kpopkorean.app",
+                "_blank"
+              )}
+              style={{borderRadius:16,padding:"14px 16px",marginBottom:20,
+              background:"rgba(255,255,255,.06)",border:"1px solid rgba(255,255,255,.12)",
+              cursor:"pointer"}}>
               <div style={{display:"flex",alignItems:"center",gap:12}}>
                 <div style={{width:44,height:44,borderRadius:12,flexShrink:0,
                   background:"linear-gradient(135deg,#E84393,#FD79A8)",

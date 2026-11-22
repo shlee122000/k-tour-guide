@@ -106,7 +106,18 @@ export default function BottomNav() {
   };
 
   return (
-    <nav className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white border-t border-gray-200 z-30">
+    <nav className="fixed bottom-0 left-1/2 w-full max-w-md bg-white border-t border-gray-200 z-30"
+      style={{
+        // iOS WKWebView에서 position:fixed 요소가 첫 로드 시 자리를 제대로 못 잡고
+        // 떠 있다가 스크롤을 한 번 해야 정상 위치로 "분리"되는 알려진 버그
+        // (2026-11-22, Pro 페이지에서 하단 탭바가 안 눌려서 아이폰에서 나갈 수
+        // 없다는 사용자 보고로 발견) — translate3d로 강제 GPU 레이어 승격해서
+        // 로드 즉시 올바른 위치/탭 가능 상태가 되도록 함
+        transform: "translate3d(-50%, 0, 0)",
+        WebkitTransform: "translate3d(-50%, 0, 0)",
+        WebkitBackfaceVisibility: "hidden",
+        willChange: "transform",
+      }}>
       {/* 무료 사용자 오늘 사용량 - 모든 페이지 공통 표시 */}
       {!pro && (
         <div className="flex items-center justify-between gap-2 px-3 py-1.5 text-[10px] border-b border-gray-100 bg-gray-50">

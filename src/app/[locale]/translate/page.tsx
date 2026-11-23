@@ -13,7 +13,7 @@ import {
 } from "@/lib/revenuecat";
 import { LIMIT_TEXTS } from "@/lib/limitTexts";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
-import { SpeechRecognition } from "@capacitor-community/speech-recognition";
+import { SpeechRecognition } from "@capgo/capacitor-speech-recognition";
 
 
 // 언어 코드 매핑 (앱 locale → 번역 API 코드)
@@ -266,18 +266,16 @@ export default function TranslatePage() {
     setTranslatedText(inputText);
   };
 
-  // 음성 입력 (네이티브 음성인식 플러그인) - 임시 진단 로그 포함
+  // 음성 입력 (네이티브 음성인식 플러그인)
   const startListening = async () => {
     try {
-      const availability = await SpeechRecognition.available();
-      alert("1) available: " + JSON.stringify(availability));
-      if (!availability.available) {
+      const { available } = await SpeechRecognition.available();
+      if (!available) {
         alert(t("voiceNotSupported"));
         return;
       }
 
       const permission = await SpeechRecognition.requestPermissions();
-      alert("2) permission: " + JSON.stringify(permission));
       if (permission.speechRecognition !== "granted") {
         alert(t("voiceNotSupported"));
         return;
@@ -289,9 +287,7 @@ export default function TranslatePage() {
         partialResults: true,
         popup: false,
       });
-      alert("3) start() 호출 완료");
     } catch (error) {
-      alert("ERROR: " + String(error) + " | " + JSON.stringify(error));
       console.error("Speech recognition start error:", error);
       setIsListening(false);
     }

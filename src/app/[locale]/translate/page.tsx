@@ -266,16 +266,18 @@ export default function TranslatePage() {
     setTranslatedText(inputText);
   };
 
-  // 음성 입력 (네이티브 음성인식 플러그인)
+  // 음성 입력 (네이티브 음성인식 플러그인) - 임시 진단 로그 포함
   const startListening = async () => {
     try {
-      const { available } = await SpeechRecognition.available();
-      if (!available) {
+      const availability = await SpeechRecognition.available();
+      alert("1) available: " + JSON.stringify(availability));
+      if (!availability.available) {
         alert(t("voiceNotSupported"));
         return;
       }
 
       const permission = await SpeechRecognition.requestPermissions();
+      alert("2) permission: " + JSON.stringify(permission));
       if (permission.speechRecognition !== "granted") {
         alert(t("voiceNotSupported"));
         return;
@@ -287,7 +289,9 @@ export default function TranslatePage() {
         partialResults: true,
         popup: false,
       });
+      alert("3) start() 호출 완료");
     } catch (error) {
+      alert("ERROR: " + String(error) + " | " + JSON.stringify(error));
       console.error("Speech recognition start error:", error);
       setIsListening(false);
     }

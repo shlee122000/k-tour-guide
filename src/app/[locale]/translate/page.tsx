@@ -1,43 +1,5 @@
 "use client";
 
-// SpeechRecognition 타입 선언
-declare global {
-  interface Window {
-    SpeechRecognition: new () => SpeechRecognition;
-    webkitSpeechRecognition: new () => SpeechRecognition;
-  }
-}
-interface SpeechRecognition extends EventTarget {
-  lang: string;
-  interimResults: boolean;
-  continuous: boolean;
-  start(): void;
-  stop(): void;
-  abort(): void;
-  onresult: ((event: SpeechRecognitionEvent) => void) | null;
-  onerror: ((event: Event) => void) | null;
-  onend: (() => void) | null;
-}
-interface SpeechRecognitionEvent extends Event {
-  resultIndex: number;
-  results: SpeechRecognitionResultList;
-}
-interface SpeechRecognitionResultList {
-  length: number;
-  item(index: number): SpeechRecognitionResult;
-  [index: number]: SpeechRecognitionResult;
-}
-interface SpeechRecognitionResult {
-  isFinal: boolean;
-  length: number;
-  item(index: number): SpeechRecognitionAlternative;
-  [index: number]: SpeechRecognitionAlternative;
-}
-interface SpeechRecognitionAlternative {
-  transcript: string;
-  confidence: number;
-}
-
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
 import BottomNav from "@/components/BottomNav";
@@ -51,6 +13,7 @@ import {
 } from "@/lib/revenuecat";
 import { LIMIT_TEXTS } from "@/lib/limitTexts";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
+import { SpeechRecognition } from "@capacitor-community/speech-recognition";
 
 
 // 언어 코드 매핑 (앱 locale → 번역 API 코드)
@@ -183,7 +146,38 @@ export default function TranslatePage() {
 
   // 음성 입력 상태
   const [isListening, setIsListening] = useState(false);
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+
+  // 네이티브 음성인식 리스너 등록 (안드로이드/iOS 공용)
+  useEffect(() => {
+    let listeningStateHandle: { remove: () => void } | undefined;
+    let partialResultsHandle: { remove: () => void } | undefined;
+
+    (async () => {
+      try {
+        listeningStateHandle = await SpeechRecognition.addListener(
+          "listeningState",
+          (data: { status: "started" | "stopped" }) => {
+            setIsListening(data.status === "started");
+          }
+        );
+        partialResultsHandle = await SpeechRecognition.addListener(
+          "partialResults",
+          (data: { matches: string[] }) => {
+            if (data.matches && data.matches.length > 0) {
+              setInputText(data.matches[0]);
+            }
+          }
+        );
+      } catch (error) {
+        console.error("Speech recognition listener setup error:", error);
+      }
+    })();
+
+    return () => {
+      listeningStateHandle?.remove();
+      partialResultsHandle?.remove();
+    };
+  }, []);
 
   // 카메라 OCR 상태
   const [isScanning, setIsScanning] = useState(false);
@@ -272,37 +266,39 @@ export default function TranslatePage() {
     setTranslatedText(inputText);
   };
 
-  // 음성 입력
-  const startListening = () => {
-    if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
-      alert(t("voiceNotSupported"));
-      return;
+  // 음성 입력 (네이티브 음성인식 플러그인)
+  const startListening = async () => {
+    try {
+      const { available } = await SpeechRecognition.available();
+      if (!available) {
+        alert(t("voiceNotSupported"));
+        return;
+      }
+
+      const permission = await SpeechRecognition.requestPermissions();
+      if (permission.speechRecognition !== "granted") {
+        alert(t("voiceNotSupported"));
+        return;
+      }
+
+      await SpeechRecognition.start({
+        language: langMap[fromLang]?.speechCode || "ko-KR",
+        maxResults: 1,
+        partialResults: true,
+        popup: false,
+      });
+    } catch (error) {
+      console.error("Speech recognition start error:", error);
+      setIsListening(false);
     }
-    const SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognitionAPI) return;
-
-    const recognition = new SpeechRecognitionAPI();
-    recognition.lang = langMap[fromLang]?.speechCode || "ko-KR";
-    recognition.continuous = false;
-    recognition.interimResults = true;
-
-    recognition.onresult = (event: SpeechRecognitionEvent) => {
-      const transcript = Array.from(event.results)
-        .map((r) => r[0].transcript)
-        .join("");
-      setInputText(transcript);
-    };
-
-    recognition.onend = () => setIsListening(false);
-    recognition.onerror = () => setIsListening(false);
-
-    recognition.start();
-    recognitionRef.current = recognition;
-    setIsListening(true);
   };
 
-  const stopListening = () => {
-    recognitionRef.current?.stop();
+  const stopListening = async () => {
+    try {
+      await SpeechRecognition.stop();
+    } catch (error) {
+      console.error("Speech recognition stop error:", error);
+    }
     setIsListening(false);
   };
 

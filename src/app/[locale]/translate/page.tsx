@@ -156,13 +156,13 @@ export default function TranslatePage() {
       try {
         listeningStateHandle = await SpeechRecognition.addListener(
           "listeningState",
-          (data: { status: "started" | "stopped" }) => {
+          (data) => {
             setIsListening(data.status === "started");
           }
         );
         partialResultsHandle = await SpeechRecognition.addListener(
           "partialResults",
-          (data: { matches: string[] }) => {
+          (data) => {
             if (data.matches && data.matches.length > 0) {
               setInputText(data.matches[0]);
             }
